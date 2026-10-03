@@ -1,3 +1,4 @@
+import base64
 import json
 import os
 import re
@@ -5,6 +6,7 @@ from pathlib import Path
 from typing import Any
 from uuid import uuid4
 
+import requests
 import streamlit as st
 
 APP_DIR = Path(__file__).resolve().parent
@@ -36,6 +38,45 @@ def save_watchlist(entries: list[dict[str, Any]]) -> None:
         json.dumps(entries, indent=2, ensure_ascii=False), encoding="utf-8"
     )
     temp_path.replace(WATCHLIST_PATH)
+
+
+def publish_watchlist(entries: list[dict[str, Any]]) -> str:
+    try:
+        secret_token = st.secrets.get("GITHUB_TOKEN", "")
+    except Exception:
+        secret_token = ""
+    token = os.environ.get("GITHUB_TOKEN", str(secret_token)).strip()
+    if not token:
+        raise RuntimeError(
+            "เพิ่ม GITHUB_TOKEN ใน .streamlit/secrets.toml ก่อนเผยแพร่"
+        )
+
+    api_url = "https://api.github.com/repos/affranphanjampee-art/kuroya/contents/data/watchlist.json"
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "Authorization": f"Bearer {token}",
+        "X-GitHub-Api-Version": "2022-11-28",
+    }
+    current_file = requests.get(
+        api_url, headers=headers, params={"ref": "main"}, timeout=20
+    )
+    current_file.raise_for_status()
+    encoded_content = base64.b64encode(
+        json.dumps(entries, indent=2, ensure_ascii=False).encode("utf-8")
+    ).decode("ascii")
+    result = requests.put(
+        api_url,
+        headers=headers,
+        json={
+            "message": "Update public anime watchlist",
+            "content": encoded_content,
+            "sha": current_file.json()["sha"],
+            "branch": "main",
+        },
+        timeout=20,
+    )
+    result.raise_for_status()
+    return result.json().get("commit", {}).get("html_url", "")
 
 
 def split_total_annotation(value: str) -> tuple[str, str]:
@@ -309,8 +350,30 @@ overview_cols[0].metric("ทั้งหมด", len(watchlist))
 overview_cols[1].metric("อนิเมะ", len(anime_items))
 overview_cols[2].metric("มังงะ", len(manga_items))
 
-if not READ_ONLY_MODE and st.button("＋ เพิ่มอนิเมะเรื่องใหม่", type="primary"):
-    add_anime_dialog()
+if not READ_ONLY_MODE:
+    action_cols = st.columns([1, 1])
+    with action_cols[0]:
+        if st.button("เผยแพร่รายการล่าสุด", use_container_width=True):
+            try:
+                commit_url = publish_watchlist(watchlist)
+                st.success("อัปเดตเว็บสาธารณะแล้ว")
+                if commit_url:
+                    st.link_button("ดู commit บน GitHub", commit_url)
+            except RuntimeError as error:
+                st.error(str(error))
+            except requests.HTTPError as error:
+                status_code = error.response.status_code if error.response else "?"
+                st.error(
+                    f"GitHub ปฏิเสธการอัปเดต (HTTP {status_code}) "
+                    "ตรวจสิทธิ์ Contents: Read and write ของ token"
+                )
+            except requests.RequestException:
+                st.error("เชื่อมต่อ GitHub ไม่สำเร็จ ลองใหม่อีกครั้ง")
+    with action_cols[1]:
+        if st.button(
+            "＋ เพิ่มอนิเมะเรื่องใหม่", type="primary", use_container_width=True
+        ):
+            add_anime_dialog()
 
 with st.sidebar:
     st.header("ค้นหาและกรอง")

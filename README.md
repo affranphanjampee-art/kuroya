@@ -36,3 +36,9 @@ ANIME_NOTEBOOK_READ_ONLY = "true"
 ```
 
 This hides the add action and editing forms in the shared app. The local app remains editable when the setting is not enabled.
+
+## Publish local changes to the public app
+
+The local watchlist is stored in `data/watchlist.json`. To publish the latest local copy, create a GitHub fine-grained personal access token limited to the `affranphanjampee-art/kuroya` repository with **Contents: Read and write** permission. Do not paste the token into chat or commit it.
+
+Create `.streamlit/secrets.toml` on the local machine using `.streamlit-secrets.example.toml` as a template. The `.streamlit/` directory is ignored by Git. Then use **เผยแพร่รายการล่าสุด** in the local app. The hosted app remains read-only and refreshes from the repository after the commit.
