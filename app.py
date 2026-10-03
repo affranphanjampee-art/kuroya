@@ -114,32 +114,23 @@ st.markdown(
     """
     <style>
     :root {
-        --paper: #f7f8f6;
-        --surface: #ffffff;
-        --ink: #202825;
-        --muted: #697570;
-        --line: #dce3df;
         --vermilion: #bd4636;
         --moss: #52746b;
     }
     .stApp,
     [data-testid="stAppViewContainer"],
     [data-testid="stMain"] {
-        background: var(--paper) !important;
-        color: var(--ink) !important;
         font-family: "Yu Gothic UI", "Noto Sans Thai", "Meiryo", sans-serif;
     }
     [data-testid="stHeader"] { background: transparent !important; }
     [data-testid="stSidebar"] {
-        background: #eef2ef !important;
-        border-right: 1px solid var(--line);
+        border-right: 1px solid color-mix(in srgb, currentColor 16%, transparent);
     }
     .block-container {
         max-width: 1160px;
         padding-top: 2rem;
         padding-bottom: 3rem;
     }
-    h1, h2, h3, p, label, span, div { color: var(--ink); }
     h1 {
         font-weight: 650 !important;
         letter-spacing: 0 !important;
@@ -153,18 +144,13 @@ st.markdown(
         letter-spacing: 0.08em;
         margin: 0 0 0.35rem 1.1rem;
     }
-    [data-testid="stCaptionContainer"] p,
-    [data-testid="stMarkdownContainer"] small { color: var(--muted) !important; }
     [data-testid="stMetric"] {
         background: transparent;
-        border-left: 2px solid var(--line);
+        border-left: 2px solid color-mix(in srgb, currentColor 16%, transparent);
         padding: 0.25rem 0.8rem;
     }
-    [data-testid="stMetricLabel"] p { color: var(--muted) !important; }
-    [data-testid="stMetricValue"] { color: var(--ink) !important; }
     [data-testid="stExpander"] {
-        background: var(--surface);
-        border: 1px solid var(--line);
+        border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
         border-radius: 4px;
         margin-bottom: 0.55rem;
     }
@@ -172,79 +158,32 @@ st.markdown(
     [data-testid="stTextInput"] input,
     [data-testid="stNumberInput"] input,
     [data-testid="stTextArea"] textarea,
-    [data-baseweb="select"] > div {
-        background: var(--surface) !important;
-        color: var(--ink) !important;
-        border-color: var(--line) !important;
-        border-radius: 4px !important;
-    }
+    [data-baseweb="select"] > div { border-radius: 4px !important; }
     [data-testid="stButton"] button,
     [data-testid="stFormSubmitButton"] button {
         border-radius: 4px;
-        border-color: var(--line);
-        color: var(--ink);
         transition: background-color 120ms ease, border-color 120ms ease;
     }
-    [data-testid="stButton"] button[kind="primary"],
-    [data-testid="stFormSubmitButton"] button[kind="primary"] {
-        background: var(--vermilion);
-        border-color: var(--vermilion);
-        color: #ffffff !important;
-    }
-    [data-testid="stButton"] button[kind="primary"] *,
-    [data-testid="stFormSubmitButton"] button[kind="primary"] * { color: #ffffff !important; }
     [data-testid="stButton"] button:hover,
     [data-testid="stFormSubmitButton"] button:hover {
         border-color: var(--moss);
     }
     [data-baseweb="tab-list"] { border-bottom: 1px solid var(--line); }
-    [data-baseweb="tab"] { color: var(--muted) !important; }
     [data-baseweb="tab"][aria-selected="true"] {
         color: var(--vermilion) !important;
         border-bottom-color: var(--vermilion) !important;
     }
-    [data-testid="stProgressBar"] > div {
-        background: #e6ebe8;
-        border-radius: 2px;
-    }
+    [data-testid="stProgressBar"] > div { border-radius: 2px; }
     [data-testid="stProgressBar"] > div > div {
         background: var(--vermilion);
         border-radius: 2px;
     }
     [data-testid="stDialog"] {
         background: rgba(32, 40, 37, 0.28) !important;
-        color: var(--ink) !important;
     }
     [data-testid="stDialog"] section[role="dialog"] {
-        background: var(--paper) !important;
-        color: var(--ink) !important;
-        border: 1px solid var(--line);
+        border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
         border-radius: 6px;
-    }
-    [data-testid="stDialog"] section[role="dialog"] h2,
-    [data-testid="stDialog"] section[role="dialog"] p,
-    [data-testid="stDialog"] section[role="dialog"] label,
-    [data-testid="stDialog"] section[role="dialog"] [data-testid="stMarkdownContainer"],
-    [data-testid="stDialog"] section[role="dialog"] [data-testid="stWidgetLabel"] {
-        color: var(--ink) !important;
-    }
-    [data-testid="stDialog"] section[role="dialog"] [data-testid="stTextInput"] input,
-    [data-testid="stDialog"] section[role="dialog"] [data-testid="stNumberInput"] input,
-    [data-testid="stDialog"] section[role="dialog"] [data-testid="stTextArea"] textarea,
-    [data-testid="stDialog"] section[role="dialog"] [role="combobox"] {
-        background: #ffffff !important;
-        color: var(--ink) !important;
-        border-color: var(--line) !important;
-    }
-    [data-testid="stDialog"] section[role="dialog"] input::placeholder,
-    [data-testid="stDialog"] section[role="dialog"] textarea::placeholder {
-        color: #66716c !important;
-        opacity: 1 !important;
-    }
-    [data-testid="stDialog"] section[role="dialog"] [data-testid="stForm"] {
-        background: var(--paper) !important;
-        color: var(--ink) !important;
-        border-color: var(--line) !important;
     }
     @media (max-width: 700px) {
         .block-container { padding-top: 1.2rem; }

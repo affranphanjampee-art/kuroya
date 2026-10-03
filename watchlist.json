@@ -1,0 +1,675 @@
+[
+  {
+    "id": "one-piece",
+    "title": "One Piece",
+    "kind": "anime",
+    "category": "แฟนตาซี & ผจญภัย",
+    "year": 1999,
+    "parts": "23 ภาค",
+    "progress": [
+      "SS1 East Blue: 46/52"
+    ],
+    "total": "46/1163+ (กำลังฉาย)",
+    "rating": "8.7",
+    "watch_time": "18:24:00",
+    "cover_image": "https://cdn.myanimelist.net/images/anime/1244/138851.jpg"
+  },
+  {
+    "id": "jojos-bizarre-adventure",
+    "title": "JoJo's Bizarre Adventure",
+    "kind": "anime",
+    "category": "แฟนตาซี & ผจญภัย",
+    "year": 2012,
+    "parts": "7 ภาค",
+    "progress": [
+      "SS1 Phantom Blood & Battle Tendency: --/26",
+      "SS2 Stardust Crusaders: --/48",
+      "SS3 Stardust Crusaders Egypt Arc: 42/42",
+      "SS4 Diamond is Unbreakable: 39/39",
+      "SS5 Golden Wind: 34/39",
+      "SS6 Stone Ocean: --/38",
+      "SS7 Steel Ball Run: 2/-- (กำลังดู)"
+    ],
+    "total": "117/190+",
+    "rating": "8.2",
+    "watch_time": "46:48:00"
+  },
+  {
+    "id": "sword-art-online",
+    "title": "Sword Art Online",
+    "kind": "anime",
+    "category": "แฟนตาซี & ผจญภัย",
+    "year": 2012,
+    "parts": "5 ภาค",
+    "progress": [
+      "SS1: 25/25",
+      "SS2: 24/24",
+      "SS3 Alicization: 24/24",
+      "SS4 War of Underworld: 23/23",
+      "SS5 Alternative GGO: --/12"
+    ],
+    "total": "76/108 (70%)",
+    "rating": "7.2",
+    "watch_time": "30:24:00"
+  },
+  {
+    "id": "attack-on-titan",
+    "title": "Attack on Titan",
+    "kind": "anime",
+    "category": "แฟนตาซี & ผจญภัย",
+    "year": 2013,
+    "parts": "4 ภาค",
+    "progress": [
+      "SS1: 25/25",
+      "SS2: 12/12",
+      "SS3: 22/22",
+      "SS4 The Final Season: 35/35"
+    ],
+    "total": "94/94 (100%)",
+    "rating": "9.0",
+    "watch_time": "37:36:00"
+  },
+  {
+    "id": "one-punch-man",
+    "title": "One Punch Man",
+    "kind": "anime",
+    "category": "แฟนตาซี & ผจญภัย",
+    "year": 2015,
+    "parts": "3 ภาค",
+    "progress": [
+      "SS1: 12/12",
+      "SS2: 12/12",
+      "SS3: --/12"
+    ],
+    "total": "24/36 (67%)",
+    "rating": "8.0",
+    "watch_time": "09:36:00"
+  },
+  {
+    "id": "assassination-classroom",
+    "title": "Assassination Classroom",
+    "kind": "anime",
+    "category": "แฟนตาซี & ผจญภัย",
+    "year": 2015,
+    "parts": "2 ภาค",
+    "progress": [
+      "SS1: 11/22",
+      "SS2: --/25"
+    ],
+    "total": "11/47 (23%)",
+    "rating": "7.9",
+    "watch_time": "04:24:00"
+  },
+  {
+    "id": "overlord",
+    "title": "Overlord",
+    "kind": "anime",
+    "category": "แฟนตาซี & ผจญภัย",
+    "year": 2015,
+    "parts": "4 ภาค",
+    "progress": [
+      "SS1: 13/13",
+      "SS2: --/13",
+      "SS3: --/13",
+      "SS4: --/13"
+    ],
+    "total": "13/52 (25%)",
+    "rating": "7.9",
+    "watch_time": "05:12:00"
+  },
+  {
+    "id": "my-hero-academia",
+    "title": "My Hero Academia",
+    "kind": "anime",
+    "category": "แฟนตาซี & ผจญภัย",
+    "year": 2016,
+    "parts": "8 ภาค",
+    "progress": [
+      "SS1: 13/13",
+      "SS2: 25/25",
+      "SS3: 25/25",
+      "SS4: 25/25",
+      "SS5: 25/25",
+      "SS6: 25/25",
+      "SS7: 25/25",
+      "SS8: 8/8"
+    ],
+    "total": "171/171 (100%)",
+    "rating": "7.8",
+    "watch_time": "68:24:00"
+  },
+  {
+    "id": "konosuba",
+    "title": "KonoSuba: God's Blessing on This Wonderful World!",
+    "kind": "anime",
+    "category": "แฟนตาซี & ผจญภัย",
+    "year": 2016,
+    "parts": "3 ภาค",
+    "progress": [
+      "SS1: --/10",
+      "SS2: --/10",
+      "SS3: --/11"
+    ],
+    "total": "0/31 (0%)",
+    "rating": "8.1"
+  },
+  {
+    "id": "that-time-i-got-reincarnated-as-a-slime",
+    "title": "That Time I Got Reincarnated as a Slime",
+    "kind": "anime",
+    "category": "แฟนตาซี & ผจญภัย",
+    "year": 2018,
+    "parts": "4 ภาค",
+    "progress": [
+      "SS1: 24/24",
+      "SS2: 24/24",
+      "SS3: 24/24",
+      "SS4: 24/24"
+    ],
+    "total": "96/96 (100%)",
+    "rating": "8.1",
+    "watch_time": "38:24:00"
+  },
+  {
+    "id": "demon-slayer",
+    "title": "Demon Slayer: Kimetsu no Yaiba",
+    "kind": "anime",
+    "category": "แฟนตาซี & ผจญภัย",
+    "year": 2019,
+    "parts": "4 ภาค",
+    "progress": [
+      "SS1: 26/26",
+      "SS2 Entertainment District Arc: 11/11",
+      "SS3 Swordsmith Village Arc: 11/11",
+      "SS4 Hashira Training Arc: 8/8"
+    ],
+    "total": "58/63 (92%)",
+    "rating": "8.6",
+    "watch_time": "23:12:00"
+  },
+  {
+    "id": "fire-force",
+    "title": "Fire Force",
+    "kind": "anime",
+    "category": "แฟนตาซี & ผจญภัย",
+    "year": 2019,
+    "parts": "3 ภาค",
+    "progress": [
+      "SS1: 2/24",
+      "SS2: --/24",
+      "SS3 Final Season: --/25"
+    ],
+    "total": "2/73 (3%)",
+    "rating": "7.2",
+    "watch_time": "00:48:00"
+  },
+  {
+    "id": "jujutsu-kaisen",
+    "title": "Jujutsu Kaisen",
+    "kind": "anime",
+    "category": "แฟนตาซี & ผจญภัย",
+    "year": 2020,
+    "parts": "2 ภาค",
+    "progress": [
+      "SS1: 24/24",
+      "SS2 Shibuya Incident Arc: 23/23"
+    ],
+    "total": "59/59 (100%)",
+    "rating": "8.5",
+    "watch_time": "23:36:00"
+  },
+  {
+    "id": "record-of-ragnarok",
+    "title": "Record of Ragnarok",
+    "kind": "anime",
+    "category": "แฟนตาซี & ผจญภัย",
+    "year": 2021,
+    "parts": "2 ภาค",
+    "progress": [
+      "SS1: 12/12",
+      "SS2: 27/30"
+    ],
+    "total": "39/42 (93%)",
+    "rating": "7.4",
+    "watch_time": "15:36:00"
+  },
+  {
+    "id": "tokyo-revengers",
+    "title": "Tokyo Revengers",
+    "kind": "anime",
+    "category": "แฟนตาซี & ผจญภัย",
+    "year": 2021,
+    "parts": "4 ซีซัน | 2 ONA Mini-Series",
+    "progress": [
+      "SS1: 2/24",
+      "SS2 Christmas Showdown: --/13",
+      "SS3 Tenjiku Arc: --/13",
+      "SS4 War of the Three Titans: --/-- (กำลังฉาย)",
+      "[O] Chibi Revenger 24 ตอน | ตอนแถมสั้นเน้นตลก",
+      "[O] Fairy Tale Revengers 18 ตอน | มินิซีรีส์เสริมขำๆ"
+    ],
+    "total": "2/50+ | รวมมูฟวี่/เสริม: 0/42",
+    "rating": "7.7",
+    "watch_time": "00:48:00"
+  },
+  {
+    "id": "campfire-cooking-in-another-world",
+    "title": "Campfire Cooking in Another World with My Absurd Skill",
+    "kind": "anime",
+    "category": "แฟนตาซี & ผจญภัย",
+    "year": 2023,
+    "parts": "1 ภาค",
+    "progress": [
+      "SS1: 12/12"
+    ],
+    "total": "12/12 (100%)",
+    "rating": "7.6",
+    "watch_time": "04:48:00"
+  },
+  {
+    "id": "solo-leveling-anime",
+    "title": "Solo Leveling",
+    "kind": "anime",
+    "category": "แฟนตาซี & ผจญภัย",
+    "year": 2024,
+    "parts": "1 ภาค",
+    "progress": [
+      "SS1: 25/25"
+    ],
+    "total": "25/25 (100%)",
+    "rating": "8.3",
+    "watch_time": "10:00:00"
+  },
+  {
+    "id": "wind-breaker",
+    "title": "Wind Breaker",
+    "kind": "anime",
+    "category": "แฟนตาซี & ผจญภัย",
+    "year": 2024,
+    "parts": "1 ภาค",
+    "progress": [
+      "SS1: 25/25"
+    ],
+    "total": "25/25 (100%)",
+    "rating": "7.9",
+    "watch_time": "10:00:00"
+  },
+  {
+    "id": "kaiju-no-8",
+    "title": "Kaiju No.8",
+    "kind": "anime",
+    "category": "แฟนตาซี & ผจญภัย",
+    "year": 2024,
+    "parts": "1 ภาค",
+    "progress": [
+      "SS1: 24/24"
+    ],
+    "total": "24/24 (100%)",
+    "rating": "8.1",
+    "watch_time": "09:36:00"
+  },
+  {
+    "id": "tsue-to-tsurugi-no-wistoria",
+    "title": "Tsue to Tsurugi no Wistoria",
+    "kind": "anime",
+    "category": "แฟนตาซี & ผจญภัย",
+    "year": 2024,
+    "parts": "3 ภาค",
+    "progress": [
+      "SS1: 12/12",
+      "SS2: 12/12",
+      "SS3: ยังไม่ฉาย"
+    ],
+    "total": "24/24+ (100%)",
+    "rating": "7.7",
+    "watch_time": "09:36:00"
+  },
+  {
+    "id": "sakamoto-days",
+    "title": "Sakamoto Days",
+    "kind": "anime",
+    "category": "แฟนตาซี & ผจญภัย",
+    "year": 2025,
+    "parts": "1 ภาค",
+    "progress": [
+      "SS1: 22/22"
+    ],
+    "total": "22/22 (100%)",
+    "rating": "7.8",
+    "watch_time": "08:48:00"
+  },
+  {
+    "id": "marriage-toxin",
+    "title": "Marriage Toxin",
+    "kind": "anime",
+    "category": "แฟนตาซี & ผจญภัย",
+    "year": 2026,
+    "parts": "1 ภาค",
+    "progress": [
+      "SS1: --/13"
+    ],
+    "total": "0/13 (0%)",
+    "rating": "-",
+    "watch_time": "00:00:00"
+  },
+  {
+    "id": "food-wars",
+    "title": "Food Wars! Shokugeki no Soma",
+    "kind": "anime",
+    "category": "อาหาร",
+    "year": 2015,
+    "parts": "5 ภาค",
+    "progress": [
+      "SS1 The First Plate: 8/24",
+      "SS2 The Second Plate: --/13",
+      "SS3 The Third Plate: --/24",
+      "SS4 The Fourth Plate: --/12",
+      "SS5 The Fifth Plate: --/13"
+    ],
+    "total": "8/86 (จบแล้ว)",
+    "rating": "7.8",
+    "watch_time": "03:12:00"
+  },
+  {
+    "id": "blue-lock",
+    "title": "Blue Lock",
+    "kind": "anime",
+    "category": "กีฬา",
+    "year": 2022,
+    "parts": "4 ภาค",
+    "progress": [
+      "SS1: 24/24",
+      "Movie: Episode Nagi ✅",
+      "SS2: VS. U-20 Japan 14/14",
+      "SS3: Neo Egoist League — กำลังสร้าง"
+    ],
+    "total": "38/38 + 1 Movie (100%)",
+    "rating": "8.0",
+    "watch_time": "26:19:00"
+  },
+  {
+    "id": "kaguya-sama-love-is-war",
+    "title": "Kaguya-sama: Love is War",
+    "kind": "anime",
+    "category": "โรแมนติก & ชีวิตประจำวัน",
+    "year": 2019,
+    "parts": "3 ภาค",
+    "progress": [
+      "SS1: 12/12",
+      "SS2: 12/12",
+      "SS3: 13/13"
+    ],
+    "total": "37/37 (100%)",
+    "rating": "8.4",
+    "watch_time": "14:48:00"
+  },
+  {
+    "id": "horimiya",
+    "title": "Horimiya",
+    "kind": "anime",
+    "category": "โรแมนติก & ชีวิตประจำวัน",
+    "year": 2021,
+    "parts": "2 ภาค",
+    "progress": [
+      "SS1: 13/13",
+      "SS2 The Missing Pieces: 6/13"
+    ],
+    "total": "19/26 (73%)",
+    "rating": "8.2",
+    "watch_time": "07:36:00"
+  },
+  {
+    "id": "dont-toy-with-me-miss-nagatoro",
+    "title": "Don't Toy with Me, Miss Nagatoro",
+    "kind": "anime",
+    "category": "โรแมนติก & ชีวิตประจำวัน",
+    "year": 2021,
+    "parts": "2 ภาค",
+    "progress": [
+      "SS1: 12/12",
+      "SS2: 3/12"
+    ],
+    "total": "15/24 (63%)",
+    "rating": "7.7",
+    "watch_time": "06:00:00"
+  },
+  {
+    "id": "kanojo-mo-kanojo",
+    "title": "Kanojo mo Kanojo",
+    "kind": "anime",
+    "category": "โรแมนติก & ชีวิตประจำวัน",
+    "year": 2021,
+    "parts": "2 ภาค",
+    "progress": [
+      "SS1: 2/12",
+      "SS2: --/12"
+    ],
+    "total": "2/24 (8%)",
+    "rating": "6.8",
+    "watch_time": "00:48:00"
+  },
+  {
+    "id": "komi-cant-communicate",
+    "title": "Komi Can't Communicate",
+    "kind": "anime",
+    "category": "โรแมนติก & ชีวิตประจำวัน",
+    "year": 2021,
+    "parts": "2 ภาค",
+    "progress": [
+      "SS1: 5/12",
+      "SS2: --/12"
+    ],
+    "total": "5/24 (21%)",
+    "rating": "7.9",
+    "watch_time": "02:00:00"
+  },
+  {
+    "id": "the-angel-next-door",
+    "title": "The Angel Next Door Spoils Me Rotten",
+    "kind": "anime",
+    "category": "โรแมนติก & ชีวิตประจำวัน",
+    "year": 2023,
+    "parts": "2 ภาค",
+    "progress": [
+      "SS1: 12/12",
+      "SS2: 10/12"
+    ],
+    "total": "22/24 (92%)",
+    "rating": "8.1",
+    "watch_time": "08:48:00"
+  },
+  {
+    "id": "tomo-chan-wa-onnanoko",
+    "title": "Tomo-chan wa Onnanoko!",
+    "kind": "anime",
+    "category": "โรแมนติก & ชีวิตประจำวัน",
+    "year": 2023,
+    "parts": "1 ภาค",
+    "progress": [
+      "SS1: 13/13"
+    ],
+    "total": "13/13 (54%)",
+    "rating": "7.7",
+    "watch_time": "02:48:00"
+  },
+  {
+    "id": "goukon-ni-ittara",
+    "title": "Goukon ni Ittara Onna ga Inakatta Hanashi",
+    "kind": "anime",
+    "category": "โรแมนติก & ชีวิตประจำวัน",
+    "parts": "1 ภาค",
+    "progress": [
+      "SS1: 12/12"
+    ],
+    "total": "12/12 (100%)",
+    "rating": "8.5",
+    "watch_time": "10:00:00"
+  },
+  {
+    "id": "alya-sometimes-hides-her-feelings",
+    "title": "Alya Sometimes Hides Her Feelings in Russian",
+    "kind": "anime",
+    "category": "โรแมนติก & ชีวิตประจำวัน",
+    "year": 2024,
+    "parts": "1 ภาค",
+    "progress": [
+      "SS1: 12/12"
+    ],
+    "total": "12/12 (100%)",
+    "rating": "7.5",
+    "watch_time": "04:48:00"
+  },
+  {
+    "id": "kaoru-hana-wa-rin-to-saku",
+    "title": "Kaoru Hana wa Rin to Saku",
+    "kind": "anime",
+    "category": "โรแมนติก & ชีวิตประจำวัน",
+    "year": 2025,
+    "parts": "1 ภาค",
+    "progress": [
+      "SS1: 13/13"
+    ],
+    "total": "13/13 (100%)",
+    "rating": "8.5",
+    "watch_time": "05:12:00"
+  },
+  {
+    "id": "uruwashi-no-yoi-no-tsuki",
+    "title": "Uruwashi no Yoi no Tsuki",
+    "kind": "anime",
+    "category": "โรแมนติก & ชีวิตประจำวัน",
+    "year": 2025,
+    "parts": "1 ภาค",
+    "progress": [
+      "SS1: 12/12"
+    ],
+    "total": "12/12 (100%)",
+    "rating": "7.5",
+    "watch_time": "04:48:00"
+  },
+  {
+    "id": "blind-date-school-girl-crush",
+    "title": "A Blind Date with My School Girl Crush",
+    "kind": "anime",
+    "category": "โรแมนติก & ชีวิตประจำวัน",
+    "year": 2025,
+    "parts": "1 ภาค",
+    "progress": [
+      "SS1: 7/12"
+    ],
+    "total": "7/12 (58%)",
+    "rating": "7.1",
+    "watch_time": "02:48:00"
+  },
+  {
+    "id": "please-put-them-on-takamine-san",
+    "title": "Please Put Them On, Takamine-san",
+    "kind": "anime",
+    "category": "โรแมนติก & ชีวิตประจำวัน",
+    "year": 2025,
+    "parts": "1 ภาค",
+    "progress": [
+      "SS1: 2/12"
+    ],
+    "total": "2/12 (17%)",
+    "rating": "7.3",
+    "watch_time": "00:48:00"
+  },
+  {
+    "id": "mikadono-sanshimai",
+    "title": "Mikadono Sanshimai wa Angai, Choroi.",
+    "kind": "anime",
+    "category": "โรแมนติก & ชีวิตประจำวัน",
+    "year": 2025,
+    "parts": "1 ภาค",
+    "progress": [
+      "SS1: --/12"
+    ],
+    "total": "0/12 (0%)",
+    "rating": "7.6"
+  },
+  {
+    "id": "witch-watch",
+    "title": "Witch Watch",
+    "kind": "anime",
+    "category": "โรแมนติก & ชีวิตประจำวัน",
+    "year": 2025,
+    "parts": "2 ภาค",
+    "progress": [
+      "SS1: 2/25",
+      "SS2: ยังไม่ฉาย"
+    ],
+    "total": "2/25+ (8%)",
+    "rating": "6.8",
+    "watch_time": "00:48:00"
+  },
+  {
+    "id": "class-de-2-banme",
+    "title": "Class de 2-banme ni Kawaii Onnanoko to Tomodachi ni Natta",
+    "kind": "anime",
+    "category": "โรแมนติก & ชีวิตประจำวัน",
+    "year": 2026,
+    "parts": "1 ภาค",
+    "progress": [
+      "SS1: 1/12"
+    ],
+    "total": "1/12 (8%)",
+    "rating": "7.9",
+    "watch_time": "00:24:00"
+  },
+  {
+    "id": "super-no-ura-de-yani-suu-futari",
+    "title": "Super no Ura de Yani Suu Futari",
+    "kind": "anime",
+    "category": "โรแมนติก & ชีวิตประจำวัน",
+    "year": 2026,
+    "parts": "1 ภาค",
+    "progress": [
+      "SS1: 9/12"
+    ],
+    "total": "9/12 (75%)",
+    "rating": "-",
+    "watch_time": "03:36:00"
+  },
+  {
+    "id": "kanan-sama-wa-akumade-choroi",
+    "title": "Kanan-sama wa Akumade Choroi",
+    "kind": "anime",
+    "category": "โรแมนติก & ชีวิตประจำวัน",
+    "year": 2026,
+    "parts": "2 ภาค",
+    "progress": [
+      "SS1: 0/12",
+      "SS2: ยังไม่ฉาย"
+    ],
+    "total": "0/12+ (0%)",
+    "rating": "6.5",
+    "watch_time": "00:00:00"
+  },
+  {
+    "id": "tenkou-saki-no-seiso-karen-na-bishoujo",
+    "title": "Tenkou-saki no Seiso Karen na Bishoujo ga",
+    "kind": "anime",
+    "category": "โรแมนติก & ชีวิตประจำวัน",
+    "year": 2026,
+    "parts": "1 ภาค",
+    "progress": [
+      "SS1: 9/12"
+    ],
+    "total": "9/12 (75%)",
+    "rating": "7.3",
+    "watch_time": "03:36:00"
+  },
+  {
+    "id": "solo-leveling-manga",
+    "title": "Solo Leveling",
+    "kind": "manga",
+    "category": "มังงะ",
+    "progress": [
+      "186/186 ตอน",
+      "สถานะ: อ่านจบแล้ว"
+    ],
+    "total": "186/186 ตอน",
+    "rating": "8.8"
+  }
+]
