@@ -1,0 +1,16 @@
+#cc59-account .cc-card-details{grid-column:1/-1;min-width:0;background:#dcdcdf;border:1px solid #c6c6ca;border-radius:16px;margin:0;overflow:hidden}
+#cc59-account .cc-card-details>summary{cursor:pointer;list-style:none;position:relative;display:flex;flex-direction:column;gap:3px;padding:18px 48px 18px 20px;color:#38383d}
+#cc59-account .cc-card-details>summary::-webkit-details-marker{display:none}
+#cc59-account .cc-card-details>summary:after{content:'+';position:absolute;right:20px;top:50%;transform:translateY(-50%);font:500 25px/1 sans-serif;color:#57575d}
+#cc59-account .cc-card-details[open]>summary:after{content:'−'}
+#cc59-account .cc-card-details>summary span{font-weight:750;font-size:16px}
+#cc59-account .cc-card-details>summary small{color:#5c5c62;font-size:13px}
+#cc59-account .cc-card-details>summary:focus-visible{outline:3px solid #686870;outline-offset:-4px;border-radius:12px}
+#cc59-account .cc-card-details[open]>summary{border-bottom:1px solid #c6c6ca}
+#cc59-account .cc-card-details .portfolio-grid{margin:0;padding:18px;gap:16px}
+#cc59-account .cc-card-details .g-portfolio-card,#cc59-account .cc-card-details .g-portfolio-actions{border-radius:12px;min-width:0}
+:is(body.dark,[data-theme=dark]) #cc59-account .cc-card-details{background:#39393d;border-color:#55555b}
+:is(body.dark,[data-theme=dark]) #cc59-account .cc-card-details>summary{color:#ededf0}
+:is(body.dark,[data-theme=dark]) #cc59-account .cc-card-details>summary small,:is(body.dark,[data-theme=dark]) #cc59-account .cc-card-details>summary:after{color:#c9c9ce}
+:is(body.dark,[data-theme=dark]) #cc59-account .cc-card-details[open]>summary{border-color:#55555b}
+@media(max-width:720px){#cc59-account .cc-card-details{grid-column:auto}#cc59-account .cc-card-details .portfolio-grid{padding:12px}}

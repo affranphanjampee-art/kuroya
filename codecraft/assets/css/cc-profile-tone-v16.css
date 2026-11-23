@@ -1,0 +1,32 @@
+/* Align the profile with CODECRAFT's existing graphite palette. */
+.cc59-jumps button{background:#d7d7da;border-color:#bcbcc0;color:#38383d}
+.cc59-jumps button:hover{background:#c9c9cd;border-color:#89898d}
+#cc59-profile .cc57-profile{background:#d3d3d6;border-color:#c1c1c4;color:#38383b}
+#cc59-profile .cc57-banner{background:#444447}
+#cc59-profile .cc57-avatar{background:#69696d;border-color:#96969b;color:#f2f2f5}
+#cc59-profile .cc57-banner p{color:#dedee1!important}
+#cc59-profile .cc57-stat{background:#dcdcdf;border-color:#c6c6ca}
+#cc59-profile .cc57-stat b{color:#38383d}
+#cc59-profile .cc57-stat span{color:#56565b}
+#cc59-profile .cc57-privacy{color:#55555b}
+#cc59-profile .cc-profile-details{background:#dcdcdf;border-color:#c6c6ca}
+#cc59-profile .cc-profile-details>summary{color:#38383d}
+#cc59-profile .cc-profile-details>summary:after{color:#57575d}
+#cc59-profile .cc-profile-details>summary small{color:#5c5c62}
+#cc59-profile .cc-profile-details>summary:focus-visible{outline-color:#686870}
+#cc59-profile .cc-achievement-details[open]>summary,#cc59-profile .cc-card-details[open]>summary{border-color:#c6c6ca}
+#cc59-profile .cc57-ach{background:#d3d3d6;border-color:#c5c5c9}
+#cc59-profile .cc57-medal{background:#c3c3c7;color:#45454b}
+#cc59-profile .cc57-ach p{color:#56565c}
+/* Also keep contrast if the existing dark theme is enabled. */
+:is(body.dark,[data-theme=dark]) .cc59-jumps button{background:#39393d;border-color:#55555b;color:#ededf0}
+:is(body.dark,[data-theme=dark]) .cc59-jumps button:hover{background:#47474c}
+:is(body.dark,[data-theme=dark]) #cc59-profile .cc57-profile{background:#2e2e31;border-color:#4e4e51;color:#ededf0}
+:is(body.dark,[data-theme=dark]) #cc59-profile .cc57-banner{background:#232326}
+:is(body.dark,[data-theme=dark]) #cc59-profile .cc57-stat,:is(body.dark,[data-theme=dark]) #cc59-profile .cc-profile-details{background:#39393d;border-color:#55555b}
+:is(body.dark,[data-theme=dark]) #cc59-profile .cc57-stat b,:is(body.dark,[data-theme=dark]) #cc59-profile .cc-profile-details>summary{color:#ededf0}
+:is(body.dark,[data-theme=dark]) #cc59-profile .cc57-stat span,:is(body.dark,[data-theme=dark]) #cc59-profile .cc57-privacy,:is(body.dark,[data-theme=dark]) #cc59-profile .cc-profile-details>summary small,:is(body.dark,[data-theme=dark]) #cc59-profile .cc-profile-details>summary:after{color:#c9c9ce}
+:is(body.dark,[data-theme=dark]) #cc59-profile .cc-achievement-details[open]>summary,:is(body.dark,[data-theme=dark]) #cc59-profile .cc-card-details[open]>summary{border-color:#55555b}
+:is(body.dark,[data-theme=dark]) #cc59-profile .cc57-ach{background:#303034;border-color:#55555b}
+:is(body.dark,[data-theme=dark]) #cc59-profile .cc57-medal{background:#505056;color:#f0f0f2}
+:is(body.dark,[data-theme=dark]) #cc59-profile .cc57-ach p{color:#c9c9ce}

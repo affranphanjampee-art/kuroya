@@ -1,0 +1,9 @@
+/* The email address and type selector share one accessible control frame. */
+.account-form .cc-email-field{display:flex;align-items:stretch;width:100%;border:1px solid #bcbcc1;border-radius:10px;background:#d1d1d4;overflow:hidden}
+.account-form .cc-email-field:focus-within{outline:2px solid #55555b;outline-offset:2px}
+.account-form .cc-email-field #accountEmail{min-width:0;flex:1 1 auto;width:1%;margin:0;border:0!important;border-radius:0;background:transparent;box-shadow:none!important;outline:none!important;padding:13px 12px}
+.account-form .cc-email-field select{flex:0 0 auto;width:156px;max-width:46%;margin:0;border:0;border-left:1px solid #bcbcc1;border-radius:0;background:#c6c6ca;color:#303034;font-size:13px;font-weight:600;font-family:inherit;padding:0 26px 0 10px;cursor:pointer}
+.account-form .cc-email-field select:focus-visible{outline:2px solid #55555b;outline-offset:-3px}
+.account-form .cc-email-hint{margin:8px 0 10px}
+.account-form .cc-email-warning{margin:10px 0 12px}
+@media(max-width:480px){.account-form .cc-email-field select{width:130px;font-size:12px;padding-left:7px}.account-form .cc-email-field #accountEmail{font-size:13px;padding:12px 8px}}

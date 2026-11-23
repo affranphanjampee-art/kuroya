@@ -1,0 +1,15 @@
+/* A calm, readable sequence for the start of every lesson. */
+.lesson-layout article > .cc-five-pre,.lesson-layout article > .cc58-video,.lesson-layout article > .cc-lesson-guide{margin:16px 0!important;border:1px solid #bcbcc2!important;border-radius:15px!important;background:#e3e3e7!important;box-shadow:0 3px 12px rgba(25,25,32,.035)}
+.lesson-layout article > .cc-five-pre{padding:18px 20px!important}
+.lesson-layout article > .cc58-video{padding:18px 20px!important}
+.cc-lesson-guide{padding:18px 20px;color:#303035}
+.cc-guide-top{display:flex;align-items:center;gap:12px;margin-bottom:9px}
+.cc-guide-number{display:grid;place-items:center;flex:0 0 34px;height:34px;border-radius:10px;background:#35353c;color:#fff;font-size:12px;font-weight:700;letter-spacing:.04em}
+.cc-lesson-guide h2{font-size:20px;line-height:1.35;margin:0!important;color:inherit}
+.cc-lesson-guide p{font-size:15px;line-height:1.8;margin:0!important;padding-left:46px;max-width:80ch}
+.cc-five-pre .cc-pre-fold{background:rgba(255,255,255,.2)}
+.cc-five-pre .cc-pre-fold>summary:focus-visible{outline:3px solid #537e70;outline-offset:3px;border-radius:8px}
+html[data-theme=dark] .lesson-layout article > .cc-five-pre,html[data-theme=dark] .lesson-layout article > .cc58-video,html[data-theme=dark] .lesson-layout article > .cc-lesson-guide{background:#303036!important;border-color:#51515b!important;color:#efeff1}
+html[data-theme=dark] .cc-guide-number{background:#dedee3;color:#242429}
+html[data-theme=dark] .cc-five-pre .cc-pre-fold{background:rgba(255,255,255,.04)}
+@media(max-width:600px){.cc-lesson-guide,.lesson-layout article > .cc-five-pre,.lesson-layout article > .cc58-video{padding:15px!important}.cc-lesson-guide p{padding-left:0;font-size:15px}.cc-lesson-guide h2{font-size:18px}}

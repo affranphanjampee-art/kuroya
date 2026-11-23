@@ -1,0 +1,4 @@
+/* Further teaching stays visible within each topic card. */
+.article-sections .cc-topic-expanded{margin:12px 0 14px!important;padding:12px 14px;border-left:3px solid #7ca697;border-radius:0 8px 8px 0;background:rgba(107,151,135,.09);font-size:15px;line-height:1.85;color:inherit}
+html[data-theme=dark] .article-sections .cc-topic-expanded{background:rgba(126,181,159,.1);border-color:#82b5a0}
+@media(max-width:700px){.article-sections .cc-topic-expanded{padding:10px 12px;font-size:14px}}

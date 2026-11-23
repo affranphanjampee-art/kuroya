@@ -1,0 +1,51 @@
+/* Refine the existing cosmetic collection; no new items or ownership changes. */
+/* Banners: layered light and a slower, seamless movement. */
+#cc59-profile .cc57-banner[data-banner=banner-slate]::before{background-image:radial-gradient(ellipse at 22% 14%,#c4e5ff42,transparent 48%),repeating-linear-gradient(120deg,transparent 0 36px,#e8f7ff14 37px 38px,transparent 39px 65px),linear-gradient(110deg,#222d40,#526a83 50%,#283446);background-size:160% 140%,160% 100%,100% 100%;animation:cc78-slate 14s ease-in-out infinite alternate}
+#cc59-profile .cc57-banner[data-banner=banner-aurora]::before{background-image:radial-gradient(ellipse at 23% 38%,#8ef5df83,transparent 43%),radial-gradient(ellipse at 72% 28%,#d5a4ff7a,transparent 47%),linear-gradient(110deg,#202b49,#386274 52%,#5a3e6d);background-size:160% 140%,160% 140%,100% 100%;animation:cc78-aurora 12s ease-in-out infinite alternate}
+@keyframes cc78-slate{from{background-position:0% 0%,0% 0%,0 0}to{background-position:50% 15%,90% 0%,0 0}}
+@keyframes cc78-aurora{from{background-position:0% 25%,90% 30%,0 0}to{background-position:80% 35%,5% 10%,0 0}}
+/* Avatar frames: keep the existing artwork, add depth and softer, unhurried glints. */
+#cc59-profile .cc57-avatar[data-frame^=frame-]{box-shadow:0 4px 12px #10131b90,0 0 16px var(--fx-glow),inset 0 0 0 1px #ffffff70}
+#cc59-profile .cc57-avatar[data-frame^=frame-]::before{opacity:.94;animation-duration:9s}
+#cc59-profile .cc57-avatar[data-frame^=frame-]::after{filter:drop-shadow(0 2px 3px #090f1a99) drop-shadow(0 0 5px var(--fx-glow));animation:cc78-frame-glint 4.4s ease-in-out infinite}
+#cc50-roster-output .cc64-avatar[data-frame^=frame-]::after{filter:drop-shadow(0 2px 2px #1118) drop-shadow(0 0 3px #e5f9ff88);animation:cc78-frame-glint 4.4s ease-in-out infinite}
+@keyframes cc78-frame-glint{0%,100%{opacity:.9}50%{opacity:1;filter:brightness(1.2) drop-shadow(0 1px 3px #1118) drop-shadow(0 0 5px var(--fx-glow,#ddf6ffaa))}}
+/* Card frames: preserve every illustrated corner and use a restrained moving shine. */
+#cc59-profile .cc57-profile[data-card-frame^=card-]::after{opacity:.82;animation-duration:6.5s;filter:drop-shadow(0 0 3px var(--card-shine,#fff))}
+#cc59-profile .cc57-profile[data-card-frame^=card-]::before{animation-duration:4.8s}
+#cc59-profile .cc-card-fx i{animation-duration:4.4s;text-shadow:0 0 4px var(--spark-glow),0 0 9px var(--spark-glow)}
+#cc59-profile .cc-card-fx i:nth-child(3n){animation-duration:5.3s}
+/* Name effects: consistent luminous colors on the profile and roster, never a background badge. */
+#cc59-profile .cc57-name[data-name-effect=name-aurora],#cc50-roster-output .cc50-roster-table .cc71-nameplate[data-name-effect=name-aurora]{background-image:linear-gradient(100deg,#efffff 0%,#8bdcf6 28%,#e3bfff 55%,#baf4ff 78%,#f8ffff 100%)!important;background-size:200% 100%!important;filter:drop-shadow(0 0 4px #78dbf8aa) drop-shadow(0 1px 2px #25304b99)}
+#cc59-profile .cc57-name[data-name-effect=name-gold],#cc50-roster-output .cc50-roster-table .cc71-nameplate[data-name-effect=name-gold]{background-image:linear-gradient(100deg,#fffbe2 0%,#f8c76a 30%,#fff4be 55%,#e5ac4c 78%,#fff9dc 100%)!important;background-size:200% 100%!important;filter:drop-shadow(0 0 4px #ffca62a8) drop-shadow(0 1px 2px #4f351c99)}
+/* Full roster rows: retain the five original palettes, richer highlights and less repetitive details. */
+#cc50-roster-output .cc50-roster-table tr[data-plate=plate-nebula]{--plate-bg:linear-gradient(110deg,#20203d,#483b70 52%,#253a5c)}
+#cc50-roster-output .cc50-roster-table tr[data-plate=plate-sakura]{--plate-bg:linear-gradient(110deg,#4b2b40,#88516d 53%,#603550)}
+#cc50-roster-output .cc50-roster-table tr[data-plate=plate-cyber]{--plate-bg:linear-gradient(110deg,#103348,#185d6b 54%,#173d59)}
+#cc50-roster-output .cc50-roster-table tr[data-plate=plate-ember]{--plate-bg:linear-gradient(110deg,#43242a,#8c4029 54%,#542a2c)}
+#cc50-roster-output .cc50-roster-table tr[data-plate=plate-royal]{--plate-bg:linear-gradient(110deg,#292334,#6b512d 55%,#44334c)}
+/* Five original nameplate effects retain their identities but gain softer depth and cleaner motion. */
+#cc50-roster-output .cc50-roster-table tbody tr[data-plate=plate-nebula]{background-image:radial-gradient(circle at 25% 35%,#f8edff 0 1px,transparent 2px),radial-gradient(circle at 70% 60%,#c5cfff 0 1px,transparent 2px),linear-gradient(112deg,transparent 25%,#acc9ff29 48%,transparent 68%),var(--plate-bg);background-size:83px 40px,127px 58px,180% 100%,100% 100%}
+#cc50-roster-output .cc50-roster-table tbody tr[data-plate=plate-sakura]{background-image:radial-gradient(ellipse 2px 4px at 30% 40%,#ffd9e8 0 55%,transparent 70%),radial-gradient(ellipse 3px 2px at 70% 50%,#fff0f8 0 55%,transparent 70%),var(--plate-bg);background-size:80px 50px,115px 59px,100% 100%}
+#cc50-roster-output .cc50-roster-table tbody tr[data-plate=plate-cyber]{background-image:linear-gradient(90deg,transparent 30%,#9bffff70 50%,transparent 60%),repeating-linear-gradient(0deg,transparent 0 8px,#96fbff1a 9px 10px),var(--plate-bg);background-size:180% 100%,100% 100%,100% 100%}
+#cc50-roster-output .cc50-roster-table tbody tr[data-plate=plate-ember]{background-image:radial-gradient(circle at 35% 40%,#ffe7a4 0 1px,transparent 2px),radial-gradient(circle at 75% 70%,#ffb358 0 1px,transparent 2px),linear-gradient(0deg,#ff9b3424,transparent 75%),var(--plate-bg);background-size:72px 43px,113px 57px,100% 100%,100% 100%}
+#cc50-roster-output .cc50-roster-table tbody tr[data-plate=plate-royal]{background-image:linear-gradient(115deg,transparent 40%,#fff4c466 48%,#fff9e888 50%,transparent 57%),radial-gradient(circle at 40% 60%,#ffeab3 0 1px,transparent 2px),var(--plate-bg);background-size:200% 100%,93px 48px,100% 100%}
+#cc50-roster-output .cc50-roster-table tbody tr[data-plate]:not([data-plate=default])>td{border-bottom:1px solid var(--plate-border);text-shadow:0 1px 4px #000c}
+/* Match travel distances to tile sizes to avoid visible snapping. */
+@keyframes cc76-nebula{from{background-position:0 0,0 0,100% 0,0 0}to{background-position:83px -40px,-127px 58px,-100% 0,0 0}}
+@keyframes cc76-petals{from{background-position:0 -50px,0 -59px,0 0}to{background-position:80px 0,-115px 0,0 0}}
+@keyframes cc76-embers{from{background-position:0 43px,0 57px,0 0,0 0}to{background-position:72px 0,-113px 0,0 0,0 0}}
+@keyframes cc76-royal{from{background-position:130% 0,0 0,0 0}to{background-position:-130% 0,93px -48px,0 0}}
+/* Profile entrance and content outline remain noninteractive and within the content area. */
+body .cc-content-frame{border-width:1px;box-shadow:0 0 4px var(--edge-glow),0 0 16px var(--edge-glow),inset 0 0 9px var(--edge-glow);animation-duration:4.5s}
+body .cc-content-frame::after{opacity:.48;inset:5px}
+body .cc-content-frame .cc-content-corner{border-width:2px;filter:drop-shadow(0 0 4px var(--edge-glow));opacity:.9}
+.main.view-account .cc-entry-edge i{filter:drop-shadow(0 0 3px var(--edge-glow));animation-duration:5s}
+.main.view-account .cc-entry-edge i:nth-child(3n){animation-duration:6.5s}
+body .cc-entrance-fullscreen::before{box-shadow:0 0 14px var(--entry-glow),0 0 28px var(--entry-glow),inset 0 0 18px var(--entry-glow)}
+body .cc-entrance-fullscreen i{text-shadow:0 0 4px var(--entry-glow),0 0 10px var(--entry-glow)}
+/* Previews show the same polished motion without changing the item catalog. */
+#cc59-profile .cc-shop-preview[data-kind=frame] span::before{filter:drop-shadow(0 1px 2px #1119) drop-shadow(0 0 3px #fff9);animation-duration:4.4s}
+#cc59-profile .cc-shop-preview[data-kind=cardFrame] span{filter:drop-shadow(0 2px 3px #1118)}
+#cc59-profile .cc-shop-preview[data-kind=entrance]{box-shadow:inset 0 0 16px #ffffff24,0 3px 8px #0003}
+@media(prefers-reduced-motion:reduce){#cc59-profile .cc57-banner[data-banner]::before,#cc59-profile .cc57-avatar[data-frame^=frame-]::before,#cc59-profile .cc57-avatar[data-frame^=frame-]::after,#cc50-roster-output .cc64-avatar[data-frame^=frame-]::after,#cc59-profile .cc57-profile[data-card-frame^=card-]::before,#cc59-profile .cc57-profile[data-card-frame^=card-]::after,#cc59-profile .cc-card-fx i,#cc59-profile .cc-shop-preview[data-kind=frame] span::before{animation:none!important}}

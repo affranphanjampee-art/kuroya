@@ -1,0 +1,33 @@
+/* Keep cosmetic animations, but avoid repeated costly blur/box-shadow animation. */
+@keyframes cc78-frame-glint{0%,100%{opacity:.88}50%{opacity:1}}
+@keyframes cc-frame-sparkle{0%,100%{opacity:.86}50%{opacity:1}}
+@keyframes cc-fx-glimmer{0%,100%{opacity:.86}50%{opacity:1}}
+@keyframes cc79-soft-light{0%,100%{opacity:.8}50%{opacity:1}}
+#cc59-profile .cc57-banner[data-banner=banner-slate]::before,#cc59-profile .cc57-banner[data-banner=banner-aurora]::before{animation:cc79-soft-light 7s ease-in-out infinite}
+#cc59-profile .cc57-profile[data-card-frame=card-neon],#cc59-profile .cc57-profile:is([data-card-frame=card-royal],[data-card-frame=card-bloom],[data-card-frame=card-stellar]){animation:none}
+#cc59-profile .cc57-profile[data-card-frame^=card-]::after{animation:cc79-soft-light 5s ease-in-out infinite}
+#cc59-profile .cc57-name[data-name-effect=name-aurora],#cc59-profile .cc57-name[data-name-effect=name-gold],#cc50-roster-output .cc50-roster-table .cc71-nameplate[data-name-effect=name-aurora],#cc50-roster-output .cc50-roster-table .cc71-nameplate[data-name-effect=name-gold]{animation:cc79-soft-light 4s ease-in-out infinite!important}
+#cc50-roster-output .cc64-avatar[data-frame^=frame-]::after{filter:drop-shadow(0 0 2px #e5f9ff88)}
+/* Rows outside the viewport do not animate until the user scrolls to them. */
+#cc50-roster-output .cc50-roster-table tbody tr.cc79-offscreen,
+#cc50-roster-output .cc50-roster-table tbody tr.cc79-offscreen *,
+#cc50-roster-output .cc50-roster-table tbody tr.cc79-offscreen *::before,
+#cc50-roster-output .cc50-roster-table tbody tr.cc79-offscreen *::after{animation:none!important}
+#cc50-roster-output .cc50-roster-table tbody tr.cc79-offscreen .cc71-nameplate[data-name-effect]{animation:none!important}
+@media(prefers-reduced-motion:reduce){
+ #cc59-profile .cc57-banner[data-banner]::before,#cc59-profile .cc57-profile[data-card-frame^=card-]::after,#cc59-profile .cc57-name[data-name-effect],#cc50-roster-output .cc50-roster-table .cc71-nameplate[data-name-effect],#cc50-roster-output .cc50-roster-table tbody tr[data-plate]:not([data-plate=default]){animation:none!important}
+}
+
+/* Composite the row glints as an opacity-only overlay; cell geometry is unchanged. */
+#cc50-roster-output .cc50-roster-table tbody tr[data-plate]:not([data-plate=default]){position:relative;isolation:isolate;background-image:var(--plate-bg)!important;background-size:100% 100%!important;background-repeat:no-repeat!important;box-shadow:0 0 5px var(--plate-glow);animation:none!important}
+#cc50-roster-output .cc50-roster-table tbody tr[data-plate]:not([data-plate=default]) td:first-child::before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;animation:cc79-row-glint 4s ease-in-out infinite alternate}
+#cc50-roster-output tr[data-plate=plate-nebula] td:first-child::before{background-image:radial-gradient(circle at 25% 35%,#f8edff 0 1px,transparent 2px),radial-gradient(circle at 70% 60%,#c5cfff 0 1px,transparent 2px),linear-gradient(112deg,transparent 25%,#acc9ff29 48%,transparent 68%);background-size:83px 40px,127px 58px,100% 100%}
+#cc50-roster-output tr[data-plate=plate-sakura] td:first-child::before{background-image:radial-gradient(ellipse 2px 4px at 30% 40%,#ffd9e8 0 55%,transparent 70%),radial-gradient(ellipse 3px 2px at 70% 50%,#fff0f8 0 55%,transparent 70%);background-size:80px 50px,115px 59px}
+#cc50-roster-output tr[data-plate=plate-cyber] td:first-child::before{background-image:linear-gradient(90deg,transparent 30%,#9bffff70 50%,transparent 60%),repeating-linear-gradient(0deg,transparent 0 8px,#96fbff1a 9px 10px);background-size:100% 100%,100% 100%}
+#cc50-roster-output tr[data-plate=plate-ember] td:first-child::before{background-image:radial-gradient(circle at 35% 40%,#ffe7a4 0 1px,transparent 2px),radial-gradient(circle at 75% 70%,#ffb358 0 1px,transparent 2px),linear-gradient(0deg,#ff9b3424,transparent 75%);background-size:72px 43px,113px 57px,100% 100%}
+#cc50-roster-output tr[data-plate=plate-royal] td:first-child::before{background-image:linear-gradient(115deg,transparent 40%,#fff4c466 48%,#fff9e888 50%,transparent 57%),radial-gradient(circle at 40% 60%,#ffeab3 0 1px,transparent 2px);background-size:100% 100%,93px 48px}
+
+#cc50-roster-output .cc50-roster-table tbody tr[data-plate]:not([data-plate=default]):nth-child(3n) td:first-child::before{animation-delay:-1.3s}
+#cc50-roster-output .cc50-roster-table tbody tr[data-plate]:not([data-plate=default]):nth-child(3n + 1) td:first-child::before{animation-delay:-2.5s}
+@keyframes cc79-row-glint{0%,100%{opacity:.4;transform:scale(.99) translateX(-.45%)}50%{opacity:1;transform:scale(.99) translateX(.45%)}}
+@media(prefers-reduced-motion:reduce){#cc50-roster-output .cc50-roster-table tbody tr[data-plate]:not([data-plate=default]) td:first-child::before{animation:none!important;opacity:1}}

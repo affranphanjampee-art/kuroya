@@ -1,0 +1,6 @@
+/* Clear contrast for account fields in dark mode, including autofill. */
+html[data-theme=dark] .account-form input{background-color:#2c2c2f!important;color:#ededf0!important;-webkit-text-fill-color:#d2d2d5;caret-color:#ededf0;border-color:#6e6e71!important;}
+html[data-theme=dark] .account-form input::placeholder{color:#a3a3a6!important;-webkit-text-fill-color:#a3a3a6;opacity:1;}
+html[data-theme=dark] .account-form input:-webkit-autofill,html[data-theme=dark] .account-form input:-webkit-autofill:hover,html[data-theme=dark] .account-form input:-webkit-autofill:focus{-webkit-text-fill-color:#d2d2d5!important;-webkit-box-shadow:0 0 0 1000px #2c2c2f inset!important;box-shadow:0 0 0 1000px #2c2c2f inset!important;caret-color:#ededf0;}
+.account-form .cc52-email-note{font-size:12px;margin:6px 0 0;line-height:1.5;}
+html[data-theme=dark] .account-form .cc52-email-note{color:#acacaf!important;}

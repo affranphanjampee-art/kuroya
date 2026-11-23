@@ -1,0 +1,19 @@
+/* One balanced graphite palette, independent of previous theme preference. */
+:root{--green:#63636e;--lime:#c9c9d2;--paper:#bcbcc6;--ink:#232327;--muted:#4d4d56;--line:#9a9aa6;--cc-ink:#232327;--cc-muted:#4d4d56;--cc-border:#9a9aa6;--cc-violet:#63636e;--cc-site-bg:#bcbcc6;--cc-site-card:#d7d7df;--cc-site-accent:#63636e;--cc-site-border:#aaaab5;--cc-site-text:#232327;--cc-site-muted:#4d4d56}
+body,.main{background:#bcbcc6;color:#232327}.topbar{background:#d0d0d9;border-color:#aaaab5}
+.sidebar{background:linear-gradient(165deg,#3e3e45,#232327 75%);border-color:#63636e}.sidebar .nav-icon svg{width:19px;height:19px;display:block}.sidebar .nav-item.active{background:linear-gradient(105deg,#63636e,#45454e);border-color:#9a9aa6;box-shadow:inset 2px 0 0 #c9c9d2}.sidebar .nav-item.active:before{background:#d2d2db;box-shadow:0 0 9px #c9c9d288}
+.cc60-hero{background:radial-gradient(circle at 72% 20%,#e1e1e8 0,transparent 34%),linear-gradient(120deg,#d8d8e0,#ceced7);border-color:#b7b7c2}.cc60-hero:before{background:linear-gradient(90deg,#63636e,#9a9aa6,transparent)}
+.cc60-stat,.cc60-card{background:#d7d7df;border-color:#b3b3be}.cc60-copy h1 span{color:#51515b}.cc60-kicker{color:#484850}.cc60-copy>p,.cc60-section-head p,.cc60-card-desc{color:#484850}.cc60-home .cc60-stat small{color:#53535d!important}
+.cc60-path{background:linear-gradient(110deg,#777782,#575761 65%,#3e3e45);border-color:#777782;color:#f2f2f5}.cc60-path-copy>b,.cc60-path-kicker{color:#f2f2f5}.cc60-path-icon,.cc60-path-button{background:#dbdbe2;color:#303037}
+.cc60-code{background:#232327;border-color:#63636e;color:#eeeef2}.cc60-codebar{background:#3e3e45;border-color:#63636e}.cc60-output{background:#1e1e23}.cc60-code pre strong,.cc60-code pre em,.cc60-code pre b,.cc60-code pre span{color:#c9c9d2}
+.cc60-actions .btn-dark,.cc60-all,.cc60-card-bottom em,.btn-dark,.breadcrumb b{background:#565660!important;border-color:#565660!important;color:#f2f2f5!important}.cc60-actions .btn-dark:hover,.cc60-all:hover,.btn-dark:hover{background:#3e3e45!important}
+.cc60-actions .btn-outline{background:#d3d3dc;color:#313139;border-color:#aaaab5}.cc60-pill,.cc60-stat-icon,.cc60-card-icon{background:#c7c7d0!important;border-color:#aaaab5!important;color:#3e3e45!important}
+.main:not(.view-home) .content :is(.lesson-card,.account-card,.g-feature,.assessment-card,.quiz-card,.lesson-content,.lesson-aside,.cpp-unit-card,.adv-world,.adv-mission,.g-card,.option,.question-card,.assess-card,.assess-question,.cc57-ach,.cc57-stat,.cc57-profile,.cc57-concept,.cc58-video,.cc56-pre,.cc56-enrich,.cc55-workspace){background-color:#d7d7df;border-color:#b0b0ba}
+.main:not(.view-home) .content :is(.g-hero,.path-note,.assess-hero){background:#c9c9d2;border-color:#aaaab5}
+.cc-back-to-top{background:#565660;border-color:#858590;color:#f2f2f5}.cc-back-to-top:hover{background:#3e3e45}.cc-back-to-top:focus-visible{outline-color:#36363e}
+/* Icons and decorative art harmonize, without altering instructional figures. */
+.brand-mark img,.cc60-home img,.lesson-card .lesson-icon img{filter:grayscale(1)}
+html:not([data-theme=dark]) .cc60-path .cc60-path-button{background:#dedee6!important;border-color:#dedee6!important;color:#303038!important}
+html:not([data-theme=dark]) .cc60-path .cc60-path-button:hover{background:#efeff4!important}
+.breadcrumb .slash{color:#63636e}.cc60-code pre i{color:#aaaab4}.article-number{color:#63636e}.code-heading span,.example-output b,.portfolio-name,.portfolio-numbers span,.account-text-btn,.aside-title span,.cc55-eyebrow,.cc55-eyebrow span{color:#4d4d56!important}.inline-code-actions small{color:#d8d8df!important}
+.cc-back-to-top svg{width:21px;height:21px}

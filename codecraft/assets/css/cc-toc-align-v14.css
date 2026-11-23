@@ -1,0 +1,11 @@
+/* Keep every row aligned and leave room for the active indicator. */
+.lesson-aside .cc-lesson-toc .aside-row,
+.lesson-aside .cc-lesson-toc .aside-row.is-current {
+  display:flex; align-items:flex-start; gap:10px; box-sizing:border-box;
+  padding:8px 10px 8px 12px!important; margin:0; border:0!important;
+  line-height:1.55; border-radius:6px; font-weight:400!important;
+}
+.lesson-aside .cc-lesson-toc .aside-row span {
+  display:block; flex:0 0 2ch; padding:2px 0 0!important; line-height:1.55;
+}
+.lesson-aside .cc-lesson-toc .aside-row.is-current {box-shadow:inset 3px 0 #238065}

@@ -1,0 +1,80 @@
+/* Codecraft — dark navigation, light workspace. */
+:root{--cc-violet:#a35cf6;--cc-ink:#1d2931;--cc-muted:#667780;--cc-border:#e0e7e4;--cc-surface:#fff}
+body{background:#f4f7f5;color:var(--cc-ink)}
+.sidebar{background:linear-gradient(165deg,#17171d 0%,#101115 60%,#17171c 100%);border:0;border-right:1px solid #303038;box-shadow:8px 0 30px #12121d0d;padding:24px 14px 18px;overflow-y:auto;scrollbar-color:#4a4157 transparent}
+.sidebar .brand{color:#f2f3f4;padding:0 7px 22px;letter-spacing:-.7px;font-size:20px}
+.sidebar .brand-mark{border-radius:12px;width:42px;height:42px;box-shadow:0 0 0 1px #414347}
+.sidebar .brand small{color:#aeb9b5!important;font-size:9px;letter-spacing:1.8px}
+.sidebar nav{gap:12px;padding-top:5px}
+.sidebar .nav-group{gap:3px}
+.sidebar .nav-group-title{color:#a1a1ad;font-size:11px;letter-spacing:.08em;padding:5px 12px;text-transform:uppercase}
+.sidebar .nav-item{position:relative;min-height:40px;color:#d1d1da;border:1px solid transparent;border-radius:13px;padding:9px 11px;font-size:13px;gap:11px;transition:background .18s,border-color .18s,color .18s}
+.sidebar .nav-item:hover{background:#25232c;border-color:#36313e;color:#fff}
+.sidebar .nav-item.active{background:linear-gradient(105deg,#592676 0%,#2a2033 43%,#202026 100%);border-color:#81509a;color:#fff;box-shadow:inset 2px 0 0 #d38cff,0 0 18px #a454de25}
+.sidebar .nav-item.active:before{content:'';position:absolute;left:-15px;height:19px;width:3px;background:#c35eff;border-radius:5px;box-shadow:0 0 12px #d274ff}
+.sidebar .nav-icon{width:20px;flex:none;display:grid;place-items:center}
+.sidebar .nav-icon img{filter:brightness(0) invert(.86);width:19px;height:19px}
+.sidebar .nav-item.active .nav-icon img{filter:brightness(0) invert(1)}
+.sidebar .nav-item small{color:#c9bacf;font-size:11px}
+.sidebar .side-bottom{padding-top:14px}
+.sidebar .side-progress{background:#23232a;border-color:#36343d;color:#ededef;border-radius:14px}
+.sidebar .progress-title b{color:#d6b4ef!important}
+.sidebar .progress-track{background:#414047}.sidebar .progress-track i{background:linear-gradient(90deg,#a65dea,#d7a3fb)}
+.sidebar .side-progress p{color:#c0c0c7!important;font-size:12px}
+.sidebar .side-foot{border-color:#393740;color:#ededf0}.sidebar .side-foot small{color:#b4b6c0!important}
+.sidebar .sidebar-collapse{display:flex;align-items:center;justify-content:center;align-self:flex-end;width:32px;height:32px;border:1px solid #45404d;border-radius:10px;background:#28262e;color:#e6d7f0;margin:-52px 0 21px;font-size:16px;cursor:pointer}
+.sidebar .sidebar-collapse:hover{background:#423449}
+.sidebar .sidebar-collapse:focus-visible,.sidebar .nav-item:focus-visible,.mobile-menu-toggle:focus-visible{outline:3px solid #e0b8ff;outline-offset:3px}
+.nav-collapsed .sidebar{width:78px;padding-left:12px;padding-right:12px}
+.nav-collapsed .main{margin-left:78px}
+.nav-collapsed .sidebar .brand{justify-content:center;padding:0 0 16px}
+.nav-collapsed .sidebar .brand>span:nth-child(2),.nav-collapsed .sidebar .nav-item>span:not(.nav-icon),.nav-collapsed .sidebar .nav-item small,.nav-collapsed .sidebar .nav-group-title,.nav-collapsed .sidebar .side-bottom{display:none}
+.nav-collapsed .sidebar .sidebar-collapse{align-self:center;margin:0 0 12px;transform:rotate(180deg)}
+.nav-collapsed .sidebar nav{gap:12px}.nav-collapsed .sidebar .nav-item{justify-content:center;padding:10px}
+.main{background:#f5f8f6}.topbar{background:rgba(255,255,255,.9);border-bottom-color:#e5ece8;height:70px}
+.content{padding-top:36px}.breadcrumb{color:#71817a}.breadcrumb b{color:#283d35}
+.top-economy,.top-account{border-radius:11px}
+.page-intro h1,.welcome-line h1,.g-header h1,.editor-page-head h1{letter-spacing:-.035em;color:#1d3029}
+.page-intro p,.welcome-line p,.g-header p{color:#586b60;line-height:1.7}
+.hero{background:linear-gradient(120deg,#e6f0e5,#eaf2e8 60%,#edf0e6);border:1px solid #d8e6db;border-radius:22px;box-shadow:0 12px 40px #243d3010}
+.hero-chip{border-radius:9px;background:#fff;border-color:#d5e5d8;color:#355b42}
+.lesson-card,.g-feature,.g-shop-card,.activity-card,.activity-aside,.question,.account-card,.assess-card{border-radius:16px;box-shadow:0 8px 26px #283b2e08}
+.lesson-card:hover,.g-feature:hover{box-shadow:0 14px 32px #29203c16;border-color:#cbb7d5}
+.btn{border-radius:11px}.btn-dark{background:#243e32;color:white}.btn-dark:hover{background:#344d3b}
+.filter-tabs button.selected{background:#e9e2f1;color:#563570}
+.path-note{border-radius:14px}.editor-shell{border-radius:18px}
+/* Adventure overview */
+.adv-page,.adv-question-page{max-width:1190px;margin:0 auto;color:#263831}
+.adv-intro,.adv-section-heading,.adv-world-head,.adv-question-top{display:flex;align-items:flex-end;justify-content:space-between;gap:20px}
+.adv-intro{margin:7px 0 26px}.adv-kicker{display:block;font:700 11px/1.4 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#79608b}
+.adv-intro h1,.adv-question-top h1{font-size:clamp(27px,3vw,38px);line-height:1.25;letter-spacing:-.04em;margin:10px 0 8px}.adv-intro h1 span,.adv-question-top h1 span{color:#9c70ba}
+.adv-intro p,.adv-question-top p{font-size:15px;line-height:1.75;color:#5c7065;margin:0;max-width:660px}
+.adv-total{display:flex;flex-direction:column;align-items:flex-end;white-space:nowrap}.adv-total strong{font-size:26px;line-height:1.2}.adv-total strong small{font-size:14px;color:#829088}.adv-total span{color:#66796c;font-size:12px}
+.adv-banner{min-height:270px;background:#24232e url('../images/adventure.jpg') center/cover no-repeat;border-radius:22px;overflow:hidden;position:relative;box-shadow:0 16px 36px #31244426;display:flex;align-items:center}
+.adv-banner:before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(22,23,31,.97) 0%,rgba(27,25,36,.88) 30%,rgba(28,25,35,.28) 68%,transparent 100%)}
+.adv-banner>div{position:relative;padding:32px 38px;max-width:470px;color:#fff}.adv-banner .adv-kicker{color:#d4b3f1}.adv-banner h2{font-size:32px;line-height:1.2;margin:12px 0;letter-spacing:-.04em;color:#fff}.adv-banner p{color:#e0dfe8;font-size:14px;line-height:1.75;max-width:350px;margin:0 0 17px}.adv-jump{display:inline-block;color:#e9d6fb;font-weight:700;font-size:14px;text-decoration:none;border-bottom:1px solid #ca9be8;padding-bottom:4px}
+.adv-achievements{margin:38px 0}.adv-section-heading{margin:0 0 17px}.adv-section-heading h2{font-size:23px;letter-spacing:-.035em;margin:5px 0 0}.adv-section-heading>span{font-size:12px;color:#61776a}.adv-badge-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.adv-badge{display:flex;align-items:center;gap:12px;background:white;border:1px solid #e1e8e2;border-radius:15px;padding:16px;color:#506459}.adv-badge>span{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:#edf1ed;color:#889d8d;font-size:22px}.adv-badge b,.adv-badge small{display:block}.adv-badge small{color:#62786a;font-size:12px;margin-top:4px}.adv-badge.earned{border-color:#cbb4df;background:#fcf8ff}.adv-badge.earned>span{background:#efe2fa;color:#8352aa}
+.adv-worlds{display:grid;gap:18px}.adv-world{background:#fff;border:1px solid #e0e9e2;border-radius:20px;padding:25px;box-shadow:0 10px 32px #233b2c0a}.adv-world.lilac{border-top:4px solid #a58ac5}.adv-world.mint{border-top:4px solid #79ac8a}.adv-world.peach{border-top:4px solid #c8987e}
+.adv-world-head{align-items:start}.adv-world-head h2{font-size:22px;margin:5px 0}.adv-world-head p{max-width:730px;color:#596f61;line-height:1.8;font-size:14px;margin:0}.adv-world-count{text-align:right;white-space:nowrap}.adv-world-count strong{font-size:24px}.adv-world-count strong span{font-size:13px;color:#809087}.adv-world-count small{display:block;font-size:12px;color:#61766a}
+.adv-lock{margin-top:15px;padding:12px 14px;background:#f8f1e9;color:#7a5338;border-radius:10px;font-size:13px;font-weight:700}
+.adv-track{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:20px 0}.adv-mission{display:flex;align-items:flex-start;gap:10px;text-align:left;min-width:0;background:#f8faf8;border:1px solid #e1e9e2;border-radius:13px;padding:13px;color:#2a3f33;cursor:pointer}.adv-mission:hover:not(:disabled){border-color:#9e78bc;background:#faf7fd}.adv-mission:disabled{opacity:.62;cursor:not-allowed}.adv-mission.is-done{background:#f1f8f2;border-color:#c5dfc9}.adv-mission-no{flex:none;width:29px;height:29px;display:grid;place-items:center;border-radius:9px;background:#e9e5f2;color:#604b76;font-size:12px;font-weight:800}.adv-mission.is-done .adv-mission-no{background:#d9eddd;color:#2e6c40}.adv-mission-copy{min-width:0;flex:1}.adv-mission-copy small,.adv-mission-copy strong,.adv-mission-copy>span{display:block}.adv-mission-copy small{color:#70567e;font-size:11px}.adv-mission-copy strong{font-size:14px;margin:4px 0}.adv-mission-copy>span{color:#6b7d70;font-size:11px;line-height:1.4}.adv-mission-arrow{color:#8b719c;font-size:13px}
+.adv-project{display:flex;justify-content:space-between;align-items:center;gap:20px;border:1px solid #e5e7e9;background:#f8f9f9;border-radius:14px;padding:18px}.adv-project h3{font-size:16px;margin:4px 0 8px}.adv-project ol{margin:0;padding-left:20px;color:#51675a;line-height:1.8;font-size:13px}.adv-project small{display:block;font-size:12px;color:#687d70;margin-top:7px}.adv-project button{white-space:nowrap}.adv-disclaimer{font-size:12px;color:#61766a;line-height:1.7;margin:25px 0}
+.adv-question-top{margin:0 0 25px}.adv-chip{background:#eee8f5;color:#5c4470;border-radius:30px;padding:9px 13px;font-size:12px;font-weight:700;white-space:nowrap}
+.adv-question-layout{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:18px}.adv-question-card,.adv-question-aside{background:#fff;border:1px solid #dfe8e1;border-radius:20px;padding:26px}.adv-label{font-size:12px;font-weight:700;color:#627a69;letter-spacing:.06em}
+.adv-code{background:#20242a;color:#e6f1e8;border-radius:14px;padding:20px;overflow:auto;font:14px/1.7 'IBM Plex Mono',monospace;margin:12px 0 25px;white-space:pre}.adv-answers{border:0;padding:0;margin:0}.adv-answers legend{font-size:19px;font-weight:800;margin-bottom:14px;color:#283b31}.adv-answer{display:flex;align-items:center;gap:12px;border:1px solid #dce6de;background:#fbfcfb;border-radius:11px;padding:14px;margin:9px 0;cursor:pointer}.adv-answer.selected{border-color:#9373ad;background:#f7f1fb}.adv-answer input{accent-color:#8954a9}.adv-answer span{font-size:14px;line-height:1.5;overflow-wrap:anywhere}.adv-feedback{min-height:25px;padding:8px 0;color:#a04d3b;font-size:14px;line-height:1.6}.adv-feedback.success{color:#28633e}.adv-actions{display:flex;gap:10px;flex-wrap:wrap}.adv-question-aside{height:fit-content}.adv-question-aside h3{margin:8px 0;font-size:17px}.adv-question-aside p{font-size:13px;line-height:1.8;color:#5b7062}.adv-question-aside strong{font-size:24px}.adv-aside-separator{height:1px;background:#e2eae3;margin:20px 0}
+.adv-home-callout{display:flex;align-items:center;justify-content:space-between;gap:20px;border:1px solid #d9cce6;background:linear-gradient(100deg,#f4eef9,#f9fbf8);border-radius:18px;padding:24px;margin:20px 0}.adv-home-callout h2{font-size:20px;margin:6px 0}.adv-home-callout p{margin:0;color:#586c60;font-size:14px;line-height:1.7}.adv-home-callout .btn{white-space:nowrap}
+@media(max-width:1000px){.adv-track{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.sidebar,.nav-collapsed .sidebar{width:100%;position:relative;overflow:visible;padding:12px 16px;flex-direction:row;flex-wrap:wrap}.sidebar .brand,.nav-collapsed .sidebar .brand{padding:0;justify-content:flex-start}.nav-collapsed .sidebar .brand>span:nth-child(2){display:block}.sidebar .sidebar-collapse{display:none}.sidebar .mobile-menu-toggle{background:#28252f;color:#f6effa;border-color:#63536b;border-radius:10px}.sidebar nav,.nav-collapsed .sidebar nav{display:none;width:100%;padding:12px 0 4px}.sidebar nav.is-open,.nav-collapsed .sidebar nav.is-open{display:grid;gap:8px}.sidebar .nav-group,.nav-collapsed .sidebar .nav-group{grid-template-columns:repeat(2,minmax(0,1fr))}.nav-collapsed .sidebar .nav-group-title,.nav-collapsed .sidebar .nav-item>span:not(.nav-icon){display:block}.nav-collapsed .sidebar .nav-item{justify-content:flex-start;padding:9px 11px}.sidebar .side-bottom{display:none}.sidebar .nav-item.active:before{left:-8px}.main,.nav-collapsed .main{margin-left:0}.topbar{height:auto;min-height:62px}.content{padding-top:24px}.adv-intro,.adv-world-head,.adv-question-top{align-items:flex-start}.adv-banner{min-height:250px;background-position:57% center}.adv-banner>div{padding:25px}.adv-banner h2{font-size:27px}.adv-banner:before{background:linear-gradient(90deg,rgba(22,23,31,.96),rgba(27,25,36,.75) 62%,rgba(28,25,35,.3))}.adv-badge-grid{grid-template-columns:1fr}.adv-section-heading{align-items:flex-start;flex-direction:column;gap:6px}.adv-world{padding:18px}.adv-project,.adv-home-callout{align-items:flex-start;flex-direction:column}.adv-question-layout{grid-template-columns:1fr}.adv-question-card,.adv-question-aside{padding:19px}.adv-question-top{flex-direction:column}.adv-total{align-items:flex-end}.adv-intro{gap:10px}}
+@media(max-width:400px){.adv-track{grid-template-columns:1fr}.adv-intro h1{font-size:25px}.adv-banner p{max-width:245px}.adv-intro{flex-wrap:wrap}.adv-total{align-items:flex-start}}
+/* Override older light-theme contrast rules on dark surfaces. */
+.sidebar .nav-item{color:#d8d7df!important}
+.sidebar .nav-item:hover,.sidebar .nav-item.active{color:#fff!important}
+.sidebar .nav-item small{color:#cbbecf!important}
+.content .adv-banner p{color:#e4e1ea!important}
+.sidebar nav .nav-item{color:#d8d7df!important}
+.sidebar nav .nav-item.active,.sidebar nav .nav-item:hover{color:#fff!important}
+
+.adv-project-checks{display:grid;gap:6px;margin:8px 0}.adv-project-step{display:flex;align-items:flex-start;gap:8px;font-size:13px;line-height:1.6;color:#405b4a}.adv-project-step input{accent-color:#8455a2;margin-top:4px}.adv-project [data-project-count]{font-weight:800;margin-left:5px;color:#5d4c72}
+/* Make input and execution output readable on the dark terminal. */
+.content .theme-default .terminal-panel .run-output,.content .theme-default .terminal-panel .stdin-label textarea{color:#e1eee1!important}

@@ -1,0 +1,50 @@
+/* The profile page only: a calmer hierarchy, clear actions and responsive cards. */
+#cc59-profile,#cc59-account {scroll-margin-top:90px}
+.cc59-jumps{display:flex;gap:8px;margin:0 0 24px}
+.cc59-jumps button{background:#fff;border:1px solid #c9d3ce;color:#275746;padding:10px 18px;border-radius:10px;font-size:14px}
+.cc59-jumps button:hover{background:#e5f1ea;border-color:#568e74}
+#cc59-profile .cc57-profile{margin:0 0 28px;background:#f7faf8;border:1px solid #d7e4dc;border-radius:22px;padding:24px;color:#25372e}
+#cc59-profile .cc57-banner{background:#263e33;border-radius:16px;padding:24px;gap:18px}
+#cc59-profile .cc57-avatar{width:60px;height:60px;border:1px solid #729b85;background:#426655;color:#fff;font-size:19px}
+#cc59-profile .cc57-banner h1{font-size:clamp(23px,2.4vw,30px);line-height:1.25;margin:5px 0}
+#cc59-profile .cc57-banner p{margin:0;color:#dcebe1!important;font-size:14px}
+#cc59-profile .cc57-profile-body{gap:12px;margin:18px 0}
+#cc59-profile .cc57-stat{background:#fff;border:1px solid #e0e9e3;border-radius:14px;padding:16px 18px;gap:4px}
+#cc59-profile .cc57-stat b{font-size:24px;color:#286649;line-height:1.2}
+#cc59-profile .cc57-stat span{font-size:13px;color:#52655a}
+#cc59-profile .cc57-privacy{font-size:12px;line-height:1.6;color:#5e6e64;margin:8px 0 14px}
+#cc59-profile .cc-profile-details{background:#fff;border:1px solid #d6e2da;border-radius:16px;margin:16px 0;overflow:hidden}
+#cc59-profile .cc-profile-details>summary{cursor:pointer;list-style:none;position:relative;display:flex;flex-direction:column;gap:3px;padding:18px 48px 18px 20px;color:#253d30}
+#cc59-profile .cc-profile-details>summary::-webkit-details-marker{display:none}
+#cc59-profile .cc-profile-details>summary:after{content:'+';position:absolute;right:20px;top:50%;transform:translateY(-50%);font:500 25px/1 sans-serif;color:#3f7a59}
+#cc59-profile .cc-profile-details[open]>summary:after{content:'−'}
+#cc59-profile .cc-profile-details>summary span{font-weight:750;font-size:16px}
+#cc59-profile .cc-profile-details>summary small{color:#687a6e;font-size:13px}
+#cc59-profile .cc-profile-details>summary:focus-visible{outline:3px solid #559977;outline-offset:-4px;border-radius:12px}
+#cc59-profile .cc-achievement-details[open]>summary,#cc59-profile .cc-card-details[open]>summary{border-bottom:1px solid #e0e9e3}
+#cc59-profile .cc57-achievements{padding:18px;gap:10px}
+#cc59-profile .cc57-ach{background:#f8faf8;border-color:#e0e9e3;border-radius:12px;padding:14px}
+#cc59-profile .cc57-medal{background:#e4efe7;color:#367453}
+#cc59-profile .cc57-ach p{color:#53655a;margin:4px 0 7px}
+#cc59-profile .cc-achievement-details>p{margin:0 18px 16px}
+#cc59-profile .g-header{margin:30px 0 15px}
+#cc59-profile .g-header h1{font-size:25px;margin:4px 0}
+#cc59-profile .g-header p{font-size:14px}
+#cc59-profile .g-hero{border-radius:16px;margin-bottom:15px}
+#cc59-profile .cc-card-details .portfolio-grid{margin:0;padding:18px;gap:16px}
+#cc59-profile .cc-card-details .g-portfolio-card,#cc59-profile .cc-card-details .g-portfolio-actions{border-radius:12px}
+#cc59-account{margin-top:42px;padding-top:6px}
+#cc59-account .page-intro h1{font-size:clamp(25px,3vw,34px)}
+#cc59-account .account-card{border-radius:16px}
+@media(max-width:700px){
+ .cc59-jumps{display:grid;grid-template-columns:1fr 1fr}.cc59-jumps button{padding:10px;font-size:13px}
+ #cc59-profile .cc57-profile{padding:15px;border-radius:16px}
+ #cc59-profile .cc57-banner{padding:18px;gap:12px}
+ #cc59-profile .cc57-avatar{width:48px;height:48px;font-size:16px}
+ #cc59-profile .cc57-profile-body{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+ #cc59-profile .cc57-stat{padding:12px 8px;min-width:0}
+ #cc59-profile .cc57-stat b{font-size:19px}
+ #cc59-profile .cc57-stat span{font-size:11px;line-height:1.4}
+ #cc59-profile .cc57-achievements{grid-template-columns:1fr;padding:12px}
+ #cc59-profile .cc-card-details .portfolio-grid{padding:12px}
+}

@@ -1,0 +1,58 @@
+/* Eight designed entrance previews; preview art remains lightweight and decorative. */
+#cc59-profile .cc-shop-preview[data-kind=entrance]{--tile-light:#eee8ff;--tile-glow:#ad95ff;position:relative;isolation:isolate;overflow:hidden;border:1px solid #ffffff2b;box-shadow:0 4px 12px #1114,inset 0 0 20px #ffffff12;color:var(--tile-light)}
+#cc59-profile .cc-shop-preview[data-kind=entrance]::before{content:'';position:absolute;inset:12%;border:1px solid var(--tile-glow);border-radius:50%;box-shadow:0 0 10px var(--tile-glow),inset 0 0 10px #ffffff2b;opacity:.7;pointer-events:none;animation:cc81-tile-ring 5s ease-in-out infinite}
+#cc59-profile .cc-shop-preview[data-kind=entrance]::after{content:'';position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(circle at 15% 25%,#fff 0 1px,transparent 2px),radial-gradient(circle at 78% 20%,#fff 0 1px,transparent 2px),radial-gradient(circle at 68% 79%,#fff 0 1px,transparent 2px),radial-gradient(circle at 26% 75%,#fff 0 1px,transparent 2px);opacity:.7;animation:cc81-tile-spark 3s ease-in-out infinite alternate}
+#cc59-profile .cc-shop-preview[data-kind=entrance] span{position:relative;z-index:2;font-size:0;color:var(--tile-light);text-shadow:0 0 5px var(--tile-glow),0 0 12px var(--tile-glow);animation:cc81-tile-icon 4s ease-in-out infinite}
+#cc59-profile .cc-shop-preview[data-kind=entrance] span::after{content:var(--tile-symbol,'✦');font:normal 25px/1 sans-serif}
+#cc59-profile .cc-shop-preview[data-item=entrance-stars]{--tile-light:#faf4ff;--tile-glow:#ad9dff;--tile-symbol:'✦';background:radial-gradient(ellipse at 30% 25%,#7564b5aa,transparent 50%),linear-gradient(145deg,#111c38,#38335f)}
+#cc59-profile .cc-shop-preview[data-item=entrance-portal]{--tile-light:#d7ffff;--tile-glow:#47ebff;--tile-symbol:'◇';background:radial-gradient(circle at 50% 50%,#267e8b99,transparent 60%),linear-gradient(145deg,#073046,#105e71)}
+#cc59-profile .cc-shop-preview[data-item=entrance-portal]::before{border-radius:20%;border-style:double;transform:rotate(45deg)}
+#cc59-profile .cc-shop-preview[data-item=entrance-petals]{--tile-light:#fff2f8;--tile-glow:#ff9ecd;--tile-symbol:'❀';background:radial-gradient(circle at 30% 20%,#e9a1bd99,transparent 55%),linear-gradient(145deg,#4b203b,#a85e84)}
+#cc59-profile .cc-shop-preview[data-item=entrance-petals]::before{border-style:dotted}
+#cc59-profile .cc-shop-preview[data-item=entrance-flame]{--tile-light:#fff4cc;--tile-glow:#ff9a4e;--tile-symbol:'✧';background:radial-gradient(ellipse at 50% 95%,#ff9b4d99,transparent 65%),linear-gradient(145deg,#482124,#9e492c)}
+#cc59-profile .cc-shop-preview[data-item=entrance-aurora]{--tile-light:#d5fff7;--tile-glow:#6ef4d7;--tile-symbol:'✷';background:radial-gradient(ellipse at 25% 25%,#56dabc88,transparent 55%),radial-gradient(ellipse at 75% 70%,#9364dd88,transparent 60%),#142a45}
+#cc59-profile .cc-shop-preview[data-item=entrance-ocean]{--tile-light:#e3ffff;--tile-glow:#6bdbff;--tile-symbol:'≈';background:radial-gradient(ellipse at 50% 70%,#63c6eb99,transparent 60%),linear-gradient(145deg,#092c54,#106c88)}
+#cc59-profile .cc-shop-preview[data-item=entrance-ocean]::before{border-style:double}
+#cc59-profile .cc-shop-preview[data-item=entrance-meteor]{--tile-light:#fff1cc;--tile-glow:#ffb661;--tile-symbol:'✶';background:radial-gradient(ellipse at 28% 22%,#f8ad6066,transparent 58%),linear-gradient(145deg,#211c42,#603343)}
+#cc59-profile .cc-shop-preview[data-item=entrance-royal]{--tile-light:#fff4cb;--tile-glow:#f5cf70;--tile-symbol:'❖';background:radial-gradient(ellipse at 50% 35%,#e4bd6577,transparent 60%),linear-gradient(145deg,#292032,#59452e)}
+#cc59-profile .cc-shop-preview[data-item=entrance-royal]::before{border-style:double;border-width:2px;border-radius:25%}
+@keyframes cc81-tile-ring{0%,100%{opacity:.45;transform:scale(.9)}50%{opacity:.9;transform:scale(1)}}
+@keyframes cc81-tile-spark{from{opacity:.35;transform:translateY(3px)}to{opacity:.85;transform:translateY(-3px)}}
+@keyframes cc81-tile-icon{0%,100%{opacity:.8;transform:scale(.9)}50%{opacity:1;transform:scale(1.08)}}
+/* Distinct palettes apply consistently to the entrance and content frame. */
+body .cc-entrance-fx[data-effect=entrance-aurora]{--entry-light:#d7fff5;--entry-glow:#62eacb}
+body .cc-entrance-fx[data-effect=entrance-ocean]{--entry-light:#e3ffff;--entry-glow:#59c9ff}
+body .cc-entrance-fx[data-effect=entrance-meteor]{--entry-light:#fff0ca;--entry-glow:#ffad61}
+body .cc-entrance-fx[data-effect=entrance-royal]{--entry-light:#fff4c6;--entry-glow:#eac45f}
+:is(.main.view-account .cc-entry-edge,body .cc-content-frame)[data-effect=entrance-aurora]{--edge-color:#d7fff5;--edge-glow:#62eacb}
+:is(.main.view-account .cc-entry-edge,body .cc-content-frame)[data-effect=entrance-ocean]{--edge-color:#e3ffff;--edge-glow:#59c9ff}
+:is(.main.view-account .cc-entry-edge,body .cc-content-frame)[data-effect=entrance-meteor]{--edge-color:#fff0ca;--edge-glow:#ffad61}
+:is(.main.view-account .cc-entry-edge,body .cc-content-frame)[data-effect=entrance-royal]{--edge-color:#fff4c6;--edge-glow:#eac45f}
+/* Redesign the original four entrances without touching their item identities. */
+body .cc-entrance-fx[data-effect=entrance-stars]::before{border-style:dashed;border-width:2px}
+body .cc-entrance-fx[data-effect=entrance-portal]::before{border-radius:20%;border-width:4px;animation-name:cc81-portal}
+body .cc-entrance-fx[data-effect=entrance-petals]::before{border-style:dotted;border-width:4px}
+body .cc-entrance-fx[data-effect=entrance-flame]::before{border-style:double;border-width:4px}
+body .cc-entrance-fx[data-effect=entrance-aurora]::before{border-style:double;border-width:4px;animation-name:cc81-portal}
+body .cc-entrance-fx[data-effect=entrance-ocean]::before{border-style:double;border-width:4px}
+body .cc-entrance-fx[data-effect=entrance-meteor]::before{border-style:dashed;border-width:3px}
+body .cc-entrance-fx[data-effect=entrance-royal]::before{border-style:double;border-width:5px;border-radius:20%;animation-name:cc81-portal}
+body .cc-entrance-fx[data-effect=entrance-aurora] i{animation-name:cc81-aurora}
+body .cc-entrance-fx[data-effect=entrance-ocean] i{animation-name:cc81-bubble}
+body .cc-entrance-fx[data-effect=entrance-meteor] i{animation-name:cc81-meteor}
+body .cc-entrance-fx[data-effect=entrance-royal] i{animation-name:cc81-royal}
+.main.view-account .cc-entry-edge[data-effect=entrance-aurora] i{animation-name:cc81-edge-float}
+.main.view-account .cc-entry-edge[data-effect=entrance-ocean] i{animation-name:cc81-edge-float}
+.main.view-account .cc-entry-edge[data-effect=entrance-meteor] i{animation-name:cc81-edge-streak}
+.main.view-account .cc-entry-edge[data-effect=entrance-royal] i{animation-name:cc81-edge-royal}
+body .cc-content-frame[data-effect=entrance-royal]::after,body .cc-content-frame[data-effect=entrance-ocean]::after{border-style:double;border-width:3px}
+body .cc-content-frame[data-effect=entrance-meteor]::after{border-style:dashed}
+@keyframes cc81-portal{0%{opacity:0;transform:translate(-50%,-50%) scale(.25) rotate(-30deg)}35%{opacity:.85}100%{opacity:0;transform:translate(-50%,-50%) scale(4.5) rotate(100deg)}}
+@keyframes cc81-aurora{0%{opacity:0;transform:translate(-18px,28px) scale(.25)}35%{opacity:1}100%{opacity:0;transform:translate(24px,-42px) scale(1.2) rotate(80deg)}}
+@keyframes cc81-bubble{0%{opacity:0;transform:translate(0,35px) scale(.35)}30%{opacity:.9}100%{opacity:0;transform:translate(12px,-55px) scale(1.25)}}
+@keyframes cc81-meteor{0%{opacity:0;transform:translate(-60px,-35px) scale(.5)}30%{opacity:1}100%{opacity:0;transform:translate(65px,40px) scale(1)}}
+@keyframes cc81-royal{0%{opacity:0;transform:scale(.2) rotate(-45deg)}40%{opacity:1;transform:scale(1.2)}100%{opacity:0;transform:translateY(-22px) scale(.7) rotate(45deg)}}
+@keyframes cc81-edge-float{0%,100%{opacity:.25;transform:translateY(6px) scale(.75)}50%{opacity:.9;transform:translateY(-7px) scale(1.12)}}
+@keyframes cc81-edge-streak{0%,100%{opacity:.2;transform:translate(-6px,-4px) scale(.8)}50%{opacity:.95;transform:translate(7px,4px) scale(1.1)}}
+@keyframes cc81-edge-royal{0%,100%{opacity:.22;transform:scale(.7) rotate(-20deg)}50%{opacity:1;transform:scale(1.2) rotate(20deg)}}
+@media(prefers-reduced-motion:reduce){#cc59-profile .cc-shop-preview[data-kind=entrance]::before,#cc59-profile .cc-shop-preview[data-kind=entrance]::after,#cc59-profile .cc-shop-preview[data-kind=entrance] span{animation:none!important}}

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://bisque-garden-tau.vercel.app/sitemap.xml

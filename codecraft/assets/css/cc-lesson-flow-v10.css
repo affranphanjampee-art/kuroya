@@ -1,0 +1,18 @@
+/* Organize learning text in a single open group; code examples fold independently. */
+.cc-learning-group{margin:20px 0;padding:22px;border:1px solid #bcbcc2;border-radius:15px;background:#dedee2;color:#303035;box-shadow:0 3px 12px rgba(25,25,32,.035)}
+.cc-learning-group-heading{font-size:20px;margin:0 0 18px!important;line-height:1.4}
+.cc-learning-group>.cc-learning-item{margin:0!important;padding:20px 0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}
+.cc-learning-group>.cc-learning-item:first-of-type{padding-top:0!important}
+.cc-learning-group>.cc-learning-item+.cc-learning-item{border-top:1px solid #c5c5cd!important}
+.cc-learning-group .cc-learning-item>h2{font-size:17px!important;line-height:1.45;margin:4px 0 8px!important}
+.cc-learning-group .cc-learning-item>p{line-height:1.85;font-size:15px}
+.cc-code-example-fold{margin:14px 0;border:1px solid #bbbcc3;border-radius:11px;background:#e8e8eb;overflow:hidden}
+.cc-code-example-fold>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:9px;padding:13px 16px;font-size:14px;font-weight:700;color:#373740}
+.cc-code-example-fold>summary::-webkit-details-marker{display:none}.cc-code-example-fold>summary::before{content:'▸';display:inline-block;transition:transform .15s}.cc-code-example-fold[open]>summary::before{transform:rotate(90deg)}
+.cc-code-example-fold>summary:focus-visible{outline:3px solid #537e70;outline-offset:-4px;border-radius:9px}
+.cc-code-example-fold>.cc-edit-example{margin:0 12px 12px!important}
+html[data-theme=dark] .cc-learning-group{background:#303036;border-color:#51515b;color:#efeff1}
+html[data-theme=dark] .cc-learning-group>.cc-learning-item+.cc-learning-item{border-color:#53535b!important}
+html[data-theme=dark] .cc-code-example-fold{background:#37373d;border-color:#5c5c65}html[data-theme=dark] .cc-code-example-fold>summary{color:#ededf0}
+@media(max-width:700px){.cc-learning-group{padding:16px}.cc-code-example-fold>summary{padding:12px}.cc-code-example-fold>.cc-edit-example{margin:0 8px 8px!important}}
+@media(prefers-reduced-motion:reduce){.cc-code-example-fold>summary::before{transition:none}}

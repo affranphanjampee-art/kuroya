@@ -1,0 +1,50 @@
+/* Motion accents remain subtle, and are disabled when the user requests reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+ .cc-motion-char { animation: cc-letter-in 180ms ease both; }
+ .cc60-home.cc-motion-ready .cc60-copy h1 span:not(.cc-motion-char) { background: linear-gradient(110deg,transparent 0%,rgba(147,158,205,.22) 35%,transparent 75%) left bottom / 210% 42% no-repeat; animation:cc-highlight 1.2s .7s ease both; }
+ .cc60-home.cc-motion-ready .cc60-code { animation:cc-card-enter .65s cubic-bezier(.2,.7,.25,1) both; }
+ .cc60-home.cc-motion-ready .cc60-output code { animation:cc-output .5s 2.8s both; }
+ .cc60-home.cc-motion-ready .cc60-stat, .cc60-home.cc-motion-ready .cc60-next { animation:cc-card-enter .65s .18s both; }
+ .cc60-home button, .cc60-home a, .cc60-home [role="button"] { transition: transform .2s ease, box-shadow .2s ease, filter .2s ease, background-color .2s ease; }
+ @media (hover:hover) { .cc60-home button:hover, .cc60-home a:hover, .cc60-home [role="button"]:hover { transform:translateY(-3px); filter:brightness(1.07); } }
+ .cc60-home button:active, .cc60-home a:active, .cc60-home [role="button"]:active { transform:translateY(0) scale(.98); }
+ @keyframes cc-letter-in { from{opacity:0} to{opacity:1} }
+ @keyframes cc-highlight {from{background-position:110% bottom}to{background-position:0% bottom}}
+ @keyframes cc-card-enter {from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+ @keyframes cc-output {from{opacity:0}to{opacity:1}}
+}
+@media (prefers-reduced-motion: reduce) { .cc-motion-char { animation:none!important; opacity:1!important; } }
+.cc60-code pre .cc-motion-char { color:inherit; }
+/* Locally bundled typeface keeps Thai readable and works offline. */
+@font-face{font-family:'CC Noto Sans Thai';src:url('../fonts/NotoSansThai-Variable.ttf') format('truetype');font-style:normal;font-weight:100 900;font-display:swap}
+.cc60-home,.cc60-home button,.cc60-home input,.cc60-home h1,.cc60-home h2,.cc60-home h3 {font-family:'CC Noto Sans Thai',sans-serif}
+.cc60-home .cc60-code,.cc60-home .cc60-code pre,.cc60-home .cc60-code code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+.cc60-copy h1 .cc-motion-char{color:inherit}
+.cc60-hero,.cc60-stat,.cc60-code,.cc60-card,.cc60-home button{transition:box-shadow .3s ease,border-color .3s ease,filter .3s ease,transform .3s ease}
+.cc60-home :focus-visible {outline:3px solid #6478bd;outline-offset:3px}
+@media (prefers-reduced-motion:no-preference){
+ .cc60-home.cc-motion-ready .cc60-code{animation:cc-card-enter .65s cubic-bezier(.2,.7,.25,1) both,cc-code-float 5s ease-in-out 1s infinite}
+ .cc60-home.cc-motion-ready .cc60-pill{animation:cc-pill-glow 3.8s ease-in-out infinite}
+ .cc60-home.cc-motion-ready .cc60-codebar .cc60-dots i:nth-child(2){animation:cc-dot 2.8s ease-in-out infinite}
+ .cc60-home.cc-motion-ready .cc60-codebar .cc60-dots i:nth-child(3){animation:cc-dot 2.8s .45s ease-in-out infinite}
+ @keyframes cc-code-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+ @keyframes cc-pill-glow{0%,100%{box-shadow:0 0 0 rgba(165,183,236,0)}50%{box-shadow:0 0 13px rgba(165,183,236,.6)}}
+ @keyframes cc-dot{0%,100%{opacity:.5}50%{opacity:1}}
+}
+
+/* Remove the old white halo on home-page buttons; keep ordinary depth and keyboard focus. */
+.cc60-home .cc60-actions .btn-dark,.cc60-home .cc60-all,.cc60-home .btn-dark {box-shadow:0 4px 13px rgba(61,61,78,.20)}
+.cc60-home .cc60-actions .btn-dark:hover,.cc60-home .cc60-all:hover,.cc60-home .btn-dark:hover {box-shadow:0 5px 16px rgba(61,61,78,.27)}
+.cc60-home .cc60-card:hover {box-shadow:0 12px 25px rgba(54,54,57,.13);border-color:#c6c6c9}
+
+/* Rotating starter samples from the code workspace. */
+.cc60-codebar .cc-code-toggle {background:#41414a;color:#e6e6ed;font:600 10px 'CC Noto Sans Thai',sans-serif;padding:4px 8px;border-radius:5px;cursor:pointer;min-width:42px;box-shadow:none}
+.cc60-codebar .cc-code-toggle:hover {background:#5a5a64;box-shadow:none}
+.cc60-code pre {height:185px;min-height:185px;overflow:auto}
+.cc60-code pre .cc-syntax-token {color:#c0c3d9}
+.cc60-code pre .cc-motion-char {color:inherit}
+/* Keep the pause control still and clickable while retaining a subtle code-panel animation. */
+@media (prefers-reduced-motion:no-preference){
+ .cc60-home.cc-motion-ready .cc60-code {animation:cc-card-enter .65s cubic-bezier(.2,.7,.25,1) both,cc-code-shadow 5s ease-in-out 1s infinite}
+ @keyframes cc-code-shadow {0%,100%{box-shadow:0 15px 32px #33333e45}50%{box-shadow:0 19px 38px #33333e65}}
+}

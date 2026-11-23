@@ -1,0 +1,34 @@
+/* Roomier lesson content, with safe interior padding, without changing the global site layout. */
+.main:is(.view-lesson,.view-cppunit) .content{
+  box-sizing:border-box;
+  max-width:1600px;
+  width:100%;
+  margin-inline:auto;
+  padding-inline:clamp(16px,2.2vw,34px);
+}
+.main:is(.view-lesson,.view-cppunit) .lesson-layout{
+  max-width:none;
+  grid-template-columns:minmax(0,1fr) 215px;
+  gap:clamp(22px,2.2vw,34px);
+}
+.main:is(.view-lesson,.view-cppunit) .lesson-layout article{min-width:0}
+.main:is(.view-lesson,.view-cppunit) .extra-block{
+  padding:20px 22px;
+  margin:16px 0;
+  border:1px solid #dbe8d8;
+  border-radius:12px;
+  overflow-wrap:anywhere;
+}
+html:not([data-theme=dark]) .main:is(.view-lesson,.view-cppunit) .extra-block{background:#f5f9f3}
+html[data-theme=dark] .main:is(.view-lesson,.view-cppunit) .extra-block{border-color:#49604e}
+.main:is(.view-lesson,.view-cppunit) :is(.cc56-enrich,.cc56-pre,.mini-quiz,.cc-edit-example,.article-intro,.tip,.lesson-aside){min-width:0}
+.main:is(.view-lesson,.view-cppunit) :is(.cc-edit-code,.cc-edit-stdin){max-width:100%}
+@media(max-width:1150px){
+  .main:is(.view-lesson,.view-cppunit) .lesson-layout{grid-template-columns:minmax(0,1fr);gap:20px}
+  .main:is(.view-lesson,.view-cppunit) .lesson-aside{position:static;order:-1;grid-row:auto}
+  .main:is(.view-lesson,.view-cppunit) .lesson-aside .aside-note{display:none}
+}
+@media(max-width:600px){
+  .main:is(.view-lesson,.view-cppunit) .content{padding-inline:16px}
+  .main:is(.view-lesson,.view-cppunit) .extra-block{padding:16px;margin-block:14px}
+}
