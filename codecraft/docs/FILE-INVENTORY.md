@@ -6,18 +6,23 @@
 
 ## ทำไมไฟล์ถึงย้ายไม่ได้
 
-เว็บนี้ใช้ **absolute path** (`/assets/...`, `/sw.js`, `/offline-manifest-...json`)
-ทั้งใน `index.html`, `sw.js`, `offline-manifest*.json` และสคริปต์ใน
-`assets/packed-main-v1/` (เช่น `cc-motion-offline-v91.js` ทำ
-`fetch("/offline-manifest-main-account-split-v91.json")` และ
-`navigator.serviceWorker.register("/sw.js")`)
+เว็บนี้ใช้ **relative path** (`assets/...`, `sw.js`,
+`offline-manifest-...json`) ทั้งใน `index.html`, `sw.js`,
+`offline-manifest*.json` และสคริปต์ใน `assets/packed-main-v1/`
+(เช่น `cc-motion-offline-v91.js` ทำ
+`fetch("offline-manifest-main-account-split-v91.json")` และ
+`navigator.serviceWorker.register("sw.js")`)
+
+> เดิมใช้ absolute path (`/assets/...`) แล้วแก้เป็น relative
+> เมื่อ 2026-11-23 เพื่อให้ host ได้ทั้งที่ root ของโดเมนและ
+> subfolder (เช่น GitHub Pages ที่ `...github.io/kuroya/`)
 
 ดังนั้น:
 
 - **ห้ามย้าย/ลบ** ไฟล์ที่อยู่ในรายการด้านล่างโดยไม่แก้โค้ดที่อ้างถึง
-- `sw.js` ต้องอยู่ root ของโดเมนที่ host (scope ของ service worker)
-- `offline-manifest*.json` ต้องอยู่ root เพราะโค้ด fetch ด้วย `/...`
-- การจัดระเบียบในรอบนี้จึงทำเป็น **เอกสาร + config** ไม่ได้ย้ายไฟล์จริง
+- `sw.js` ต้องอยู่ข้าง `index.html` (scope ของ service worker)
+- `offline-manifest*.json` ต้องอยู่ข้าง `index.html` เพราะโค้ด fetch แบบ relative
+- การจัดระเบียบจึงทำเป็น **เอกสาร + config** ไม่ได้ย้ายไฟล์จริง
 
 ## โครงสร้างปัจจุบัน
 
