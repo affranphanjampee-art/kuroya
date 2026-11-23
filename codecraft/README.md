@@ -9,17 +9,31 @@ C, Python, C++, C# และ Java พร้อมแบบฝึกและแ�
 - **คำอธิบายใน Drive:** "CODECRAFT v91 backup: separate signup and sign-in, password visibility."
 - **URL เดิม:** https://bisque-garden-tau.vercel.app/
 
+## เอกสาร
+
+- **[HOSTING.md](HOSTING.md)** — วิธีเอาเว็บขึ้น host (Vercel / Netlify /
+  Cloudflare Pages / GitHub Pages / รันเอง)
+- **[docs/FILE-INVENTORY.md](docs/FILE-INVENTORY.md)** — บัญชีไฟล์:
+  ไฟล์ที่ใช้งานจริง, ไฟล์ประวัติ, ไฟล์ซ้ำ, ไฟล์ vendor ใหญ่
+
 ## โครงสร้าง
 
 - `index.html` — หน้าเว็บหลัก
-- `classroom-speed-test.html` — หน้าทดสอบความเร็วห้องเรียน
+- `classroom-speed-test.html` — หน้าทดสอบความพร้อมห้องเรียน
+- `sw.js` — service worker (ออฟไลน์/PWA)
+- `offline-manifest-main-account-split-v91.json` — manifest ปัจจุบัน (v91)
+- `offline-manifest-main-*.json` — manifest ประวัติแต่ละเวอร์ชัน (ห้ามย้าย/ลบ
+  ดูเหตุผลใน FILE-INVENTORY)
 - `assets/css/` — สไตล์ (ธีม graphite + โมดูล cc-*)
 - `assets/packed-main-v1/` — สคริปต์หลักของเว็บ (บทเรียน, บัญชี, โปรไฟล์ ฯลฯ)
 - `assets/images/`, `assets/fonts/` — รูปภาพและฟอนต์
 - `assets/offline/`, `assets/vendor/` — ตัวรันโค้ดออฟไลน์ (Clang / Pyodide WASM)
-- `offline-manifest*.json`, `sw.js` — manifest สำหรับโหมดออฟไลน์ / PWA
+- `vercel.json` / `netlify.toml` / `_headers` / `.nojekyll` — config สำหรับ host
 
-รวม 454 ไฟล์ (~124 MB เมื่อแตกไฟล์ โดย ~112 MB เป็น vendor WASM สำหรับรันโค้ดในเบราว์เซอร์)
+รวม 455 ไฟล์ (~124 MB เมื่อแตกไฟล์ โดย ~112 MB เป็น vendor WASM สำหรับรันโค้ดในเบราว์เซอร์)
+
+> ⚠️ เว็บนี้ใช้ absolute path (`/assets/...`, `/sw.js`) — ต้อง host แบบ
+> โฟลเดอร์ `codecraft/` เป็น root ของโดเมน ห้ามย้ายไฟล์โดยไม่แก้โค้ด
 
 ## วิธีรัน (ดูตัวอย่าง)
 
