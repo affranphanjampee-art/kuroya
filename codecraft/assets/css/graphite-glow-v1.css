@@ -1,0 +1,23 @@
+/* Luminous graphite: soft silver highlights without switching themes. */
+:root{--cc-glow:#e5e5ef;--cc-glow-line:#efeff8;--cc-shadow:rgba(44,44,54,.16)}
+body,.main{background:#c1c1cb}
+.topbar{background:linear-gradient(110deg,#d8d8e0,#ceced8 65%,#d9d9e2);box-shadow:0 3px 20px #43434f12;border-color:#aaaab6}
+.sidebar{background:radial-gradient(ellipse at 0% 0%,#54545f,#303039 43%,#25252c 85%);box-shadow:5px 0 30px #28283124}
+.sidebar .nav-item.active{background:linear-gradient(105deg,#777784,#484852);border-color:#c2c2d0;box-shadow:inset 2px 0 0 #f2f2fa,0 0 18px #e2e2ff42}
+.sidebar .nav-item.active:before{background:#f2f2fb;box-shadow:0 0 8px #fff,0 0 19px #d9d9ff}
+.sidebar .nav-item:hover{background-color:#6a6a7950}
+.cc60-hero{background:radial-gradient(ellipse at 76% 18%,#f0f0f6 0,transparent 30%),radial-gradient(ellipse at 9% 100%,#dedee9,transparent 45%),linear-gradient(120deg,#e5e5ed,#d4d4df 82%);border-color:#e7e7f0;box-shadow:0 14px 34px #3434411c,inset 0 1px 0 #f5f5fa}
+.cc60-hero:before{height:3px;background:linear-gradient(90deg,#6f6f80,#fafaff,#8b8b9a,transparent);box-shadow:0 0 14px #f5f5ff}
+.cc60-copy h1 span{color:#4d4d5b;text-shadow:0 0 24px #fff9}
+.cc60-stat,.cc60-card{background:linear-gradient(145deg,#e5e5ec,#d6d6e0);border-color:#ececf5;box-shadow:0 8px 22px #4c4c6017,inset 0 1px 0 #ffffff99}
+.cc60-stat:after{background:linear-gradient(90deg,#777786,#f2f2fa,#777786);box-shadow:0 0 10px #f4f4ff}
+.cc60-card:hover,.lesson-card:hover,.g-feature:hover{box-shadow:0 12px 30px #45455430,0 0 18px #eeeef888;border-color:#f1f1f9;transform:translateY(-2px)}
+.cc60-stat-icon,.cc60-card-icon{background:linear-gradient(145deg,#e3e3ec,#bdbdca)!important;border-color:#f0f0f7!important;box-shadow:inset 0 1px 2px #fff9,0 0 14px #fafaff55}
+.cc60-path{background:radial-gradient(ellipse at 35% 15%,#8e8e9d 0,transparent 44%),linear-gradient(110deg,#797985,#555560 70%,#3e3e48);border-color:#aeaec0;box-shadow:0 10px 30px #3d3d4a29,inset 0 1px 0 #f5f5ff66}
+.cc60-code,.editor-shell,.terminal-panel{box-shadow:0 15px 32px #33333e45,0 0 16px #e1e1f028}
+.cc60-actions .btn-dark,.cc60-all,.btn-dark,.breadcrumb b,.cc-back-to-top{box-shadow:inset 0 1px 0 #fff6,0 4px 13px #3d3d4e33,0 0 12px #f4f4ff33}
+.cc60-actions .btn-dark:hover,.cc60-all:hover,.btn-dark:hover,.cc-back-to-top:hover{box-shadow:inset 0 1px 0 #fff8,0 5px 16px #3d3d4e44,0 0 20px #f8f8ff88}
+.main:not(.view-home) .content :is(.lesson-card,.account-card,.g-feature,.assessment-card,.quiz-card,.lesson-aside,.cpp-unit-card,.adv-world,.adv-mission,.g-card,.question-card,.assess-card,.assess-question,.cc57-ach,.cc57-profile,.cc57-concept,.cc58-video,.cc56-pre,.cc56-enrich,.cc55-workspace){border-color:#e1e1e9;box-shadow:0 8px 22px #4c4c6012,inset 0 1px 0 #f7f7fa99}
+.main:is(.view-lesson,.view-cppunit) :is(.cc56-pre,.cc56-enrich,.cc58-video){background:linear-gradient(145deg,#e0e0e8,#d5d5df)}
+:focus-visible{outline-color:#686878;outline-offset:3px}
+@media(prefers-reduced-motion:reduce){.cc60-card:hover,.lesson-card:hover,.g-feature:hover{transform:none}}

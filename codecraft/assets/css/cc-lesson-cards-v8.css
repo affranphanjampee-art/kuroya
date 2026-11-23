@@ -1,0 +1,13 @@
+/* Paired learning cards: two columns where space permits, stacked on small screens. */
+.lesson-layout article>.cc-guide-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:16px 0;align-items:stretch}
+.lesson-layout article>.cc-guide-grid>.cc-lesson-guide{min-width:0;margin:0!important;border:1px solid #bcbcc2;border-radius:15px;background:#e3e3e7;box-shadow:0 3px 12px rgba(25,25,32,.035);display:flex;flex-direction:column}
+.cc-guide-grid .cc-lesson-guide>p{padding-left:0;margin:4px 0 16px!important;flex:1}
+.cc-guide-detail{border-top:1px solid #c8c8cf;margin-top:auto;padding-top:12px}
+.cc-guide-detail>summary{cursor:pointer;list-style:none;font-size:14px;font-weight:700;color:#44444d;padding:5px 0;display:flex;align-items:center;gap:8px}
+.cc-guide-detail>summary::-webkit-details-marker{display:none}.cc-guide-detail>summary::before{content:'▸';display:inline-block;transition:transform .15s}.cc-guide-detail[open]>summary::before{transform:rotate(90deg)}
+.cc-guide-detail>summary:focus-visible{outline:3px solid #537e70;outline-offset:4px;border-radius:4px}
+.cc-guide-detail>p{margin:10px 0 2px!important;line-height:1.8;font-size:15px;color:inherit}
+html[data-theme=dark] .lesson-layout article>.cc-guide-grid>.cc-lesson-guide{background:#303036;border-color:#51515b;color:#efeff1}
+html[data-theme=dark] .cc-guide-detail{border-color:#5b5b64}html[data-theme=dark] .cc-guide-detail>summary{color:#e0e0e6}
+@media(max-width:700px){.lesson-layout article>.cc-guide-grid{grid-template-columns:1fr;gap:12px}.cc-guide-grid .cc-lesson-guide{padding:15px}}
+@media(prefers-reduced-motion:reduce){.cc-guide-detail>summary::before{transition:none}}

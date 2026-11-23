@@ -1,0 +1,80 @@
+/* Codecraft — dark navigation, light workspace. */
+:root{--cc-violet:#\35 e5e61;--cc-ink:#2e2e31;--cc-muted:#5c5c5f;--cc-border:#c3c3c6;--cc-surface:#d7d7da;}
+body{background:#d1d1d4;color:var(--cc-ink);}
+.sidebar{background:linear-gradient(165deg,#232326 0%,#1f1f22 60%,#232326 100%);border:0;border-right:1px solid #353538;box-shadow:8px 0 30px #1f1f220d;padding:24px 14px 18px;overflow-y:auto;scrollbar-color:#424245 transparent;}
+.sidebar .brand{color:#e9e9ec;padding:0 7px 22px;letter-spacing:-.7px;font-size:20px;}
+.sidebar .brand-mark{border-radius:12px;width:42px;height:42px;box-shadow:0 0 0 1px #414144;}
+.sidebar .brand small{color:#\39 59598!important;font-size:9px;letter-spacing:1.8px;}
+.sidebar nav{gap:12px;padding-top:5px;}
+.sidebar .nav-group{gap:3px;}
+.sidebar .nav-group-title{color:#\38 18184;font-size:11px;letter-spacing:.08em;padding:5px 12px;text-transform:uppercase;}
+.sidebar .nav-item{position:relative;min-height:40px;color:#b0b0b3;border:1px solid transparent;border-radius:13px;padding:9px 11px;font-size:13px;gap:11px;transition:background .18s,border-color .18s,color .18s;}
+.sidebar .nav-item:hover{background:#2c2c2f;border-color:#37373a;color:#f2f2f5;}
+.sidebar .nav-item.active{background:linear-gradient(105deg,#39393c 0%,#2c2c2f 43%,#29292c 100%);border-color:#515154;color:#f2f2f5;box-shadow:inset 2px 0 0 #\38 38386,0 0 18px #\35 9595c25;}
+.sidebar .nav-item.active:before{content:"";position:absolute;left:-15px;height:19px;width:3px;background:#\36 46467;border-radius:5px;box-shadow:0 0 12px #\37 37376;}
+.sidebar .nav-icon{width:20px;flex:none;display:grid;place-items:center;}
+.sidebar .nav-icon img{filter:brightness(0) invert(.86);width:19px;height:19px;}
+.sidebar .nav-item.active .nav-icon img{filter:brightness(0) invert(1);}
+.sidebar .nav-item small{color:#\39 d9da0;font-size:11px;}
+.sidebar .side-bottom{padding-top:14px;}
+.sidebar .side-progress{background:#2c2c2f;border-color:#38383b;color:#e1e1e4;border-radius:14px;}
+.sidebar .progress-title b{color:#\39 e9ea1!important;}
+.sidebar .progress-track{background:#3f3f42;}.sidebar .progress-track i{background:linear-gradient(90deg,#\35 e5e61,#\39 39396);}
+.sidebar .side-progress p{color:#\39 f9fa2!important;font-size:12px;}
+.sidebar .side-foot{border-color:#3a3a3d;color:#e1e1e4;}.sidebar .side-foot small{color:#\39 59598!important;}
+.sidebar .sidebar-collapse{display:flex;align-items:center;justify-content:center;align-self:flex-end;width:32px;height:32px;border:1px solid #404043;border-radius:10px;background:#2e2e31;color:#bbbbbe;margin:-52px 0 21px;font-size:16px;cursor:pointer;}
+.sidebar .sidebar-collapse:hover{background:#3a3a3d;}
+.sidebar .sidebar-collapse:focus-visible,.sidebar .nav-item:focus-visible,.mobile-menu-toggle:focus-visible{outline:3px solid #a4a4a7;outline-offset:3px;}
+.nav-collapsed .sidebar{width:78px;padding-left:12px;padding-right:12px;}
+.nav-collapsed .main{margin-left:78px;}
+.nav-collapsed .sidebar .brand{justify-content:center;padding:0 0 16px;}
+.nav-collapsed .sidebar .brand>span:nth-child(2),.nav-collapsed .sidebar .nav-item>span:not(.nav-icon),.nav-collapsed .sidebar .nav-item small,.nav-collapsed .sidebar .nav-group-title,.nav-collapsed .sidebar .side-bottom{display:none;}
+.nav-collapsed .sidebar .sidebar-collapse{align-self:center;margin:0 0 12px;transform:rotate(180deg);}
+.nav-collapsed .sidebar nav{gap:12px;}.nav-collapsed .sidebar .nav-item{justify-content:center;padding:10px;}
+.main{background:#d1d1d4;}.topbar{background:rgba(215,215,218,.9);border-bottom-color:#c7c7ca;height:70px;}
+.content{padding-top:36px;}.breadcrumb{color:#636366;}.breadcrumb b{color:#3a3a3d;}
+.top-economy,.top-account{border-radius:11px;}
+.page-intro h1,.welcome-line h1,.g-header h1,.editor-page-head h1{letter-spacing:-.035em;color:#323235;}
+.page-intro p,.welcome-line p,.g-header p{color:#545457;line-height:1.7;}
+.hero{background:linear-gradient(120deg,#cacacd,#cccccf 60%,#cbcbce);border:1px solid #c0c0c3;border-radius:22px;box-shadow:0 12px 40px #39393c10;}
+.hero-chip{border-radius:9px;background:#d7d7da;border-color:#bfbfc2;color:#4a4a4d;}
+.lesson-card,.g-feature,.g-shop-card,.activity-card,.activity-aside,.question,.account-card,.assess-card{border-radius:16px;box-shadow:0 8px 26px #39393c08;}
+.lesson-card:hover,.g-feature:hover{box-shadow:0 14px 32px #2c2c2f16;border-color:#\39 c9c9f;}
+.btn{border-radius:11px;}.btn-dark{background:#3a3a3d;color:#f2f2f5;}.btn-dark:hover{background:#434346;}
+.filter-tabs button.selected{background:#c2c2c5;color:#3f3f42;}
+.path-note{border-radius:14px;}.editor-shell{border-radius:18px;}
+/* Adventure overview */
+.adv-page,.adv-question-page{max-width:1190px;margin:0 auto;color:#37373a;}
+.adv-intro,.adv-section-heading,.adv-world-head,.adv-question-top{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;}
+.adv-intro{margin:7px 0 26px;}.adv-kicker{display:block;font:700 11px/1.4 "IBM Plex Mono",monospace;letter-spacing:.1em;color:#555558;}
+.adv-intro h1,.adv-question-top h1{font-size:clamp(27px,3vw,38px);line-height:1.25;letter-spacing:-.04em;margin:10px 0 8px;}.adv-intro h1 span,.adv-question-top h1 span{color:#646467;}
+.adv-intro p,.adv-question-top p{font-size:15px;line-height:1.75;color:#565659;margin:0;max-width:660px;}
+.adv-total{display:flex;flex-direction:column;align-items:flex-end;white-space:nowrap;}.adv-total strong{font-size:26px;line-height:1.2;}.adv-total strong small{font-size:14px;color:#6d6d70;}.adv-total span{color:#5c5c5f;font-size:12px;}
+.adv-banner{min-height:270px;background:#2c2c2f url("../images/adventure.jpg") center/cover no-repeat;border-radius:22px;overflow:hidden;position:relative;box-shadow:0 16px 36px #30303326;display:flex;align-items:center;}
+.adv-banner:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(35,35,38,.97) 0%,rgba(37,37,40,.88) 30%,rgba(37,37,40,.28) 68%,transparent 100%);}
+.adv-banner>div{position:relative;padding:32px 38px;max-width:470px;color:#f2f2f5;}.adv-banner .adv-kicker{color:#\39 d9da0;}.adv-banner h2{font-size:32px;line-height:1.2;margin:12px 0;letter-spacing:-.04em;color:#f2f2f5;}.adv-banner p{color:#bebec1;font-size:14px;line-height:1.75;max-width:350px;margin:0 0 17px;}.adv-jump{display:inline-block;color:#bcbcbf;font-weight:700;font-size:14px;text-decoration:none;border-bottom:1px solid #\38 a8a8d;padding-bottom:4px;}
+.adv-achievements{margin:38px 0;}.adv-section-heading{margin:0 0 17px;}.adv-section-heading h2{font-size:23px;letter-spacing:-.035em;margin:5px 0 0;}.adv-section-heading>span{font-size:12px;color:#5a5a5d;}.adv-badge-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.adv-badge{display:flex;align-items:center;gap:12px;background:#d7d7da;border:1px solid #c4c4c7;border-radius:15px;padding:16px;color:#505053;}.adv-badge>span{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:#cccccf;color:#78787b;font-size:22px;}.adv-badge b,.adv-badge small{display:block;}.adv-badge small{color:#5b5b5e;font-size:12px;margin-top:4px;}.adv-badge.earned{border-color:#\39 a9a9d;background:#d3d3d6;}.adv-badge.earned>span{background:#c4c4c7;color:#525255;}
+.adv-worlds{display:grid;gap:18px;}.adv-world{background:#d7d7da;border:1px solid #c4c4c7;border-radius:20px;padding:25px;box-shadow:0 10px 32px #38383b0a;}.adv-world.lilac{border-top:4px solid #\37 47477;}.adv-world.mint{border-top:4px solid #7e7e81;}.adv-world.peach{border-top:4px solid #\38 08083;}
+.adv-world-head{align-items:start;}.adv-world-head h2{font-size:22px;margin:5px 0;}.adv-world-head p{max-width:730px;color:#565659;line-height:1.8;font-size:14px;margin:0;}.adv-world-count{text-align:right;white-space:nowrap;}.adv-world-count strong{font-size:24px;}.adv-world-count strong span{font-size:13px;color:#6d6d70;}.adv-world-count small{display:block;font-size:12px;color:#5a5a5d;}
+.adv-lock{margin-top:15px;padding:12px 14px;background:#cdcdd0;color:#4e4e51;border-radius:10px;font-size:13px;font-weight:700;}
+.adv-track{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:20px 0;}.adv-mission{display:flex;align-items:flex-start;gap:10px;text-align:left;min-width:0;background:#d3d3d6;border:1px solid #c4c4c7;border-radius:13px;padding:13px;color:#3b3b3e;cursor:pointer;}.adv-mission:hover:not(:disabled){border-color:#68686b;background:#d2d2d5;}.adv-mission:disabled{opacity:.62;cursor:not-allowed;}.adv-mission.is-done{background:#d0d0d3;border-color:#b7b7ba;}.adv-mission-no{flex:none;width:29px;height:29px;display:grid;place-items:center;border-radius:9px;background:#c4c4c7;color:#4a4a4d;font-size:12px;font-weight:800;}.adv-mission.is-done .adv-mission-no{background:#c5c5c8;color:#4f4f52;}.adv-mission-copy{min-width:0;flex:1;}.adv-mission-copy small,.adv-mission-copy strong,.adv-mission-copy>span{display:block;}.adv-mission-copy small{color:#505053;font-size:11px;}.adv-mission-copy strong{font-size:14px;margin:4px 0;}.adv-mission-copy>span{color:#5f5f62;font-size:11px;line-height:1.4;}.adv-mission-arrow{color:#606063;font-size:13px;}
+.adv-project{display:flex;justify-content:space-between;align-items:center;gap:20px;border:1px solid #c4c4c7;background:#d2d2d5;border-radius:14px;padding:18px;}.adv-project h3{font-size:16px;margin:4px 0 8px;}.adv-project ol{margin:0;padding-left:20px;color:#525255;line-height:1.8;font-size:13px;}.adv-project small{display:block;font-size:12px;color:#5f5f62;margin-top:7px;}.adv-project button{white-space:nowrap;}.adv-disclaimer{font-size:12px;color:#5a5a5d;line-height:1.7;margin:25px 0;}
+.adv-question-top{margin:0 0 25px;}.adv-chip{background:#c7c7ca;color:#47474a;border-radius:30px;padding:9px 13px;font-size:12px;font-weight:700;white-space:nowrap;}
+.adv-question-layout{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:18px;}.adv-question-card,.adv-question-aside{background:#d7d7da;border:1px solid #c3c3c6;border-radius:20px;padding:26px;}.adv-label{font-size:12px;font-weight:700;color:#5c5c5f;letter-spacing:.06em;}
+.adv-code{background:#2c2c2f;color:#e3e3e6;border-radius:14px;padding:20px;overflow:auto;font:14px/1.7 "IBM Plex Mono",monospace;margin:12px 0 25px;white-space:pre;}.adv-answers{border:0;padding:0;margin:0;}.adv-answers legend{font-size:19px;font-weight:800;margin-bottom:14px;color:#39393c;}.adv-answer{display:flex;align-items:center;gap:12px;border:1px solid #c1c1c4;background:#d5d5d8;border-radius:11px;padding:14px;margin:9px 0;cursor:pointer;}.adv-answer.selected{border-color:#636366;background:#ceced1;}.adv-answer input{accent-color:#545457;}.adv-answer span{font-size:14px;line-height:1.5;overflow-wrap:anywhere;}.adv-feedback{min-height:25px;padding:8px 0;color:#\35 05053;font-size:14px;line-height:1.6;}.adv-feedback.success{color:#4b4b4e;}.adv-actions{display:flex;gap:10px;flex-wrap:wrap;}.adv-question-aside{height:fit-content;}.adv-question-aside h3{margin:8px 0;font-size:17px;}.adv-question-aside p{font-size:13px;line-height:1.8;color:#565659;}.adv-question-aside strong{font-size:24px;}.adv-aside-separator{height:1px;background:#c5c5c8;margin:20px 0;}
+.adv-home-callout{display:flex;align-items:center;justify-content:space-between;gap:20px;border:1px solid #afafb2;background:linear-gradient(100deg,#cccccf,#d4d4d7);border-radius:18px;padding:24px;margin:20px 0;}.adv-home-callout h2{font-size:20px;margin:6px 0;}.adv-home-callout p{margin:0;color:#545457;font-size:14px;line-height:1.7;}.adv-home-callout .btn{white-space:nowrap;}
+@media(max-width:1000px){.adv-track{grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media(max-width:760px){.sidebar,.nav-collapsed .sidebar{width:100%;position:relative;overflow:visible;padding:12px 16px;flex-direction:row;flex-wrap:wrap;}.sidebar .brand,.nav-collapsed .sidebar .brand{padding:0;justify-content:flex-start;}.nav-collapsed .sidebar .brand>span:nth-child(2){display:block;}.sidebar .sidebar-collapse{display:none;}.sidebar .mobile-menu-toggle{background:#2e2e31;color:#e8e8eb;border-color:#4d4d50;border-radius:10px;}.sidebar nav,.nav-collapsed .sidebar nav{display:none;width:100%;padding:12px 0 4px;}.sidebar nav.is-open,.nav-collapsed .sidebar nav.is-open{display:grid;gap:8px;}.sidebar .nav-group,.nav-collapsed .sidebar .nav-group{grid-template-columns:repeat(2,minmax(0,1fr));}.nav-collapsed .sidebar .nav-group-title,.nav-collapsed .sidebar .nav-item>span:not(.nav-icon){display:block;}.nav-collapsed .sidebar .nav-item{justify-content:flex-start;padding:9px 11px;}.sidebar .side-bottom{display:none;}.sidebar .nav-item.active:before{left:-8px;}.main,.nav-collapsed .main{margin-left:0;}.topbar{height:auto;min-height:62px;}.content{padding-top:24px;}.adv-intro,.adv-world-head,.adv-question-top{align-items:flex-start;}.adv-banner{min-height:250px;background-position:57% center;}.adv-banner>div{padding:25px;}.adv-banner h2{font-size:27px;}.adv-banner:before{background:linear-gradient(90deg,rgba(35,35,38,.96),rgba(37,37,40,.75) 62%,rgba(37,37,40,.3));}.adv-badge-grid{grid-template-columns:1fr;}.adv-section-heading{align-items:flex-start;flex-direction:column;gap:6px;}.adv-world{padding:18px;}.adv-project,.adv-home-callout{align-items:flex-start;flex-direction:column;}.adv-question-layout{grid-template-columns:1fr;}.adv-question-card,.adv-question-aside{padding:19px;}.adv-question-top{flex-direction:column;}.adv-total{align-items:flex-end;}.adv-intro{gap:10px;}}
+@media(max-width:400px){.adv-track{grid-template-columns:1fr;}.adv-intro h1{font-size:25px;}.adv-banner p{max-width:245px;}.adv-intro{flex-wrap:wrap;}.adv-total{align-items:flex-start;}}
+/* Override older light-theme contrast rules on dark surfaces. */
+.sidebar .nav-item{color:#b7b7ba!important;}
+.sidebar .nav-item:hover,.sidebar .nav-item.active{color:#f2f2f5!important;}
+.sidebar .nav-item small{color:#a0a0a3!important;}
+.content .adv-banner p{color:#c0c0c3!important;}
+.sidebar nav .nav-item{color:#b7b7ba!important;}
+.sidebar nav .nav-item.active,.sidebar nav .nav-item:hover{color:#f2f2f5!important;}
+
+.adv-project-checks{display:grid;gap:6px;margin:8px 0;}.adv-project-step{display:flex;align-items:flex-start;gap:8px;font-size:13px;line-height:1.6;color:#4b4b4e;}.adv-project-step input{accent-color:#535356;margin-top:4px;}.adv-project [data-project-count]{font-weight:800;margin-left:5px;color:#4a4a4d;}
+/* Make input and execution output readable on the dark terminal. */
+.content .theme-default .terminal-panel .run-output,.content .theme-default .terminal-panel .stdin-label textarea{color:#dadadd!important;}

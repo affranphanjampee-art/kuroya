@@ -1,0 +1,16 @@
+/* Signed-in account: all information remains visible in a compact dashboard. */
+#cc59-account .cc67-layout{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;align-items:stretch}
+#cc59-account .cc67-layout>.account-card{min-width:0;padding:18px 20px}
+#cc59-account .cc67-layout h2,#cc59-account .cc67-layout h3{margin:4px 0 8px}
+#cc59-account .cc67-layout p{margin:6px 0;line-height:1.55;overflow-wrap:anywhere}
+#cc59-account .cc67-layout .account-actions{margin:10px 0 0;display:flex;flex-wrap:wrap;gap:8px}
+#cc59-account .cc67-layout .account-state{margin:8px 0 0}
+#cc59-account .cc67-layout .cc50-stats,#cc59-account .cc67-layout .cc50-roster{margin:0;padding:0;border:0}
+#cc59-account .cc67-layout .cc50-stat-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+#cc59-account .cc67-layout .cc50-stat-grid>div{min-width:0;padding:8px}
+#cc59-account .cc67-layout .cc67-roster-card{grid-column:1/-1}
+#cc59-account .cc67-layout #cc50-roster-output{overflow-x:auto;max-width:100%}
+#cc59-account .cc67-layout .account-divider{margin:10px 0}
+#cc59-account .cc67-layout .cc50-backups{margin:10px 0}
+#cc59-account .page-intro{margin-bottom:16px}
+@media(max-width:720px){#cc59-account .cc67-layout{grid-template-columns:1fr}#cc59-account .cc67-layout>.account-card{padding:15px}#cc59-account .cc67-layout .cc67-roster-card{grid-column:auto}#cc59-account .cc67-layout .cc50-stat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}

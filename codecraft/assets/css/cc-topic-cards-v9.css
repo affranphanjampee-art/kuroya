@@ -1,0 +1,20 @@
+/* Independent card expansion and readable topic cards. */
+.lesson-layout article>.cc-guide-grid{align-items:start}
+.cc-guide-grid .cc-guide-detail>p{padding-left:0!important}
+.lesson-layout article .article-sections{display:grid;gap:14px;margin:18px 0}
+.view-lesson .lesson-layout article .article-sections>section,.view-cppunit .lesson-layout article .article-sections>section{grid-template-columns:34px minmax(0,1fr);gap:12px;padding:20px!important;border:1px solid #c2c2c8!important;border-radius:14px;background:#e1e1e5;box-shadow:0 3px 12px rgba(25,25,32,.035);scroll-margin-top:90px}
+.article-sections>section .article-number{font-weight:700;color:#73737b!important;padding-top:5px}
+.article-sections>section h2{font-size:18px!important;line-height:1.45}
+.article-sections>section>div:last-child{min-width:0}
+.cc-topic-detail{border-top:1px solid #c5c5cc;margin-top:14px;padding-top:10px}
+.cc-topic-detail>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;padding:5px 0;font-size:14px;font-weight:700;color:#41414b}
+.cc-topic-detail>summary::-webkit-details-marker{display:none}.cc-topic-detail>summary::before{content:'▸';display:inline-block;transition:transform .15s}.cc-topic-detail[open]>summary::before{transform:rotate(90deg)}
+.cc-topic-detail>summary:focus-visible{outline:3px solid #537e70;outline-offset:3px;border-radius:4px}
+.cc-topic-detail>p{margin:10px 0!important;line-height:1.8!important;font-size:15px!important}
+.cc-topic-reference{display:flex;flex-wrap:wrap;align-items:baseline;gap:5px 12px;margin:12px 0 0}
+.cc-topic-reference a{color:#355e52;text-decoration:underline;text-underline-offset:3px;font-size:14px;font-weight:700;overflow-wrap:anywhere}
+.cc-topic-reference small{font-size:12px;color:#6a6a72}
+html[data-theme=dark] .view-lesson .lesson-layout article .article-sections>section,html[data-theme=dark] .view-cppunit .lesson-layout article .article-sections>section{background:#303036;border-color:#51515b!important}
+html[data-theme=dark] .cc-topic-detail{border-color:#5b5b64}html[data-theme=dark] .cc-topic-detail>summary{color:#e3e3e8}html[data-theme=dark] .cc-topic-reference a{color:#a7dbca}html[data-theme=dark] .cc-topic-reference small{color:#b4b4bc}
+@media(max-width:700px){.view-lesson .lesson-layout article .article-sections>section,.view-cppunit .lesson-layout article .article-sections>section{grid-template-columns:26px minmax(0,1fr);gap:8px;padding:16px!important}}
+@media(prefers-reduced-motion:reduce){.cc-topic-detail>summary::before{transition:none}}

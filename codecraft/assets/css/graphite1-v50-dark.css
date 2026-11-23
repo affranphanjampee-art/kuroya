@@ -1,0 +1,12 @@
+/* Draft: explicit foreground/background pairs; do not publish before UI audit. */
+html[data-theme=dark] .main .language-tile{background:#37373a;color:#e5e5e8;border-color:#4e4e51;}
+html[data-theme=dark] .main .language-tile.is-active{background:#464649;border-color:#a6a6a9;color:#f0f0f3;}
+html[data-theme=dark] .main .language-tile:disabled{background:#363639;color:#\39 e9ea1;opacity:1;}
+html[data-theme=dark] .main .language-tile:disabled small{color:#\39 e9ea1!important;}
+html[data-theme=dark] .content :is(.g-feature-icon,.cpp-practice-icon,.editor-help-icon){background:#434346!important;color:#e7e7ea!important;}
+html[data-theme=dark] .main .run-button{background:#848487!important;color:#2e2e31!important;}
+html[data-theme=dark] .main .workspace-import,html[data-theme=dark] .main .workspace-import span{color:#2c2c2f!important;}
+html[data-theme=dark] .content :is(.editor-help,.cpp-final-banner){background:#37373a!important;color:#e1e1e4!important;border-color:#4f4f52!important;}
+html[data-theme=dark] .content :is(.editor-help,.cpp-final-banner) :is(p,b,h2,h3,small,span,.cpp-final-label){color:#e1e1e4!important;}
+.cc50-stats,.cc50-roster,.cc50-backups{margin:24px 0;padding-top:18px;border-top:1px solid #b4b4b7;}.cc50-stat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}.cc50-stat-grid>div{border:1px solid #a5a5a8;background:#d0d0d3;padding:12px;border-radius:10px;display:flex;flex-direction:column;gap:4px;color:#3a3a3d;}.cc50-stat-grid b{font-size:20px;}.cc50-stat-grid span{font-size:12px;}.cc50-roster-table{border-collapse:collapse;width:100%;margin-top:14px;}.cc50-roster-table th,.cc50-roster-table td{padding:8px;text-align:left;border-bottom:1px solid #a7a7aa;}.cc50-online{color:#4f4f52;font-weight:700;}.cc50-offline{color:#525255;}.cc50-backups textarea{display:block;width:100%;margin:8px 0;font-family:monospace;}.cc50-backups summary{cursor:pointer;font-weight:650;}html[data-theme=dark] .cc50-stat-grid>div{background:#38383b;border-color:#535356;color:#eaeaed;}html[data-theme=dark] .cc50-stat-grid>div :is(b,span){color:#eaeaed!important;}html[data-theme=dark] .cc50-roster-table :is(th,td){border-color:#535356;}html[data-theme=dark] .cc50-roster-table .cc50-online{color:#bdbdc0;}html[data-theme=dark] .cc50-roster-table .cc50-offline{color:#b9b9bc;}
+html[data-theme=dark] .account-state{background:#3e3e41!important;color:#e7e7ea!important;border:1px solid #59595c;}

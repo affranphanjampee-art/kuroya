@@ -1,0 +1,34 @@
+/* A profile card inspired by chat-app profiles, while retaining CODECRAFT navigation. */
+#cc59-profile .cc57-profile{background:#26272d;border:1px solid #41424a;color:#f3f3f6;border-radius:18px;padding:20px}
+#cc59-profile .cc57-banner{background:#1c1d22!important;position:relative;isolation:isolate;overflow:hidden;min-height:165px;padding:78px 22px 20px;gap:16px;align-items:flex-end;border-radius:14px}
+#cc59-profile .cc57-banner:before{content:'';position:absolute;top:0;left:0;right:0;height:95px;background:var(--cc-profile-banner,#6656a3);z-index:-1}
+#cc59-profile .cc57-avatar{flex:none;width:74px;height:74px;border:5px solid #1c1d22;border-radius:50%;background:#363841;color:#fff;box-shadow:none;font-weight:800}
+#cc59-profile .cc57-banner h1{color:#fff;font-size:clamp(22px,2.4vw,30px);overflow-wrap:anywhere}
+#cc59-profile .cc57-banner p{color:#d1d1db!important}
+#cc59-profile .cc57-eyebrow{color:#bebec9!important}
+#cc59-profile .cc-profile-about{padding:18px 18px 14px;margin-top:12px;background:#1d1e23;border-radius:12px}
+#cc59-profile .cc-profile-about span{color:#b7b8c2;font-weight:800;font-size:11px;letter-spacing:.08em}
+#cc59-profile .cc-profile-about p{margin:7px 0 0;color:#efeff3;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.55;font-size:14px}
+#cc59-profile .cc-profile-details{background:#303138;border-color:#484a55}
+#cc59-profile .cc-profile-details>summary,#cc59-profile .cc-profile-details>summary:after{color:#f3f3f6}
+#cc59-profile .cc-profile-details>summary small{color:#b7b8c2}
+#cc59-profile .cc-profile-details[open]>summary{border-bottom:1px solid #484a55}
+#cc59-profile .cc-custom-fields{display:grid;gap:8px;padding:18px}
+#cc59-profile .cc-custom-fields label{font-size:12px;font-weight:750;color:#d4d4dc;margin-top:4px}
+#cc59-profile .cc-custom-fields input:not([type=color]),#cc59-profile .cc-custom-fields textarea{width:100%;box-sizing:border-box;background:#1d1e23;color:#fff;border:1px solid #50515b;border-radius:8px;padding:11px 12px;font:inherit}
+#cc59-profile .cc-custom-fields textarea{resize:vertical;min-height:76px}
+#cc59-profile .cc-custom-fields input:focus-visible,#cc59-profile .cc-custom-fields textarea:focus-visible{outline:2px solid #a99fe2;outline-offset:2px}
+#cc59-profile .cc-color-row{display:flex;align-items:center;gap:10px;color:#d4d4dc;font-size:13px}
+#cc59-profile .cc-color-row input{width:48px;height:36px;border:0;background:none;padding:0;cursor:pointer}
+#cc59-profile .cc-custom-fields p{color:#b7b8c2;font-size:12px;line-height:1.5;margin:6px 0 0}
+#cc59-profile .cc57-stat{background:#303138;border-color:#484a55}
+#cc59-profile .cc57-stat b{color:#f3f3f6}
+#cc59-profile .cc57-stat span,#cc59-profile .cc57-privacy{color:#bfc0ca}
+#cc59-profile .cc57-ach{background:#26272d;border-color:#484a55}
+#cc59-profile .cc57-ach p,#cc59-profile .cc57-ach small{color:#c3c4ce}
+#cc59-profile .cc57-ach strong{color:#f3f3f6}
+#cc59-profile .cc57-medal{background:#44454e;color:#e5e2ff}
+@media(max-width:700px){#cc59-profile .cc57-profile{padding:14px}#cc59-profile .cc57-banner{padding:72px 14px 14px;gap:10px;min-height:150px}#cc59-profile .cc57-avatar{width:60px;height:60px}#cc59-profile .cc-profile-about{padding:15px}#cc59-profile .cc-custom-fields{padding:14px}}
+/* Override the site's global paragraph color within the dark card only. */
+#cc59-profile .cc57-profile .cc-profile-about p{color:#efeff3!important}
+#cc59-profile .cc57-profile .cc57-privacy,#cc59-profile .cc57-profile .cc-profile-details summary small,#cc59-profile .cc57-profile .cc-custom-fields p,#cc59-profile .cc57-profile .cc57-ach p,#cc59-profile .cc57-profile .cc57-ach small{color:#bfc0ca!important}

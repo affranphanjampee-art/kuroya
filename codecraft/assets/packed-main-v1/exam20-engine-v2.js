@@ -1,0 +1,9 @@
+/* Prototype only — not integrated with production or existing attempts. */
+'use strict';
+(function(root){
+ function validate(bank){if(!bank||!Array.isArray(bank.choices)||bank.choices.length!==15||!Array.isArray(bank.short)||bank.short.length!==5)throw Error('Each topic must contain exactly 15 choices and 5 short answers');const ids=new Set();for(const q of [...bank.choices,...bank.short]){if(!q.id||ids.has(q.id)||!q.prompt||!q.explanation)throw Error('Missing or duplicate question');ids.add(q.id);if(q.type==='choice'){if(!Array.isArray(q.options)||(q.options.length<3||q.options.length>4)||new Set(q.options).size!==q.options.length||!Number.isInteger(q.answer)||q.answer<0||q.answer>=q.options.length)throw Error('Invalid multiple choice')}else if(q.type==='short'){if(!Array.isArray(q.answers)||!q.answers.length||q.answers.some(x=>typeof x!=='string'||!x.trim()))throw Error('Missing accepted answers')}else throw Error('Unknown question type')}return true}
+ // Exact matches after whitespace normalization only; C and other programming languages are case-sensitive.
+ function normalize(s){return String(s).normalize('NFKC').trim().replace(/\s+/gu,' ').replace(/\s*,\s*/gu,',')}
+ function assess(bank,answers){validate(bank);if(!answers||typeof answers!=='object')throw Error('Missing responses');let qs=[...bank.choices,...bank.short],missing=qs.findIndex(q=>q.type==='choice'?(!Number.isInteger(answers[q.id])||answers[q.id]<0||answers[q.id]>3):(typeof answers[q.id]!=='string'||!answers[q.id].trim()));if(missing!==-1)return {complete:false,missing:missing+1};let items=qs.map(q=>({id:q.id,ok:q.type==='choice'?answers[q.id]===q.answer:q.answers.some(a=>normalize(a)===normalize(answers[q.id])),explanation:q.explanation}));return{complete:true,score:items.filter(x=>x.ok).length,total:20,items}}
+ const api={validate,normalize,assess};if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.CCExamDraft=api;
+})(globalThis);
