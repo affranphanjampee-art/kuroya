@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CODECRAFT · บทที่ 1: ชนิดข้อมูลและตัวแปร</title>
+<style>
+  :root{
+    --bg:#0a0e1f; --panel:rgba(16,22,42,.72); --panel2:rgba(20,28,52,.85);
+    --cyan:#22d3ee; --violet:#a78bfa; --gold:#fbbf24; --green:#34d399; --red:#f87171;
+    --text:#e8ecf8; --muted:#9aa6c7; --line:rgba(120,140,200,.22);
+    --grad:linear-gradient(120deg,#22d3ee,#a78bfa);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:"Kanit","Prompt","Sukhumvit Set","Leelawadee UI","Tahoma",sans-serif;
+    background:radial-gradient(1200px 700px at 70% -10%,#1b2350 0%,#0a0e1f 55%) fixed;
+    color:var(--text); display:flex; flex-direction:column; align-items:center;
+    min-height:100vh; padding:18px; gap:14px;
+  }
+  .wrap{width:100%; max-width:1080px; display:flex; flex-direction:column; gap:12px}
+
+  /* Header */
+  header{display:flex; align-items:center; justify-content:space-between; gap:12px}
+  .brand{display:flex; align-items:center; gap:10px}
+  .brand .logo{
+    width:38px;height:38px;border-radius:10px;background:var(--grad);
+    display:grid;place-items:center;font-weight:800;color:#06121f;font-size:20px;
+    box-shadow:0 6px 22px rgba(34,211,238,.35);
+  }
+  .brand b{font-size:20px;letter-spacing:1px}
+  .brand span{display:block;font-size:11px;color:var(--muted);letter-spacing:2px}
+  .lesson-tag{font-size:13px;color:var(--muted);background:var(--panel);
+    padding:6px 12px;border-radius:999px;border:1px solid var(--line)}
+
+  /* Stage */
+  .stage{
+    position:relative; width:100%; aspect-ratio:16/9; border-radius:18px; overflow:hidden;
+    background-size:cover; background-position:center; border:1px solid var(--line);
+    box-shadow:0 24px 60px rgba(0,0,0,.45);
+  }
+  .stage::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(6,10,24,.30) 0%,rgba(6,10,24,.05) 38%,rgba(6,10,24,.72) 100%);}
+  .char{position:absolute; right:0; bottom:0; max-height:90%; max-width:42%; width:auto; height:auto;
+    object-fit:contain; filter:drop-shadow(0 14px 24px rgba(0,0,0,.5)); z-index:2; transition:opacity .4s}
+  .scene-tag{position:absolute; top:14px; left:16px; z-index:3; font-size:12px; color:var(--muted);
+    background:rgba(6,10,24,.5); padding:5px 10px; border-radius:999px; border:1px solid var(--line)}
+  .scene-title{position:absolute; top:44px; left:16px; right:42%; z-index:3;
+    font-size:clamp(18px,3.2vw,30px); font-weight:800; line-height:1.15;
+    text-shadow:0 2px 14px rgba(0,0,0,.6)}
+
+  /* Center content card (diagrams) */
+  .content{position:absolute; left:3.5%; top:50%; transform:translateY(-46%);
+    width:56%; max-height:80%; z-index:3; display:flex; flex-direction:column; gap:10px;
+    background:var(--panel2); border:1px solid var(--line); border-radius:16px;
+    padding:14px 16px; backdrop-filter:blur(6px); box-shadow:0 16px 40px rgba(0,0,0,.4);
+    overflow:auto}
+
+  /* Scene 1 logo / Scene 8 end */
+  .splash{display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; gap:10px; width:100%; height:100%}
+  .splash .big-logo{font-size:clamp(34px,7vw,64px); font-weight:900; letter-spacing:3px;
+    background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent}
+  .splash .sub{font-size:13px; letter-spacing:4px; color:var(--muted)}
+  .splash .end-en{font-size:14px; letter-spacing:6px; color:var(--cyan); margin-top:6px}
+
+  /* Variable box (scene 2) */
+  .box-visual{align-items:center}
+  .var-box{width:190px; height:150px; border:3px dashed var(--cyan); border-radius:14px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px;
+    background:rgba(34,211,238,.08); box-shadow:0 0 30px rgba(34,211,238,.18) inset}
+  .var-name{font-size:18px; color:var(--cyan); font-weight:700}
+  .var-value{font-size:46px; font-weight:900; color:#fff}
+  .box-cap{font-size:14px; color:var(--muted); text-align:center}
+
+  /* Data type cards (scene 3) */
+  .cards-visual{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+  .dtype{border-radius:12px; padding:10px 12px; border:1px solid var(--line);
+    background:rgba(255,255,255,.04)}
+  .dtype .k{font-size:20px; font-weight:900}
+  .dtype .d{font-size:13px; color:var(--text)}
+  .dtype .e{font-size:12px; color:var(--muted)}
+  .dtype.int .k{color:#fca5a5} .dtype.float .k{color:#7dd3fc}
+  .dtype.char .k{color:#fcd34d} .dtype.double .k{color:#c4b5fd}
+
+  /* Declaration board (scene 4) */
+  .decl-visual{gap:12px}
+  .decl-line{font-family:"Courier New",monospace; font-size:clamp(16px,2.4vw,22px);
+    background:#0c1226; border:1px solid var(--line); border-radius:10px; padding:12px 14px}
+  .decl-line .kw{color:#c084fc} .decl-line .vr{color:#7dd3fc}
+  .decl-line .op{color:#fff} .decl-line .nm{color:#fbbf24} .decl-line .sm{color:#f87171}
+  .decl-note{font-size:13px; color:var(--muted)}
+
+  /* Code editor + terminal (scene 5) */
+  .code-visual{gap:10px}
+  .editor,.terminal{border-radius:12px; overflow:hidden; border:1px solid var(--line)}
+  .editor{background:#0b1020}
+  .bar{display:flex; align-items:center; gap:7px; padding:8px 12px; background:#11182f;
+    font-size:12px; color:var(--muted)}
+  .dot{width:11px;height:11px;border-radius:50%}
+  .dot.r{background:#ff5f56}.dot.y{background:#ffbd2e}.dot.g{background:#27c93f}
+  .code{margin:0; padding:12px 14px; font-family:"Courier New",monospace;
+    font-size:clamp(12px,1.9vw,15px); line-height:1.55; color:#d7e0ff; white-space:pre}
+  .code .kw{color:#c084fc}.code .fn{color:#7dd3fc}.code .str{color:#86efac}
+  .code .nm{color:#fbbf24}.code .ty{color:#fca5a5}.code .cm{color:#64748b}
+  .terminal{background:#06120f}
+  .terminal .bar{background:#0a1a14; color:#86efac}
+  .term-out{margin:0; padding:10px 14px; font-family:"Courier New",monospace;
+    font-size:clamp(12px,1.9vw,15px); color:#bff3cf; white-space:pre}
+
+  /* Quiz (scenes 6 & 7) */
+  .quiz-visual{gap:12px; align-items:center; text-align:center}
+  .quiz-q{font-size:clamp(15px,2.4vw,20px); font-weight:700; line-height:1.3}
+  .quiz-opts{display:flex; flex-direction:column; gap:8px; width:100%}
+  .qopt{padding:10px 14px; border-radius:10px; border:1px solid var(--line);
+    background:rgba(255,255,255,.04); font-size:15px; text-align:left}
+  .qopt.correct{background:rgba(52,211,153,.16); border-color:var(--green); color:#bbf7d0; font-weight:800}
+  .reveal-note{font-size:13px; color:var(--muted)}
+  .countdown{font-size:60px; font-weight:900; color:var(--gold); text-shadow:0 0 24px rgba(251,191,36,.5)}
+  .countdown.hide{display:none}
+
+  /* Caption bar */
+  .caption{background:var(--panel); border:1px solid var(--line); border-radius:14px;
+    padding:12px 16px; display:flex; gap:12px; align-items:flex-start; min-height:64px}
+  .live{width:10px;height:10px;border-radius:50%;background:var(--green);margin-top:6px;flex:0 0 auto;
+    box-shadow:0 0 0 0 rgba(52,211,153,.6); animation:pulse 1.6s infinite}
+  .caption.paused .live{background:var(--muted); animation:none}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(52,211,153,.55)}70%{box-shadow:0 0 0 10px rgba(52,211,153,0)}100%{box-shadow:0 0 0 0 rgba(52,211,153,0)}}
+  .caption p{font-size:15px; line-height:1.5; color:var(--text)}
+
+  /* Controls */
+  .controls{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+  .btn{cursor:pointer; border:1px solid var(--line); background:var(--panel2); color:var(--text);
+    border-radius:10px; padding:9px 14px; font-size:14px; font-family:inherit; display:flex; align-items:center; gap:7px;
+    transition:.15s}
+  .btn:hover{border-color:var(--cyan); color:#fff}
+  .btn.primary{background:var(--grad); color:#06121f; font-weight:800; border:none}
+  .progress{flex:1; min-width:140px; height:8px; border-radius:999px; background:rgba(255,255,255,.08); overflow:hidden}
+  .progress > i{display:block; height:100%; width:0%; background:var(--grad); transition:width .2s}
+  .dots{display:flex; gap:7px; flex-wrap:wrap}
+  .dot-s{cursor:pointer; width:11px;height:11px;border-radius:50%; background:rgba(255,255,255,.18); transition:.15s}
+  .dot-s.active{background:var(--cyan); transform:scale(1.25); box-shadow:0 0 10px rgba(34,211,238,.6)}
+  .time{font-size:12px; color:var(--muted); min-width:84px; text-align:right; font-variant-numeric:tabular-nums}
+
+  /* Start overlay */
+  .start{position:fixed; inset:0; z-index:50; background:radial-gradient(900px 600px at 50% 30%,#1a2350,#070b18);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px; text-align:center; padding:24px}
+  .start .logo{width:74px;height:74px;border-radius:18px;background:var(--grad);display:grid;place-items:center;
+    font-weight:900;color:#06121f;font-size:38px;box-shadow:0 10px 40px rgba(34,211,238,.4)}
+  .start h1{font-size:clamp(26px,5vw,40px); background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .start p{color:var(--muted); max-width:520px; line-height:1.6}
+  .start .meta{font-size:13px; color:var(--muted); letter-spacing:1px}
+  .hidden{display:none!important}
+  @media(max-width:640px){
+    .content{width:84%; left:8%; top:54%}
+    .scene-title{right:36%}
+    .char{height:74%}
+  }
+</style>
+</head>
+<body>
+  <!-- Start screen -->
+  <div class="start" id="start">
+    <div class="logo">C</div>
+    <h1>CODECRAFT</h1>
+    <p class="meta">บทที่ 1 · ชนิดข้อมูลและตัวแปร (Data Types &amp; Variables)</p>
+    <p>สื่อการเรียนการสอนภาษา C ความยาว 5:30 นาที สำหรับนักเรียนระดับ ปวช.
+       กดเริ่มเพื่อเล่นบทเรียนพร้อมเสียงบรรยายภาษาไทย</p>
+    <button class="btn primary" id="startBtn" style="font-size:16px;padding:12px 26px">▶ เริ่มบทเรียน</button>
+    <p style="font-size:12px">คำแนะนำ: เปิดเสียง และกดปุ่ม ▶ เพื่อเล่นต่อไปอัตโนมัติทีละฉาก</p>
+  </div>
+
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">C</div>
+        <div><b>CODECRAFT</b><span>LEARN · PRACTICE · BUILD</span></div>
+      </div>
+      <div class="lesson-tag">บทที่ 1 — ชนิดข้อมูลและตัวแปร</div>
+    </header>
+
+    <div class="stage" id="stage">
+      <div class="scene-tag" id="sceneTag">ฉาก 1 / 8</div>
+      <div class="scene-title" id="sceneTitle"></div>
+      <img class="char" id="char" src="" alt="OC ผู้สอน" />
+      <div class="content" id="content"></div>
+    </div>
+
+    <div class="caption" id="caption">
+      <div class="live"></div>
+      <p id="capText"></p>
+    </div>
+
+    <div class="controls">
+      <button class="btn" id="restartBtn" title="เริ่มใหม่">↺</button>
+      <button class="btn" id="prevBtn" title="ย้อน">◀</button>
+      <button class="btn primary" id="playBtn" title="เล่น/หยุด">⏸</button>
+      <button class="btn" id="nextBtn" title="ถัดไป">▶▶</button>
+      <button class="btn" id="muteBtn" title="เสียง">🔊</button>
+      <div class="progress"><i id="progressBar"></i></div>
+      <div class="time" id="time">0:00 / 0:00</div>
+      <div class="dots" id="dots"></div>
+    </div>
+  </div>
+
+  <audio id="audio" preload="auto"></audio>
+
+<script>
+const A = "../assets/audio/";
+const I = "../assets/img/";
+
+const scenes = [
+  { tag:"ฉาก 1 / 8", title:"เปิดบทเรียน", bg:"bg-intro", oc:"oc-1", audio:"scene1",
+    cap:"สวัสดีค่ะ! ยินดีต้อนรับเข้าสู่ CODECRAFT นะคะ วันนี้เราจะมาเรียนรู้พื้นฐานภาษา C กันค่ะ โดยบทเรียนแรกของเราคือเรื่อง ชนิดข้อมูลและตัวแปร ถ้าพร้อมแล้ว ไปเริ่มกันเลย!",
+    visual:`<div class="splash"><div class="big-logo">CODECRAFT</div><div class="sub">LEARN · PRACTICE · BUILD</div><div class="end-en">บทที่ 1 · ชนิดข้อมูลและตัวแปร</div></div>` },
+
+  { tag:"ฉาก 2 / 8", title:"ความหมายของตัวแปร", bg:"bg-concept", oc:"oc-1", audio:"scene2",
+    cap:"ก่อนอื่น เรามาทำความรู้จักกับตัวแปรกันก่อนค่ะ ตัวแปร หรือ Variable เปรียบเสมือนกล่องที่ใช้เก็บข้อมูลในโปรแกรม โดยเราสามารถตั้งชื่อให้กล่องแต่ละใบได้ เพื่อให้เรียกใช้งานได้ง่ายขึ้นค่ะ ตัวอย่างเช่น กล่องที่ชื่อว่า age เก็บข้อมูลอายุเท่ากับ 17 นั่นเองค่ะ",
+    visual:`<div class="box-visual"><div class="var-box"><div class="var-name">age</div><div class="var-value">17</div></div><div class="box-cap">กล่องชื่อ <b>age</b> เก็บข้อมูล <b>17</b></div></div>` },
+
+  { tag:"ฉาก 3 / 8", title:"ชนิดข้อมูลในภาษา C", bg:"bg-concept", oc:"oc-2", audio:"scene3",
+    cap:"แล้วเราจะเก็บข้อมูลแบบไหนได้บ้างล่ะ? ในภาษา C มีชนิดข้อมูลพื้นฐานที่เราควรรู้จักอยู่ 4 ประเภทค่ะ ประเภทแรก int ใช้เก็บข้อมูลจำนวนเต็ม เช่น 10 หรือ 25 ประเภทที่สอง float ใช้เก็บข้อมูลตัวเลขที่มีจุดทศนิยม เช่น 8.5 ประเภทที่สาม char ใช้เก็บอักขระเพียงหนึ่งตัว เช่น A หรือ B และประเภทสุดท้าย double ใช้เก็บข้อมูลทศนิยมที่มีความละเอียดมากกว่า float โดยทั่วไปค่ะ จำง่าย ๆ นะคะ int คือจำนวนเต็ม float และ double คือทศนิยม ส่วน char คืออักขระค่ะ",
+    visual:`<div class="cards-visual">
+      <div class="dtype int"><div class="k">int</div><div class="d">จำนวนเต็ม</div><div class="e">เช่น 10, 25</div></div>
+      <div class="dtype float"><div class="k">float</div><div class="d">ทศนิยม</div><div class="e">เช่น 8.5</div></div>
+      <div class="dtype char"><div class="k">char</div><div class="d">อักขระ 1 ตัว</div><div class="e">เช่น A, B</div></div>
+      <div class="dtype double"><div class="k">double</div><div class="d">ทศนิยม (ละเอียดสูง)</div><div class="e">ความแม่นยำมากกว่า float</div></div>
+    </div>` },
+
+  { tag:"ฉาก 4 / 8", title:"วิธีประกาศตัวแปร", bg:"bg-concept", oc:"oc-1", audio:"scene4",
+    cap:"เมื่อเรารู้จักชนิดข้อมูลแล้ว ต่อไปมาดูวิธีประกาศตัวแปรกันค่ะ รูปแบบจะเริ่มจากการเขียนชนิดข้อมูล ตามด้วยชื่อตัวแปร เครื่องหมายเท่ากับ และค่าที่ต้องการเก็บค่ะ ตัวอย่างเช่น int age เท่ากับ 17 หมายถึงการสร้างตัวแปรชื่อ age เพื่อเก็บจำนวนเต็ม 17 ค่ะ อย่าลืมเครื่องหมายเซมิโคลอน หรือเครื่องหมาย ; ที่ท้ายคำสั่งด้วยนะคะ",
+    visual:`<div class="decl-visual">
+      <div class="decl-line"><span class="kw">int</span> <span class="vr">age</span> <span class="op">=</span> <span class="nm">17</span><span class="sm">;</span></div>
+      <div class="decl-note">รูปแบบ: ชนิดข้อมูล &nbsp;ชื่อตัวแปร = ค่า;</div>
+    </div>` },
+
+  { tag:"ฉาก 5 / 8", title:"ทดลองเขียนโปรแกรม", bg:"bg-code", oc:"oc-2", audio:"scene5",
+    cap:"ลองมาดูตัวอย่างการใช้งานจริงกันค่ะ เราจะสร้างตัวแปรทั้งหมด 3 ตัว ได้แก่ age สำหรับเก็บอายุ score สำหรับเก็บคะแนน และ grade สำหรับเก็บเกรดค่ะ จากนั้นใช้คำสั่ง printf เพื่อแสดงข้อมูลออกมาทางหน้าจอ สังเกตนะคะว่า %d ใช้แสดงจำนวนเต็ม ส่วน %.1f ใช้แสดงตัวเลขทศนิยมหนึ่งตำแหน่ง และ %c ใช้แสดงอักขระค่ะ",
+    visual:`<div class="code-visual">
+      <div class="editor">
+        <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>&nbsp;main.c</div>
+<pre class="code"><span class="kw">#include</span> <span class="str">&lt;stdio.h&gt;</span>
+
+<span class="kw">int</span> <span class="fn">main</span>() {
+    <span class="ty">int</span> <span class="nm">age</span> = <span class="nm">17</span>;
+    <span class="ty">float</span> <span class="nm">score</span> = <span class="nm">85.5</span>;
+    <span class="ty">char</span> <span class="nm">grade</span> = <span class="str">'A'</span>;
+
+    <span class="fn">printf</span>(<span class="str">"Age: %d\\n"</span>, age);
+    <span class="fn">printf</span>(<span class="str">"Score: %.1f\\n"</span>, score);
+    <span class="fn">printf</span>(<span class="str">"Grade: %c\\n"</span>, grade);
+
+    <span class="kw">return</span> <span class="nm">0</span>;
+}</pre>
+      </div>
+      <div class="terminal">
+        <div class="bar">TERMINAL OUTPUT</div>
+<pre class="term-out">Age: 17
+Score: 85.5
+Grade: A</pre>
+      </div>
+    </div>` },
+
+  { tag:"ฉาก 6 / 8", title:"กิจกรรมทดสอบความเข้าใจ", bg:"bg-concept", oc:"oc-1", audio:"scene6",
+    cap:"เอาล่ะค่ะ! ก่อนจะไปสรุปบทเรียน เรามาลองทดสอบความเข้าใจกันสักข้อ ถ้าเราต้องการเก็บคะแนน 90.5 ซึ่งเป็นตัวเลขที่มีทศนิยม เราควรเลือกใช้ชนิดข้อมูลอะไรคะ? ลองคิดคำตอบในใจก่อนนะคะ มีเวลาให้ 5 วินาที!",
+    visual:`<div class="quiz-visual">
+      <div class="quiz-q">ถ้าต้องการเก็บคะแนน <b>90.5</b> ควรใช้ชนิดข้อมูลใด?</div>
+      <div class="quiz-opts">
+        <div class="qopt">A. int</div>
+        <div class="qopt">B. float</div>
+        <div class="qopt">C. char</div>
+      </div>
+      <div class="countdown" id="countdown"></div>
+    </div>` },
+
+  { tag:"ฉาก 7 / 8", title:"เฉลยและสรุปเนื้อหา", bg:"bg-finale", oc:"oc-2", audio:"scene7",
+    cap:"คำตอบที่ถูกต้องคือ B float ค่ะ! เพราะ 90.5 เป็นตัวเลขที่มีจุดทศนิยม จึงสามารถใช้ float ในการจัดเก็บได้ค่ะ ก่อนจบบทเรียน อย่าลืมจำชนิดข้อมูลทั้ง 4 ประเภทนะคะ int คือจำนวนเต็ม float คือทศนิยม char คืออักขระ และ double คือทศนิยมที่มีความละเอียดมากกว่า float โดยทั่วไปค่ะ",
+    visual:`<div class="quiz-visual">
+      <div class="quiz-q">คำตอบที่ถูกต้องคือ...</div>
+      <div class="quiz-opts">
+        <div class="qopt">A. int</div>
+        <div class="qopt correct">B. float ✓</div>
+        <div class="qopt">C. char</div>
+      </div>
+      <div class="reveal-note">90.5 เป็นทศนิยม → ใช้ <b>float</b> จัดเก็บได้</div>
+    </div>` },
+
+  { tag:"ฉาก 8 / 8", title:"ปิดบทเรียน", bg:"bg-intro", oc:"oc-1", audio:"scene8",
+    cap:"วันนี้เราก็ได้เรียนรู้เรื่องชนิดข้อมูลและตัวแปรในภาษา C กันไปแล้วนะคะ อย่าลืมเข้าไปทดลองเขียนโค้ดและทำแบบฝึกหัดเพิ่มเติมในเว็บไซต์ CODECRAFT กันด้วยนะคะ สำหรับวันนี้ต้องขอตัวลาไปก่อน แล้วพบกันใหม่ในบทเรียนหน้าค่ะ บ๊ายบาย!",
+    visual:`<div class="splash"><div class="big-logo">CODECRAFT</div><div class="sub">ขอบคุณที่เรียนด้วยกัน</div><div class="end-en">END OF LESSON</div></div>` },
+];
+
+const audio = document.getElementById("audio");
+const stage = document.getElementById("stage");
+const charEl = document.getElementById("char");
+const contentEl = document.getElementById("content");
+const sceneTag = document.getElementById("sceneTag");
+const sceneTitle = document.getElementById("sceneTitle");
+const capText = document.getElementById("capText");
+const caption = document.getElementById("caption");
+const progressBar = document.getElementById("progressBar");
+const timeEl = document.getElementById("time");
+const dotsEl = document.getElementById("dots");
+const playBtn = document.getElementById("playBtn");
+
+let current = 0, playing = false, countdownTimer = null;
+
+// Build dots
+scenes.forEach((s,i)=>{
+  const d = document.createElement("div");
+  d.className="dot-s"; d.title="ฉาก "+(i+1);
+  d.onclick=()=>goTo(i, true);
+  dotsEl.appendChild(d);
+});
+
+function fmt(t){ if(!isFinite(t)) t=0; const m=Math.floor(t/60), s=Math.floor(t%60); return m+":"+String(s).padStart(2,"0"); }
+
+function clearCountdown(){
+  if(countdownTimer){ clearInterval(countdownTimer); countdownTimer=null; }
+  const cd=document.getElementById("countdown"); if(cd) cd.classList.add("hide");
+}
+
+function startCountdown(){
+  const cd=document.getElementById("countdown");
+  if(!cd) return;
+  cd.classList.remove("hide");
+  let n=5; cd.textContent=n;
+  countdownTimer=setInterval(()=>{
+    n--;
+    if(n<=0){ cd.textContent="เวลาหมด!"; clearInterval(countdownTimer); countdownTimer=null;
+      setTimeout(()=>cd.classList.add("hide"),700); return; }
+    cd.textContent=n;
+  },1000);
+}
+
+function goTo(i, autoplay){
+  current = Math.max(0, Math.min(scenes.length-1, i));
+  const s = scenes[current];
+
+  clearCountdown();
+  stage.style.backgroundImage = `url('${I}${s.bg}.jpg')`;
+  charEl.src = `${I}${s.oc}.jpg`;
+  sceneTag.textContent = s.tag;
+  sceneTitle.textContent = s.title;
+  contentEl.innerHTML = s.visual;
+  capText.textContent = s.cap;
+
+  [...dotsEl.children].forEach((d,idx)=>d.classList.toggle("active", idx===current));
+
+  audio.src = A + s.audio + ".mp3";
+  audio.load();
+  progressBar.style.width = "0%";
+  timeEl.textContent = "0:00 / 0:00";
+
+  if(current===5) startCountdown();
+
+  if(autoplay){ play(); }
+  else { pause(); }
+}
+
+function play(){
+  playing = true;
+  caption.classList.remove("paused");
+  playBtn.textContent = "⏸";
+  audio.play().catch(()=>{ /* autoplay may be blocked until interaction */ });
+}
+function pause(){
+  playing = false;
+  caption.classList.add("paused");
+  playBtn.textContent = "▶";
+  audio.pause();
+}
+
+audio.addEventListener("timeupdate", ()=>{
+  const p = audio.duration ? (audio.currentTime/audio.duration)*100 : 0;
+  progressBar.style.width = p + "%";
+  timeEl.textContent = fmt(audio.currentTime) + " / " + fmt(audio.duration);
+});
+audio.addEventListener("ended", ()=>{
+  if(playing && current < scenes.length-1){ goTo(current+1, true); }
+  else { pause(); }
+});
+
+playBtn.onclick = ()=>{ playing ? pause() : play(); };
+document.getElementById("nextBtn").onclick = ()=>goTo(current+1, true);
+document.getElementById("prevBtn").onclick = ()=>goTo(current-1, true);
+document.getElementById("restartBtn").onclick = ()=>goTo(0, true);
+document.getElementById("muteBtn").onclick = (e)=>{
+  audio.muted = !audio.muted;
+  e.currentTarget.textContent = audio.muted ? "🔇" : "🔊";
+};
+
+document.getElementById("startBtn").onclick = ()=>{
+  document.getElementById("start").classList.add("hidden");
+  goTo(0, true);
+};
+</script>
+</body>
+</html>
