@@ -37,6 +37,14 @@ except ImportError:   # มีเฉพาะตอนรันจริงบ�
 
 IS_WINDOWS = (os.name == "nt")
 
+if IS_WINDOWS and tk is not None:
+    try:
+        import media_bar as media_bar_mod   # แถบเพลงลอย (ไฟล์ media_bar.py ข้าง ๆ — ต้อง pip install winsdk ก่อน)
+    except Exception:
+        media_bar_mod = None
+else:
+    media_bar_mod = None
+
 # ---------------------------------------------------------------------------
 # ค่าคงที่ / ธีมสี / เลย์เอาต์โซน
 # ---------------------------------------------------------------------------
@@ -158,6 +166,9 @@ DEFAULT_SETTINGS = {
     "gap_px": 8,            # ระยะเว้นระหว่างโซน
     "panel_x": None,        # ตำแหน่งแถบจัดการหน้าต่าง (จำจากการลาก)
     "panel_y": None,
+    "media_on": True,       # แถบเพลงลอย (ต้องติดตั้ง winsdk ก่อน — ดู README)
+    "media_x": None,        # ตำแหน่งแถบเพลง (จำจากการลาก)
+    "media_y": None,
 }
 
 
@@ -290,6 +301,7 @@ def _build_hotkeys():
         add("zone", 0x30 + i, f"Ctrl+Alt+{i} — สแนปเข้าโซน {i}", extra=i)
     add("cycle_layout", 0x4C, "Ctrl+Alt+L — สลับเลย์เอาต์")
     add("toggle_panel", 0x53, "Ctrl+Alt+S — ซ่อน/แสดงแถบหน้าต่าง")
+    add("toggle_media", 0x4D, "Ctrl+Alt+M — แสดง/ซ่อนแถบเพลง")
     add("minimize_all", 0x44, "Ctrl+Alt+D — ย่อทุกหน้าต่าง")
     add("quit",         0x51, "Ctrl+Alt+Q — ออกจากโปรแกรม")
     return defs
@@ -906,6 +918,7 @@ class PanelApp:
         self._filter = ""
         self._last_fg = None
         self.failed_hotkeys = []
+        self._media_bar = None
         self.tab = None
 
         self.root = tk.Tk()
@@ -948,6 +961,11 @@ class PanelApp:
         self.title_lbl.bind("<Button-3>", self._show_menu)
 
         btn_kw = {"bd": 0, "relief": "flat", "cursor": "hand2", "font": ui_font(9)}
+        media_btn = tk.Label(header, text="♪ เพลง", bg=c["bg2"], fg=c["fg"],
+                             padx=8, **btn_kw)
+        media_btn.pack(side="right")
+        self._hover(media_btn, c["accent"])
+        media_btn.bind("<Button-1>", lambda e: self.toggle_media_bar())
         zone_btn = tk.Label(header, text="ผังโซน", bg=c["bg2"], fg=c["fg"],
                             padx=8, **btn_kw)
         zone_btn.pack(side="right")
@@ -1054,6 +1072,8 @@ class PanelApp:
                           command=self.toggle_drag_snap)
         m.add_command(label="เปลี่ยนระยะเว้นโซน (คลิกเพื่อวนค่า)",
                       command=self.cycle_gap)
+        m.add_command(label="แถบเพลง: แสดง/ซ่อน (Ctrl+Alt+M)",
+                      command=self.toggle_media_bar)
         m.add_separator()
         m.add_command(label="คืนตำแหน่งเดิมหน้าต่างที่ใช้งาน (Ctrl+Alt+0)",
                       command=self.unsnap_active)
@@ -1101,6 +1121,12 @@ class PanelApp:
         self.refresh_list(force=True)
         self.hotkeys.start()
         self.drag.start()
+        if (self.settings.get("media_on", True)
+                and getattr(media_bar_mod, "AVAILABLE", False)):
+            try:
+                self._ensure_media_bar()   # เริ่ม watcher เพลงไว้เลย จะได้โผล่เองเมื่อเปิดเพลง
+            except Exception:
+                self._media_bar = None
         self._pump()
         self._poll_active()
         self.root.mainloop()
@@ -1263,6 +1289,32 @@ class PanelApp:
             except Exception:
                 pass
         self._toast_active_monitor("ย่อทุกหน้าต่างแล้ว")
+
+    # ================= แถบเพลงลอย (Media Bar) =================
+    def _persist_media(self, updates):
+        self.settings.update(updates)
+        save_settings(self.settings, self.settings_path)
+
+    def _ensure_media_bar(self):
+        if self._media_bar is not None:
+            return self._media_bar
+        if media_bar_mod is None or not getattr(media_bar_mod, "AVAILABLE", False):
+            return None
+        try:
+            self._media_bar = media_bar_mod.create_media_bar(
+                self.root, self.settings, self._persist_media)
+        except Exception:
+            self._media_bar = None
+        return self._media_bar
+
+    def toggle_media_bar(self):
+        bar = self._ensure_media_bar()
+        if bar is None:
+            self._toast_active_monitor(
+                "แถบเพลง: ติดตั้งก่อนด้วย install_media_support.bat "
+                "(หรือ pip install winsdk Pillow) แล้วรันใหม่")
+            return
+        bar.toggle()
 
     # ================= สแนปเข้าโซน =================
     def snap_window_to_zone(self, hwnd, idx, monitor=None, layout_key=None):
@@ -1454,8 +1506,8 @@ class PanelApp:
 
     def _set_default_status(self):
         self.status_lbl.configure(
-            text="Ctrl+Alt+Z ผังโซน • Ctrl+Alt+←/→ ครึ่งจอ • Ctrl+Alt+0 คืนเดิม • "
-                 "Ctrl+Alt+S ซ่อนแถบ • คลิกขวา = เมนู", fg=COLORS["muted"])
+            text="Ctrl+Alt+Z ผังโซน • Ctrl+Alt+←/→ ครึ่งจอ • Ctrl+Alt+M แถบเพลง • "
+                 "Ctrl+Alt+0 คืนเดิม • คลิกขวา = เมนู", fg=COLORS["muted"])
 
     def _dispatch_hotkey(self, name, extra):
         try:
@@ -1475,6 +1527,8 @@ class PanelApp:
                 self.cycle_layout()
             elif name == "toggle_panel":
                 self.toggle_panel()
+            elif name == "toggle_media":
+                self.toggle_media_bar()
             elif name == "minimize_all":
                 self.minimize_all()
             elif name == "quit":
@@ -1494,6 +1548,11 @@ class PanelApp:
         except Exception:
             pass
         save_settings(self.settings, self.settings_path)
+        try:
+            if self._media_bar is not None:
+                self._media_bar.close()
+        except Exception:
+            pass
         try:
             self.drag.stop()
         except Exception:
@@ -1519,6 +1578,12 @@ def print_check():
     print(f"settings file : {settings_path()}")
     print(f"platform      : {os.name} (Windows required: {'yes' if IS_WINDOWS else 'NO'})")
     print(f"tkinter       : {'OK' if tk else 'NOT INSTALLED (ต้องมีเพื่อรันจริงบน Windows)'}")
+    try:
+        import media_bar as _mb
+        print(f"media bar     : module OK — backend={_mb._BACKEND or 'ยังไม่ได้ติดตั้ง winsdk/winrt'} "
+              f"Pillow={'OK' if _mb.PIL_OK else 'ยังไม่ได้ติดตั้ง (รูปปกอาจไม่แสดง)'}")
+    except Exception as _exc:
+        print(f"media bar     : import ไม่ได้ ({_exc})")
     sample_work = (0, 0, 1920, 1040)
     ok = True
     for key in LAYOUT_ORDER:
