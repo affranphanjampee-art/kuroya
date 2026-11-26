@@ -20,9 +20,11 @@ Spotify, Media Player ฯลฯ โดยอัตโนมัติ
 from __future__ import annotations
 
 import asyncio
+import ctypes
 import datetime
 import io
 import math
+import os
 import queue
 import threading
 import time
@@ -167,6 +169,8 @@ EMPTY_SNAP = {
     "pos_s": 0.0, "dur_s": 0.0, "updated_mono": 0.0,
     "thumb_png": None, "thumb_key": "",
 }
+
+AUDIO_EMPTY = {"available": False, "playing": [], "max_peak": 0.0}
 
 
 # ---------------------------------------------------------------------------
@@ -353,6 +357,312 @@ class SMTCWatcher(threading.Thread):
 
 
 # ---------------------------------------------------------------------------
+# ตรวจจับเสียงจริงระดับโปรเซสด้วย WASAPI (ครอบคลุมแท็บ/คลิปที่ไม่รายงานชื่อเพลง)
+# หลักการ: ถาม Windows ว่าโปรเซสไหนกำลังส่งเสียงออกลำโพง (peak meter ต่อ session)
+# ใช้ ctypes เรียก COM ตรง ๆ — ไม่ต้องติดตั้งไลบรารีเพิ่ม
+# ---------------------------------------------------------------------------
+
+CLSID_MMDeviceEnumerator = "BCDE0395-E52F-467C-8E3D-C4579291692E"
+IID_IAudioSessionManager2 = "77AA99A0-1BD6-484F-8BC7-2C654C9A9B6F"
+IID_IAudioSessionEnumerator = "E2F5BB11-0570-40CA-ACDD-3AA01277DEE8"
+IID_IAudioMeterInformation = "C02216F6-5C67-4BCC-9F21-3A909B770AD0"
+IID_IAudioSessionControl2 = "BFB7FF88-7239-4FC9-8FA2-07C950BE9C64"
+
+CLSCTX_ALL = 23
+PROCESS_QUERY_LIMITED_INFORMATION = 0x1000
+VK_MEDIA_PLAY_PAUSE = 0xB3
+VK_MEDIA_NEXT_TRACK = 0xB6
+VK_MEDIA_PREV_TRACK = 0xB5
+
+FRIENDLY_PROCESS = {
+    "chrome": "Google Chrome", "msedge": "Microsoft Edge", "firefox": "Firefox",
+    "brave": "Brave", "opera": "Opera", "vivaldi": "Vivaldi",
+    "spotify": "Spotify", "discord": "Discord", "steamwebhelper": "Steam",
+    "obs64": "OBS Studio", "obs32": "OBS Studio", "wmplayer": "Media Player",
+    "vlc": "VLC", "itunes": "iTunes", "potplayer": "PotPlayer",
+    "applicationframehost": "แอป Windows", "ytmusic": "YouTube Music",
+}
+
+
+def friendly_process_name(exe):
+    """ชื่อไฟล์โปรเซส -> ชื่อที่คนอ่านรู้เรื่อง เช่น chrome.exe -> Google Chrome"""
+    base = (exe or "").split("/")[-1].split("\\")[-1]
+    if base.lower().endswith(".exe"):
+        base = base[:-4]
+    return FRIENDLY_PROCESS.get(base.lower(), base or "โปรแกรม")
+
+
+def merge_modes(smtc_title, audio_playing_count):
+    """เลือกโหมดแสดงผล: มีข้อมูลเพลงจาก SMTC > มีเสียงเล่นจริง > ไม่มีอะไร"""
+    if smtc_title:
+        return "media"
+    if audio_playing_count > 0:
+        return "audio"
+    return "none"
+
+
+def send_media_key(vk):
+    """กดปุ่มสื่อของ Windows (Play/Pause/Next/Prev) — OS ส่งต่อให้แท็บ/แอปที่เล่นอยู่"""
+    if os.name != "nt":
+        return
+    try:
+        u32 = ctypes.WinDLL("user32")
+        u32.keybd_event(vk, 0, 0, 0)
+        u32.keybd_event(vk, 0, 2, 0)   # KEYEVENTF_KEYUP
+    except Exception:
+        pass
+
+
+class _ComError(Exception):
+    pass
+
+
+class _GUID(ctypes.Structure):
+    _fields_ = [("d1", ctypes.c_uint32), ("d2", ctypes.c_uint16),
+                ("d3", ctypes.c_uint16), ("d4", ctypes.c_ubyte * 8)]
+
+
+def _guid(text):
+    b = bytes.fromhex(text.replace("-", ""))
+    g = _GUID()
+    g.d1 = int.from_bytes(b[0:4], "little")
+    g.d2 = int.from_bytes(b[4:6], "little")
+    g.d3 = int.from_bytes(b[6:8], "little")
+    g.d4 = (ctypes.c_ubyte * 8)(*b[8:16])
+    return g
+
+
+def _com_fn(ptr, index, restype, *argtypes):
+    """หยิบฟังก์ชันลำดับที่ index จาก vtable ของ COM object (this = ptr)"""
+    vtbl_addr = ctypes.cast(ptr, ctypes.POINTER(ctypes.POINTER(ctypes.c_void_p))).contents.value
+    fn_addr = ctypes.cast(vtbl_addr, ctypes.POINTER(ctypes.c_void_p))[index]
+    proto = ctypes.WINFUNCTYPE(restype, ctypes.c_void_p, *argtypes)
+    return proto(fn_addr)
+
+
+def _com_release(ptr):
+    try:
+        if ptr:
+            _com_fn(ptr, 2, ctypes.c_ulong)(ptr)   # IUnknown::Release
+    except Exception:
+        pass
+
+
+def _com_check(hr, what):
+    if hr & 0x80000000:
+        raise _ComError(f"{what} hr=0x{hr & 0xFFFFFFFF:08X}")
+
+
+def process_exe_name(pid):
+    """ชื่อ .exe ของ pid (ค้นผ่าน OpenProcess + QueryFullProcessImageNameW)"""
+    if os.name != "nt" or not pid:
+        return ""
+    try:
+        k32 = ctypes.WinDLL("kernel32")
+        h = k32.OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, False, int(pid))
+        if not h:
+            return ""
+        try:
+            size = ctypes.c_uint(1024)
+            buf = ctypes.create_unicode_buffer(1024)
+            if k32.QueryFullProcessImageNameW(h, 0, buf, ctypes.byref(size)):
+                return buf.value
+            return ""
+        finally:
+            k32.CloseHandle(h)
+    except Exception:
+        return ""
+
+
+class AudioWatcher(threading.Thread):
+    """โพล peak meter ของทุก audio session ทุก ~0.5 วิ — รายงานว่าโปรเซสไหนกำลังมีเสียง
+    เสียงต้องดังต่อเนื่องเกิน SUSTAIN วินาทีถึงจะนับเป็น 'กำลังเล่น' (กันเสียงสั้น ๆ รบกวน)"""
+
+    POLL = 0.5
+    LOUD = 0.02        # เกณฑ์ความดังขั้นต่ำ (peak 0-1)
+    SUSTAIN = 1.5      # วินาทีที่ต้องมีเสียงต่อเนื่อง
+
+    def __init__(self):
+        super().__init__(daemon=True, name="kuroya-audio")
+        self._lock = threading.Lock()
+        self._snap = {"available": False, "playing": [], "max_peak": 0.0}
+        self._stop_evt = threading.Event()
+        self._ole32 = None
+        self._stack = None      # (enum, dev, mgr) COM pointers ที่ใช้ซ้ำ
+        self._last = {}         # pid -> (mono, peak)
+        self._since = {}        # pid -> mono เริ่มมีเสียงต่อเนื่อง
+        self._names = {}        # pid -> ชื่อ exe (แคช)
+        self._errs = 0
+
+    def snapshot(self):
+        with self._lock:
+            return {"available": self._snap["available"],
+                    "playing": list(self._snap["playing"]),
+                    "max_peak": self._snap["max_peak"]}
+
+    def stop(self):
+        self._stop_evt.set()
+
+    # ---- เธรดหลัก ----
+    def run(self):
+        if os.name != "nt":
+            return
+        try:
+            self._ole32 = ctypes.WinDLL("ole32")
+            self._ole32.CoInitializeEx(None, 0x0)   # COINIT_MULTITHREADED
+        except Exception:
+            return
+        try:
+            self._build_stack()
+            while not self._stop_evt.is_set():
+                t0 = time.monotonic()
+                apps = None
+                try:
+                    apps = self._poll_sessions()
+                    self._errs = 0
+                except Exception:
+                    self._errs += 1
+                    if self._errs >= 4:
+                        self._build_stack()   # อุปกรณ์/อุดหนุนเสียงเปลี่ยน — สร้างใหม่
+                self._update(apps)
+                dt = time.monotonic() - t0
+                self._stop_evt.wait(max(0.05, self.POLL - dt))
+        finally:
+            self._teardown()
+            try:
+                self._ole32.CoUninitialize()
+            except Exception:
+                pass
+
+    # ---- COM plumbing ----
+    def _build_stack(self):
+        old = self._stack
+        self._stack = None
+        if old:
+            for p in old:
+                _com_release(p)
+        ole = self._ole32
+        clsid = _guid(CLSID_MMDeviceEnumerator)
+        enum = ctypes.c_void_p()
+        hr = ole.CoCreateInstance(ctypes.byref(clsid), None, CLSCTX_ALL,
+                                  ctypes.byref(clsid), ctypes.byref(enum))
+        _com_check(hr, "CoCreateInstance")
+        try:
+            dev = ctypes.c_void_p()
+            _com_check(_com_fn(enum, 4, ctypes.c_long,
+                               ctypes.c_int, ctypes.c_int,
+                               ctypes.POINTER(ctypes.c_void_p))(
+                enum, 0, 1, ctypes.byref(dev)), "GetDefaultAudioEndpoint")
+            mgr = ctypes.c_void_p()
+            iid = _guid(IID_IAudioSessionManager2)
+            _com_check(_com_fn(dev, 3, ctypes.c_long,
+                               ctypes.POINTER(_GUID), ctypes.c_uint,
+                               ctypes.c_void_p,
+                               ctypes.POINTER(ctypes.c_void_p))(
+                dev, ctypes.byref(iid), CLSCTX_ALL, None,
+                ctypes.byref(mgr)), "Activate")
+            self._stack = (enum, dev, mgr)
+        except Exception:
+            _com_release(enum)
+            raise
+
+    def _teardown(self):
+        if self._stack:
+            for p in self._stack:
+                _com_release(p)
+            self._stack = None
+
+    def _poll_sessions(self):
+        """คืนรายการ (pid, peak) ของทุก session ที่มีระดับเสียง > 0"""
+        if not self._stack:
+            raise _ComError("no stack")
+        enum_local = ctypes.c_void_p()
+        _com_check(_com_fn(self._stack[2], 5, ctypes.c_long,
+                           ctypes.POINTER(ctypes.c_void_p))(
+            self._stack[2], ctypes.byref(enum_local)), "GetSessionEnumerator")
+        try:
+            n = ctypes.c_int(0)
+            _com_check(_com_fn(enum_local, 3, ctypes.c_long,
+                               ctypes.POINTER(ctypes.c_int))(
+                enum_local, ctypes.byref(n)), "GetCount")
+            out = []
+            qi_iid_meter = _guid(IID_IAudioMeterInformation)
+            qi_iid_c2 = _guid(IID_IAudioSessionControl2)
+            for i in range(min(max(n.value, 0), 64)):
+                ctrl = ctypes.c_void_p()
+                try:
+                    hr = _com_fn(enum_local, 4, ctypes.c_long,
+                                 ctypes.c_int,
+                                 ctypes.POINTER(ctypes.c_void_p))(
+                        enum_local, i, ctypes.byref(ctrl))
+                    if hr & 0x80000000 or not ctrl:
+                        continue
+                    peak = 0.0
+                    pid = 0
+                    meter = ctypes.c_void_p()
+                    c2 = ctypes.c_void_p()
+                    try:
+                        qi = _com_fn(ctrl, 0, ctypes.c_long,
+                                     ctypes.POINTER(_GUID),
+                                     ctypes.POINTER(ctypes.c_void_p))
+                        if qi(ctrl, ctypes.byref(qi_iid_meter),
+                              ctypes.byref(meter)) >= 0 and meter:
+                            v = ctypes.c_float(0.0)
+                            if _com_fn(meter, 3, ctypes.c_long,
+                                       ctypes.POINTER(ctypes.c_float))(
+                                    meter, ctypes.byref(v)) >= 0:
+                                peak = float(v.value)
+                        if qi(ctrl, ctypes.byref(qi_iid_c2),
+                              ctypes.byref(c2)) >= 0 and c2:
+                            p = ctypes.c_uint32(0)
+                            if _com_fn(c2, 12, ctypes.c_long,
+                                       ctypes.POINTER(ctypes.c_uint32))(
+                                    c2, ctypes.byref(p)) >= 0:
+                                pid = int(p.value)
+                    finally:
+                        _com_release(meter)
+                        _com_release(c2)
+                    if peak > 0.001 and pid:
+                        out.append((pid, peak))
+                finally:
+                    _com_release(ctrl)
+            return out
+        finally:
+            _com_release(enum_local)
+
+    # ---- ประมวลผล "เสียงต่อเนื่อง" ----
+    def _update(self, apps):
+        now = time.monotonic()
+        if apps is None:
+            apps = []
+        cur = {}
+        for pid, peak in apps:
+            if peak >= self.LOUD:
+                cur[pid] = peak
+                self._since.setdefault(pid, now)
+            self._last[pid] = (now, peak)
+        for pid in list(self._since):
+            if pid not in cur:
+                t, _pk = self._last.get(pid, (0.0, 0.0))
+                if now - t > 1.0:      # เงียบไปแล้ว 1 วิ — นับว่าหยุด
+                    del self._since[pid]
+        for pid in list(self._last):
+            if now - self._last[pid][0] > 6.0:
+                del self._last[pid]
+        playing = []
+        for pid, peak in cur.items():
+            if now - self._since[pid] >= self.SUSTAIN:
+                if pid not in self._names:
+                    self._names[pid] = friendly_process_name(process_exe_name(pid))
+                playing.append({"pid": pid, "peak": peak,
+                                "name": self._names.get(pid, "โปรแกรม")})
+        playing.sort(key=lambda a: -a["peak"])
+        with self._lock:
+            self._snap = {"available": True, "playing": playing[:4],
+                          "max_peak": max((p["peak"] for p in playing), default=0.0)}
+
+
+# ---------------------------------------------------------------------------
 # หน้าต่างแถบเพลง (tkinter canvas มุมโค้งด้วย transparentcolor)
 # ---------------------------------------------------------------------------
 
@@ -370,6 +680,11 @@ class MediaBar:
         self.persist_cb = persist_cb
         self.watcher = SMTCWatcher()
         self.watcher.start()
+        self.audio = AudioWatcher()
+        self.audio.start()
+        self._mode = "none"          # "media" | "audio" | "none"
+        self._aud = {"available": False, "playing": [], "max_peak": 0.0}
+        self._level = 0.0            # มิเตอร์เสียงแบบ smoothing
         self._photo = None
         self._photo_key = None
         self._snap = dict(EMPTY_SNAP)
@@ -446,6 +761,11 @@ class MediaBar:
         except Exception:
             pass
         try:
+            if self.audio:
+                self.audio.stop()
+        except Exception:
+            pass
+        try:
             self.win.destroy()
         except Exception:
             pass
@@ -455,17 +775,23 @@ class MediaBar:
         try:
             snap = self.watcher.snapshot()
             self._snap = snap
+            self._aud = self.audio.snapshot() if self.audio else AUDIO_EMPTY
             has_media = bool(snap.get("title"))
-            if (has_media and self.settings.get("media_on", True)
+            audio_playing = bool(self._aud.get("playing"))
+            self._mode = merge_modes(snap.get("title"), len(self._aud.get("playing") or []))
+            # มิเตอร์เสียง: เลื่อนแบบนุ่มเข้าหาค่า peak จริง
+            target = float(self._aud.get("max_peak") or 0.0)
+            self._level += (target - self._level) * 0.35
+            if (self._mode != "none" and self.settings.get("media_on", True)
                     and not self._user_hidden and not self.is_visible()):
                 self.show()
-            if self.is_visible() and not has_media and not self._user_opened:
-                # ไม่มีสื่อเล่นนานเกิน 8 วิ และเปิดมาโดยอัตโนมัติ — ซ่อนเอง
+            if self.is_visible() and self._mode == "none" and not self._user_opened:
+                # ไม่มีทั้งเพลงและเสียงนานเกิน 8 วิ และแถบเปิดมาโดยอัตโนมัติ — ซ่อนเอง
                 if self._empty_since is None:
                     self._empty_since = time.monotonic()
                 elif time.monotonic() - self._empty_since > 8:
                     self.hide(user=False)
-            elif has_media:
+            elif self._mode != "none":
                 self._empty_since = None
             self._draw(snap)
         except Exception:
@@ -509,6 +835,11 @@ class MediaBar:
         has = bool(snap.get("title"))
         playing = bool(snap.get("playing"))
         muted = MUTED if has else "#6b7078"
+
+        # ไม่มีชื่อเพลงแต่มีเสียงเล่นจริง (แท็บ/คลิปที่ไม่รายงาน SMTC) — การ์ดมิเตอร์เสียง
+        if self._mode == "audio" and not has:
+            self._draw_audio_card(c)
+            return
 
         # พื้นแผงมุมโค้ง
         self._rrect(2, 2, self.W - 3, self.H - 3, self.R,
@@ -584,6 +915,67 @@ class MediaBar:
         c.create_text(cx + 64, y, text="⏭", fill=FG if has else muted,
                       font=_glyph(13), tags=("btn_next",))
 
+    def _draw_audio_card(self, c):
+        """การ์ดโหมด 'มีเสียงแต่ไม่รู้ชื่อเพลง' — โชว์มิเตอร์ที่ซิงค์กับเสียงจริง"""
+        apps = self._aud.get("playing") or []
+        name = apps[0]["name"] if apps else "โปรแกรม"
+        c = self.canvas
+        # พื้นแผง
+        self._rrect(2, 2, self.W - 3, self.H - 3, self.R,
+                    PANEL_BG, PANEL_BORDER, 1, tags=("drag",))
+        # กล่องโน้ตเพลง + ขีดเสียงเต้นรอบ ๆ
+        self._rrect(18, 14, 74, 70, 12, NOTE_BG, tags=("drag",))
+        bars = max(1, min(5, int(round(self._level * 10 + 1))))
+        for i in range(bars):
+            bh = 6 + (i % 3) * 5
+            c.create_rectangle(30 + i * 8, 58 - bh, 34 + i * 8, 58,
+                               fill="#7b61ff" if i < bars - 1 else "#a68cff",
+                               width=0, tags=("drag",))
+        c.create_text(40, 30, text="♪", fill=FG, font=_glyph(16), tags=("drag",))
+
+        # ชื่อแอปที่กำลังส่งเสียง
+        n = len(apps)
+        if n > 1:
+            title = f"กำลังเล่นเสียง: {name} + อีก {n - 1}"
+        else:
+            title = f"กำลังเล่นเสียง: {name}"
+        c.create_text(86, 26, anchor="w", text=self._clip(title, 30), fill=FG,
+                      font=_font(11, True), tags=("drag",))
+        c.create_text(86, 50, anchor="w",
+                      text="แท็บ/คลิปที่ไม่รายงานชื่อเพลง • ปุ่มล่างควบคุมผ่าน Windows",
+                      fill=MUTED, font=_font(8), tags=("drag",))
+        c.create_text(self.W - 22, 26, text="⋮", fill=MUTED, font=_glyph(12),
+                      tags=("btn_menu",))
+
+        # แถบมิเตอร์เสียง (ซิงค์กับเสียงจริงแบบเรียลไทม์)
+        lvl = max(0.0, min(1.0, self._level * 1.5))
+        self._rrect(self.TRACK_X0, self.TRACK_Y0, self.TRACK_X1, self.TRACK_Y1, 3,
+                    TRACK, tags=("drag",))
+        fx = self.TRACK_X0 + lvl * (self.TRACK_X1 - self.TRACK_X0)
+        if fx > self.TRACK_X0 + 2:
+            self._rrect(self.TRACK_X0, self.TRACK_Y0, fx, self.TRACK_Y1, 3,
+                        "#7b61ff", tags=("drag",))
+        c.create_text(self.TRACK_X0, 110, anchor="w", text="ระดับเสียงจริง",
+                      fill=MUTED, font=_font(8))
+        c.create_text(self.TRACK_X1, 110, anchor="e",
+                      text=f"เสียง {int(round(lvl * 100))}%", fill=MUTED, font=_font(8))
+
+        # ปุ่มควบคุม (ส่ง media key ให้ Windows — OS ส่งต่อให้แท็บที่เล่นอยู่)
+        cx = self.W // 2
+        y = self.CTRL_Y
+        c.create_oval(cx - 17, y - 17, cx + 17, y + 17, fill=BTN_BG,
+                      outline=BTN_BORDER, tags=("btn_play",))
+        c.create_text(cx, y - 1, text="▶", fill=FG, font=_glyph(13),
+                      tags=("btn_play",))
+        c.create_rectangle(cx - 84, y - 18, cx - 44, y + 18, fill="", outline="",
+                           tags=("btn_prev",))
+        c.create_text(cx - 64, y, text="⏮", fill=FG, font=_glyph(13),
+                      tags=("btn_prev",))
+        c.create_rectangle(cx + 44, y - 18, cx + 84, y + 18, fill="", outline="",
+                           tags=("btn_next",))
+        c.create_text(cx + 64, y, text="⏭", fill=FG, font=_glyph(13),
+                      tags=("btn_next",))
+
     # ---------- อินพุต ----------
     def _tag_at(self, x, y):
         found = set()
@@ -626,6 +1018,15 @@ class MediaBar:
                     pass
             return
         tag = d["tag"]
+        if self._mode == "audio" and not self._snap.get("title"):
+            # โหมดมิเตอร์เสียง: ส่ง media key ของ Windows ให้แท็บ/แอปที่กำลังเล่น
+            if tag == "btn_play":
+                send_media_key(VK_MEDIA_PLAY_PAUSE)
+            elif tag == "btn_next":
+                send_media_key(VK_MEDIA_NEXT_TRACK)
+            elif tag == "btn_prev":
+                send_media_key(VK_MEDIA_PREV_TRACK)
+            return
         if tag == "btn_play":
             playing = bool(self._snap.get("playing"))
             self.watcher.command("pause" if playing else "play")
@@ -649,15 +1050,33 @@ class MediaBar:
         self._topmost_var = tk.BooleanVar(value=True)
         m = tk.Menu(self.win, tearoff=0, bg=PANEL_BG, fg=FG,
                     font=_font(9), activebackground=BTN_BG, bd=0)
-        m.add_command(label="เล่น/พัก", command=lambda: self.watcher.command(
-            "pause" if self._snap.get("playing") else "play"))
-        m.add_command(label="เพลงถัดไป", command=lambda: self.watcher.command("next"))
-        m.add_command(label="เพลงก่อนหน้า", command=lambda: self.watcher.command("prev"))
+        m.add_command(label="เล่น/พัก", command=self.cmd_playpause)
+        m.add_command(label="เพลงถัดไป", command=self.cmd_next)
+        m.add_command(label="เพลงก่อนหน้า", command=self.cmd_prev)
         m.add_separator()
         m.add_checkbutton(label="อยู่บนสุดเสมอ", variable=self._topmost_var,
                           command=self._apply_topmost)
         m.add_command(label="ซ่อนแถบนี้ (Ctrl+Alt+M)", command=lambda: self.hide(user=True))
         self.menu = m
+
+    # ---------- คำสั่งควบคุม (เลือกวิธีตามโหมด) ----------
+    def cmd_playpause(self):
+        if self._mode == "audio" and not self._snap.get("title"):
+            send_media_key(VK_MEDIA_PLAY_PAUSE)
+        else:
+            self.watcher.command("pause" if self._snap.get("playing") else "play")
+
+    def cmd_next(self):
+        if self._mode == "audio" and not self._snap.get("title"):
+            send_media_key(VK_MEDIA_NEXT_TRACK)
+        else:
+            self.watcher.command("next")
+
+    def cmd_prev(self):
+        if self._mode == "audio" and not self._snap.get("title"):
+            send_media_key(VK_MEDIA_PREV_TRACK)
+        else:
+            self.watcher.command("prev")
 
     def _open_menu_at(self, x, y):
         try:
