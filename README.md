@@ -37,6 +37,10 @@ ANIME_NOTEBOOK_READ_ONLY = "true"
 
 This hides the add action and editing forms in the shared app. The local app remains editable when the setting is not enabled.
 
+## Window Manager (โปรแกรมแยกต่างหาก)
+
+ยูทิลิตี้จัดการหน้าต่างบน Windows (สแนปเข้าโซนเลย์เอาต์, แถบสลับ/ย่อ/ปิดหน้าต่าง, ฮอตคีย์ทั่วระบบ) — ไฟล์เดียวจบ ไม่ต้อง pip install ดูคู่มือที่ `window_manager/README.md`
+
 ## Publish local changes to the public app
 
 The local watchlist is stored in `data/watchlist.json`. To publish the latest local copy, create a [GitHub fine-grained personal access token](https://github.com/settings/personal-access-tokens/new) limited to the `affranphanjampee-art/kuroya` repository with **Contents: Read and write** permission. Do not paste the token into chat or commit it.

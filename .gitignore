@@ -9,3 +9,6 @@ venv/
 .env
 .env.*
 .DS_Store
+
+# Window manager local settings
+window_manager/settings.json
