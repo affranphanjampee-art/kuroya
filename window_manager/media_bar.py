@@ -170,7 +170,7 @@ EMPTY_SNAP = {
     "thumb_png": None, "thumb_key": "",
 }
 
-AUDIO_EMPTY = {"available": False, "playing": [], "max_peak": 0.0}
+AUDIO_EMPTY = {"available": False, "playing": [], "max_peak": 0.0, "volume": None}
 
 
 # ---------------------------------------------------------------------------
@@ -191,6 +191,7 @@ class SMTCWatcher(threading.Thread):
         self._mgr = None
         self._props_key = None
         self._thumb_png = None
+        self._chosen_aumid = ""
 
     # ---- ฝั่ง UI thread ----
     def snapshot(self):
@@ -252,14 +253,80 @@ class SMTCWatcher(threading.Thread):
             except Exception:
                 pass
 
+    @staticmethod
+    def _iter_sessions(mgr):
+        """ทุกเซสชันสื่อที่ Windows รู้จัก (Chrome, Edge, Spotify, Media Player ฯลฯ)
+        รองรับหลายรูปแบบ API กันไว้เมื่อ projection ต่างกันตามเวอร์ชันแพ็กเกจ"""
+        try:
+            vv = mgr.get_sessions()
+        except Exception:
+            return []
+        out = []
+        try:
+            for s in vv:                      # IVectorView ทำ iterable ได้บางเวอร์ชัน
+                out.append(s)
+                if len(out) >= 16:
+                    return out
+            if out:
+                return out
+        except Exception:
+            out = []
+        try:
+            try:
+                n = int(vv.size)
+            except Exception:
+                n = int(vv.size())
+            for i in range(min(max(n, 0), 16)):
+                out.append(vv.get_at(i))
+        except Exception:
+            pass
+        return out
+
+    @staticmethod
+    def _aumid_of(sess):
+        try:
+            return sess.source_app_user_model_id or ""
+        except Exception:
+            return ""
+
+    @staticmethod
+    def _is_playing(sess):
+        try:
+            pb = sess.get_playback_info()
+            nm = getattr(pb.status, "name", "") or str(pb.status)
+            return nm.split(".")[-1].strip().lower() == "playing"
+        except Exception:
+            return False
+
+    def _best_session(self, mgr):
+        """เลือกเซสชันที่จะแสดง/ควบคุม: ตัวที่กำลังเล่นมาก่อนเสมอ (ครอบคลุม
+        เปิด Chrome ค้างไว้แต่กำลังฟัง Spotify), ถ้าไม่มีใครเล่นเอาตัวเดิมที่จำไว้
+        (sticky), ถ้าไม่มีเลยเอาตัวแรก; fallback เป็น get_current_session"""
+        items = self._iter_sessions(mgr)
+        if not items:
+            try:
+                s = mgr.get_current_session()
+                if s:
+                    self._chosen_aumid = self._aumid_of(s)
+                return s
+            except Exception:
+                return None
+        playing = [s for s in items if self._is_playing(s)]
+        if playing:
+            self._chosen_aumid = self._aumid_of(playing[0])
+            return playing[0]
+        chosen = self._chosen_aumid
+        for s in items:
+            if chosen and self._aumid_of(s) == chosen:
+                return s                   # คงตัวเดิมไว้ (จะได้ไม่กระโดดเปลี่ยนเอง)
+        self._chosen_aumid = self._aumid_of(items[0])
+        return items[0]
+
     async def _exec(self, name, arg):
         mgr = self._mgr
         if mgr is None:
             return
-        try:
-            sess = mgr.get_current_session()
-        except Exception:
-            return
+        sess = self._best_session(mgr)
         if sess is None:
             return
         if name == "play":
@@ -279,10 +346,7 @@ class SMTCWatcher(threading.Thread):
         mgr = self._mgr
         if mgr is None:
             return
-        try:
-            sess = mgr.get_current_session()
-        except Exception:
-            sess = None
+        sess = self._best_session(mgr)
         if sess is None:
             with self._lock:
                 self._snap = dict(EMPTY_SNAP, available=True, updated_mono=now)
@@ -367,6 +431,7 @@ IID_IAudioSessionManager2 = "77AA99A0-1BD6-484F-8BC7-2C654C9A9B6F"
 IID_IAudioSessionEnumerator = "E2F5BB11-0570-40CA-ACDD-3AA01277DEE8"
 IID_IAudioMeterInformation = "C02216F6-5C67-4BCC-9F21-3A909B770AD0"
 IID_IAudioSessionControl2 = "BFB7FF88-7239-4FC9-8FA2-07C950BE9C64"
+IID_IAudioEndpointVolume = "5CDF2C82-841E-4546-9722-0CF74078229A"
 
 CLSCTX_ALL = 23
 PROCESS_QUERY_LIMITED_INFORMATION = 0x1000
@@ -485,10 +550,12 @@ class AudioWatcher(threading.Thread):
     def __init__(self):
         super().__init__(daemon=True, name="kuroya-audio")
         self._lock = threading.Lock()
-        self._snap = {"available": False, "playing": [], "max_peak": 0.0}
+        self._snap = {"available": False, "playing": [], "max_peak": 0.0,
+                      "volume": None}
         self._stop_evt = threading.Event()
+        self._q = queue.Queue()
         self._ole32 = None
-        self._stack = None      # (enum, dev, mgr) COM pointers ที่ใช้ซ้ำ
+        self._stack = None      # (enum, dev, mgr, epvol) COM pointers ที่ใช้ซ้ำ
         self._last = {}         # pid -> (mono, peak)
         self._since = {}        # pid -> mono เริ่มมีเสียงต่อเนื่อง
         self._names = {}        # pid -> ชื่อ exe (แคช)
@@ -498,7 +565,12 @@ class AudioWatcher(threading.Thread):
         with self._lock:
             return {"available": self._snap["available"],
                     "playing": list(self._snap["playing"]),
-                    "max_peak": self._snap["max_peak"]}
+                    "max_peak": self._snap["max_peak"],
+                    "volume": self._snap["volume"]}
+
+    def command(self, name, arg=None):
+        """คำสั่งจาก UI เช่น set_volume 0..1 (ปรับความดังหลักของเครื่อง)"""
+        self._q.put((name, arg))
 
     def stop(self):
         self._stop_evt.set()
@@ -516,15 +588,18 @@ class AudioWatcher(threading.Thread):
             self._build_stack()
             while not self._stop_evt.is_set():
                 t0 = time.monotonic()
+                self._drain()
                 apps = None
+                volume = None
                 try:
                     apps = self._poll_sessions()
+                    volume = self._read_master_volume()
                     self._errs = 0
                 except Exception:
                     self._errs += 1
                     if self._errs >= 4:
-                        self._build_stack()   # อุปกรณ์/อุดหนุนเสียงเปลี่ยน — สร้างใหม่
-                self._update(apps)
+                        self._build_stack()   # อุปกรณ์/ลำโพงเปลี่ยน — สร้างใหม่
+                self._update(apps, volume)
                 dt = time.monotonic() - t0
                 self._stop_evt.wait(max(0.05, self.POLL - dt))
         finally:
@@ -533,6 +608,37 @@ class AudioWatcher(threading.Thread):
                 self._ole32.CoUninitialize()
             except Exception:
                 pass
+
+    def _drain(self):
+        """คำสั่งจาก UI (ตอนนี้มี set_volume — ปรับความดังหลักทั้งเครื่อง)"""
+        while True:
+            try:
+                name, arg = self._q.get_nowait()
+            except queue.Empty:
+                return
+            try:
+                if name == "set_volume" and self._stack and self._stack[3]:
+                    v = max(0.0, min(1.0, float(arg)))
+                    _com_fn(self._stack[3], 7, ctypes.c_long,
+                            ctypes.c_float, ctypes.c_void_p)(
+                        self._stack[3], v, None)   # IAudioEndpointVolume::SetMasterVolumeLevelScalar
+            except Exception:
+                pass
+
+    def _read_master_volume(self):
+        """ความดังหลักของเครื่อง 0..1 (คืน None ถ้าอ่านไม่ได้)"""
+        if not self._stack or not self._stack[3]:
+            return None
+        try:
+            v = ctypes.c_float(0.0)
+            hr = _com_fn(self._stack[3], 9, ctypes.c_long,
+                         ctypes.POINTER(ctypes.c_float))(
+                self._stack[3], ctypes.byref(v))   # GetMasterVolumeLevelScalar
+            if hr & 0x80000000:
+                return None
+            return max(0.0, min(1.0, float(v.value)))
+        except Exception:
+            return None
 
     # ---- COM plumbing ----
     def _build_stack(self):
@@ -547,23 +653,33 @@ class AudioWatcher(threading.Thread):
         hr = ole.CoCreateInstance(ctypes.byref(clsid), None, CLSCTX_ALL,
                                   ctypes.byref(clsid), ctypes.byref(enum))
         _com_check(hr, "CoCreateInstance")
+        dev = ctypes.c_void_p()
+        mgr = ctypes.c_void_p()
         try:
-            dev = ctypes.c_void_p()
             _com_check(_com_fn(enum, 4, ctypes.c_long,
                                ctypes.c_int, ctypes.c_int,
                                ctypes.POINTER(ctypes.c_void_p))(
                 enum, 0, 1, ctypes.byref(dev)), "GetDefaultAudioEndpoint")
-            mgr = ctypes.c_void_p()
             iid = _guid(IID_IAudioSessionManager2)
             _com_check(_com_fn(dev, 3, ctypes.c_long,
                                ctypes.POINTER(_GUID), ctypes.c_uint,
                                ctypes.c_void_p,
                                ctypes.POINTER(ctypes.c_void_p))(
                 dev, ctypes.byref(iid), CLSCTX_ALL, None,
-                ctypes.byref(mgr)), "Activate")
-            self._stack = (enum, dev, mgr)
+                ctypes.byref(mgr)), "Activate(session mgr)")
+            epvol = ctypes.c_void_p()
+            iidv = _guid(IID_IAudioEndpointVolume)
+            hr = _com_fn(dev, 3, ctypes.c_long,
+                         ctypes.POINTER(_GUID), ctypes.c_uint,
+                         ctypes.c_void_p,
+                         ctypes.POINTER(ctypes.c_void_p))(
+                dev, ctypes.byref(iidv), CLSCTX_ALL, None, ctypes.byref(epvol))
+            if hr & 0x80000000:
+                epvol = None               # อ่าน/ปรับความดังไม่ได้ แต่มิเตอร์ยังใช้ได้
+            self._stack = (enum, dev, mgr, epvol)
         except Exception:
-            _com_release(enum)
+            for p in (enum, dev, mgr):
+                _com_release(p)
             raise
 
     def _teardown(self):
@@ -631,7 +747,7 @@ class AudioWatcher(threading.Thread):
             _com_release(enum_local)
 
     # ---- ประมวลผล "เสียงต่อเนื่อง" ----
-    def _update(self, apps):
+    def _update(self, apps, volume=None):
         now = time.monotonic()
         if apps is None:
             apps = []
@@ -659,7 +775,8 @@ class AudioWatcher(threading.Thread):
         playing.sort(key=lambda a: -a["peak"])
         with self._lock:
             self._snap = {"available": True, "playing": playing[:4],
-                          "max_peak": max((p["peak"] for p in playing), default=0.0)}
+                          "max_peak": max((p["peak"] for p in playing), default=0.0),
+                          "volume": volume}
 
 
 # ---------------------------------------------------------------------------
@@ -671,8 +788,11 @@ class MediaBar:
     R = 18
     TRACK_X0, TRACK_X1 = 24, W - 24
     TRACK_Y0, TRACK_Y1 = 92, 98
+    VOL_Y0, VOL_Y1 = 104, 112
+    VOL_X1 = TRACK_X0 + 296
     CTRL_Y = 132
-    BUTTON_TAGS = ("btn_play", "btn_next", "btn_prev", "btn_seek", "btn_menu")
+    BUTTON_TAGS = ("btn_play", "btn_next", "btn_prev", "btn_seek", "btn_menu",
+                   "btn_vol")
 
     def __init__(self, root, settings, persist_cb=None):
         self.root = root
@@ -955,10 +1075,24 @@ class MediaBar:
         if fx > self.TRACK_X0 + 2:
             self._rrect(self.TRACK_X0, self.TRACK_Y0, fx, self.TRACK_Y1, 3,
                         "#7b61ff", tags=("drag",))
-        c.create_text(self.TRACK_X0, 110, anchor="w", text="ระดับเสียงจริง",
-                      fill=MUTED, font=_font(8))
-        c.create_text(self.TRACK_X1, 110, anchor="e",
-                      text=f"เสียง {int(round(lvl * 100))}%", fill=MUTED, font=_font(8))
+        c.create_text(self.TRACK_X1 - 6, (self.TRACK_Y0 + self.TRACK_Y1) // 2,
+                      anchor="e", text=f"เสียง {int(round(lvl * 100))}%",
+                      fill="#ffffff" if lvl > 0.12 else MUTED, font=_font(8),
+                      tags=("drag",))
+
+        # แถบปรับความดังหลักของเครื่อง (master volume) — คลิก/ลากเพื่อปรับได้จริง
+        vol = self._aud.get("volume") if isinstance(self._aud, dict) else None
+        if vol is not None:
+            vol = max(0.0, min(1.0, float(vol)))
+            self._rrect(self.TRACK_X0, self.VOL_Y0, self.VOL_X1, self.VOL_Y1, 4,
+                        TRACK, tags=("btn_vol",))
+            fxv = self.TRACK_X0 + vol * (self.VOL_X1 - self.TRACK_X0)
+            if fxv > self.TRACK_X0 + 2:
+                self._rrect(self.TRACK_X0, self.VOL_Y0, fxv, self.VOL_Y1, 4,
+                            FILL, tags=("btn_vol",))
+            c.create_text(self.VOL_X1 + 8, (self.VOL_Y0 + self.VOL_Y1) // 2,
+                          anchor="w", text=f"หมุนเสียงหลัก {int(round(vol * 100))}%",
+                          fill=MUTED, font=_font(8), tags=("drag",))
 
         # ปุ่มควบคุม (ส่ง media key ให้ Windows — OS ส่งต่อให้แท็บที่เล่นอยู่)
         cx = self.W // 2
@@ -994,6 +1128,12 @@ class MediaBar:
                       "wx": self.win.winfo_x(), "wy": self.win.winfo_y(),
                       "tag": self._tag_at(e.x, e.y), "moved": False}
 
+    def _set_volume_from_x(self, x):
+        if not self.audio:
+            return
+        frac = (x - self.TRACK_X0) / float(self.VOL_X1 - self.TRACK_X0)
+        self.audio.command("set_volume", min(max(frac, 0.0), 1.0))
+
     def _motion(self, e):
         if not self._drag:
             return
@@ -1001,6 +1141,14 @@ class MediaBar:
         dy = e.y_root - self._drag["y"]
         if abs(dx) + abs(dy) > 6:
             self._drag["moved"] = True
+        if self._drag["tag"] == "btn_vol":
+            # ลากบนแถบความดัง = ปรับ master volume ต่อเนื่อง (ไม่ย้ายหน้าต่าง)
+            if self._drag["moved"]:
+                now = time.monotonic()
+                if now - self._drag.get("last_set", 0.0) > 0.05:
+                    self._drag["last_set"] = now
+                    self._set_volume_from_x(e.x)
+            return
         if self._drag["moved"]:
             self.win.geometry(f"+{self._drag['wx'] + dx}+{self._drag['wy'] + dy}")
 
@@ -1018,6 +1166,12 @@ class MediaBar:
                     pass
             return
         tag = d["tag"]
+        if tag == "btn_vol":
+            if not d["moved"]:
+                self._set_volume_from_x(e.x)      # คลิกจุดไหน เสียงไปจุดนั้นเลย
+            else:
+                self._set_volume_from_x(e.x)      # ปล่อยหลังลาก — ตั้งค่าสุดท้าย
+            return
         if self._mode == "audio" and not self._snap.get("title"):
             # โหมดมิเตอร์เสียง: ส่ง media key ของ Windows ให้แท็บ/แอปที่กำลังเล่น
             if tag == "btn_play":

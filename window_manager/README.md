@@ -20,6 +20,11 @@
   ระดับโปรเซสด้วย WASAPI (ไม่ต้องติดตั้งเพิ่ม) แล้วแสดงการ์ด "กำลังเล่นเสียง: Chrome" พร้อม
   **มิเตอร์เสียงที่เต้นตามเสียงจริงเรียลไทม์** และปุ่ม ⏮ ▶ ⏭ ที่ส่ง media key ของ Windows
   ไปควบคุมแท็บ/แอปที่กำลังเล่น (Chrome/YouTube รับ media key อยู่แล้ว)
+- **ครอบคลุมทั้งผ่านและไม่ผ่าน Chrome** — อ่าน "ทุกเซสชันสื่อ" ของ Windows พร้อมกัน
+  (Chrome + Spotify + Edge เปิดค้างหลายตัวก็ได้) แล้วเลือกโชว์ **ตัวที่กำลังเล่นจริง**
+  ปุ่มควบคุมยิงไปเซสชันที่เล่นอยู่เสมอ
+- **แถบปรับความดังหลัก (master volume) ในโหมดเสียง** — คลิกหรือลากแถบสีขาวเพื่อปรับ
+  ความดังทั้งเครื่องทันที (ไม่ต้องเปิด sound mixer)
 - **ทำงานอัตโนมัติทั้งวงจร** — เปิดเครื่องรันเอง (shortcut ใน shell:startup), เปิดเพลง/มีเสียงแล้ว
   แถบโผล่เอง, เงียบไป 8 วิซ่อนเอง, จำตำแหน่งแถบที่ลากไว้
 - **จำตำแหน่งเดิม** — ก่อนสแนปครั้งแรกจะจดตำแหน่งเดิมไว้ กด Ctrl+Alt+0 (หรือกดฮอตคีย์โซนเดิมซ้ำ) เพื่อคืน
@@ -117,7 +122,11 @@
   SetWindowPos, RegisterHotKey, GetMonitorInfo ฯลฯ), UI ด้วย `tkinter`,
   ตั้งค่า DPI awareness ให้พิกัดตรงกับจอ HiDPI
 - แถบเพลงอยู่ใน `media_bar.py` (โหลดเฉพาะบน Windows): อ่านสถานะเพลงผ่าน WinRT
-  GlobalSystemMediaTransportControls (แพ็กเกจ `winsdk` หรือ `winrt-*`) ทุก ~0.8 วิ,
-  มุมโค้งทำด้วย `-transparentcolor` ของ tkinter, รูปปกตัดมุมด้วย Pillow (ถ้ามี)
+  GlobalSystemMediaTransportControls (แพ็กเกจ `winsdk` หรือ `winrt-*`) ทุก ~0.8 วิ —
+  รวม **ทุกเซสชัน** (get_sessions) เลือกตัวที่กำลังเล่น, มุมโค้งทำด้วย `-transparentcolor`
+  ของ tkinter, รูปปกตัดมุมด้วย Pillow (ถ้ามี)
+- ตัวจับเสียงจริง/ความดังหลักใช้ COM ผ่าน ctypes ล้วน: IMMDeviceEnumerator →
+  IAudioSessionManager2 → IAudioSessionEnumerator → IAudioMeterInformation
+  (มิเตอร์ต่อเซสชัน) และ IAudioEndpointVolume (ปรับ master volume) — ไม่ต้อง pip เพิ่ม
 - `python window_manager.py --check` รันได้ทุกแพลตฟอร์ม (ใช้ตรวจการคำนวณโซน/เลย์เอาต์)
 - โปรแกรมนี้แยกจากแอป Anime Notebook (Streamlit) ใน repo เดียวกัน — ไม่เกี่ยวกัน
